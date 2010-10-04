@@ -4,8 +4,8 @@
    contain the root `toctree` directive.
 
 
-Welcome to the NP electricity infrastructure prototyping system
-===============================================================
+Welcome to the NP electricity infrastructure prototyping framework
+==================================================================
 .. raw:: html
 
     <table>
