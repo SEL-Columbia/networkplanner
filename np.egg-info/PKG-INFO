@@ -1,10 +1,10 @@
 Metadata-Version: 1.0
 Name: np
-Version: 0.1dev
-Summary: UNKNOWN
-Home-page: UNKNOWN
-Author: UNKNOWN
-Author-email: UNKNOWN
+Version: 0.9.1dev
+Summary: Electricity infrastructure prototyping system
+Home-page: http://october.mech.columbia.edu
+Author: Roy Hyunjin Han
+Author-email: support@invisibleroads.com
 License: UNKNOWN
 Description: UNKNOWN
 Platform: UNKNOWN

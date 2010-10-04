@@ -1,6 +1,6 @@
 # Set site parameters
-SITE_NAME = 'np'
-SITE_VERSION = '0.1'
+SITE_NAME = 'NetworkPlanner'
+SITE_VERSION = '0.9.1'
 # Set person parameters
 EMAIL_LENGTH_MAXIMUM = 48
 NICKNAME_LENGTH_MINIMUM = 3
@@ -13,3 +13,7 @@ TICKET_LENGTH = 32
 TICKET_LIFESPAN_IN_DAYS = 1
 REJECTION_LIMIT = 3
 MINUTES_OFFSET_DEFAULT = 240
+# Set scenario parameters
+SCENARIO_NAME_LENGTH_MAXIMUM = 128
+# Set processor parameters
+IP_LENGTH_MAXIMUM = 39

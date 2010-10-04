@@ -1,0 +1,60 @@
+#!/bin/bash
+cd "`dirname $0`"
+function refreshDocumentation {
+    python utilities/document.py
+    cd docs
+    make html
+    cd ..
+    rm -Rf np/public/docs/*
+    mkdir -p np/public/docs
+    mv docs/_build/html/* np/public/docs/
+}
+if [ "$1" = "docs" ]; then
+    refreshDocumentation
+elif [ "$1" = "ds" ]; then
+    rm -Rf data *.db
+    paster setup-app development.ini
+    paster serve --reload development.ini
+elif [ "$1" = "ss" ]; then
+    kill `cat paster.pid`
+    svn update
+    rm -Rf data *.db
+    paster setup-app production.ini
+    paster serve --daemon production.ini
+    crontab deployment/single-server.crt
+    refreshDocumentation
+elif [ "$1" = "cs" ]; then
+    kill `cat paster.pid`
+    svn update
+    rm -Rf data *.db
+    paster setup-app production.ini
+    su -c "crontab deployment/cluster-queue.crt"
+    paster serve --daemon production.ini
+    kill `ps x |grep consumer.py|grep -v grep|awk '{print $1}'`
+    crontab deployment/cluster-server.crt
+    refreshDocumentation
+elif [ "$1" = "cp" ]; then
+    svn update
+    sftp rhh@october.mech.columbia.edu:/var/www/np/.production.cfg
+    mv .production.cfg .development.cfg
+    rm -Rf data *.db
+    paster setup-app development.ini
+    crontab deployment/cluster-processor.crt
+else
+    echo
+    echo "Refresh documentation"
+    echo "$0 docs"
+    echo
+    echo "Restart development server"
+    echo "$0 ds"
+    echo
+    echo "Restart single server"
+    echo "$0 ss"
+    echo
+    echo "Restart cluster server"
+    echo "$0 cs"
+    echo
+    echo "Restart cluster processor"
+    echo "$0 cp"
+    echo
+fi

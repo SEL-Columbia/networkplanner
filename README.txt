@@ -1,19 +1,90 @@
-This file is for you to describe the np application. Typically
-you would include information such as the information below:
+NP Electricity Infrastructure Prototyping Framework
+===================================================
+NetworkPlanner is a framework for planning large-scale electricity infrastructure projects.  Included are an example technology pricing metric model and a network optimization algorithm.  The framework is easily extensible so that governments can adapt the example models to fit their country's needs.  NetworkPlanner is developed and maintained by the Modi Research Group at the Earth Institute of Columbia University.
 
-Installation and Setup
-======================
 
-Install ``np`` using easy_install::
+Run development server
+----------------------
+This option enables debugging and is useful for creating new models or changing the framework code.
 
-    easy_install np
+1. Install dependencies.
+::
 
-Make a config file as follows::
+    su -c "deployment/dependencies-setup.sh"
 
-    paster make-config np config.ini
+2. Generate documentation.
+::
 
-Tweak the config file as appropriate and then setup the application::
+    ./restart docs
 
-    paster setup-app config.ini
+3. Run development server.
+::
 
-Then you are ready to go.
+    ./restart ds
+
+
+Run production server on a single computer
+------------------------------------------
+This option disables debugging and is useful for production release testing.
+
+1. Install dependencies.
+::
+
+    su -c "deployment/dependencies-setup.sh"
+
+2. Prepare PostgreSQL database and access credentials.
+::
+
+    su
+        service postgresql initdb
+        service postgresql start
+        passwd postgres
+        su - postgres
+            createdb np
+            createuser np
+            psql 
+                grant all on database np to np
+                alter role np set password='AyfNFioDbFJDNyjaQK3xHDtUZIcHdU0b'
+                flush privileges
+            vim data/pg_hba.conf            # Set METHOD to md5
+            exit
+        service postgresql restart
+        exit
+
+3. Create configuration file.
+::
+
+    cp default.cfg .production.cfg
+    vim .production.cfg
+
+4. Configure nginx server.
+::
+
+    su
+        yum remove -y httpd
+        yum install -y nginx
+        vim /etc/nginx/nginx.conf           # See deployment/nginx.conf
+        service nginx restart
+        exit
+
+5. Run single production server.
+::
+
+    ./restart ss
+
+
+Run production server on a cluster of computers
+-----------------------------------------------
+This option disables debugging and is useful for production deployment.
+
+1. Perform steps 1-4 to run a production server on a single machine.
+
+2. Run cluster production server.
+::
+
+    ./restart cs
+
+3. Run the following script on each cluster machine.
+::
+
+    cluster-processor-setup.sh              # Change 134f to your desired username

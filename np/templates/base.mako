@@ -13,6 +13,13 @@ ${h.stylesheet_link('/files/style.css')}
 ${self.head()}\
 <script>
 $(document).ready(function() {
+    function getID(obj) {return /\d+/.exec(obj.id)[0]}
+    function getNumber(obj) {return /\d+/.exec(obj)[0]}
+    $('.tabOFF').hover( 
+        function() {this.className = this.className.replace('OFF', 'ON');}, 
+        function() {this.className = this.className.replace('ON', 'OFF');} 
+    ).click(function() {$('#' + this.id + '_').toggle();});
+    ${self.js()}\
     $('input').addClass('normalFONT');
     $('textarea').addClass('normalFONT');
     $('select').addClass('normalFONT');
@@ -20,8 +27,6 @@ $(document).ready(function() {
         function () {this.className = this.className.replace('OFF', 'ON');}, 
         function () {this.className = this.className.replace('ON', 'OFF');}
     );
-    function getID(obj) {return /\d+/.exec(obj.id)[0]}
-    ${self.js()}\
 });
 </script>
 </head>
@@ -32,6 +37,9 @@ $(document).ready(function() {
 ${self.navigation()}
 <%
 linkPacks = [
+    ('Credits', '/docs'),
+    ('Processors', h.url('processor_index')),
+    ('Scenarios', h.url('scenario_index')),
     ('People', h.url('person_index')),
 ]
 %>\

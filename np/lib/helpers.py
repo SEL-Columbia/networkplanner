@@ -2,6 +2,7 @@
 # Import pylons modules
 from pylons import session, request, url
 # Import system modules
+from webhelpers.number import format_number
 from webhelpers.util import html_escape
 from webhelpers.html import literal
 from webhelpers.html.tags import *

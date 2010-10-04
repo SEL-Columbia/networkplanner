@@ -1,0 +1,2 @@
+# Run cluster-side processor every minute
+* * * * * cd /var/www/np;/usr/bin/python utilities/processor.py -c development.ini >> logs/cluster.log 2>&1

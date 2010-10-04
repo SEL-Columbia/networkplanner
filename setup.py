@@ -7,11 +7,11 @@ except ImportError:
 
 setup(
     name='np',
-    version='0.1',
-    description='',
-    author='',
-    author_email='',
-    url='',
+    version='0.9.1',
+    description='Electricity infrastructure prototyping system',
+    author='Roy Hyunjin Han',
+    author_email='support@invisibleroads.com',
+    url='http://october.mech.columbia.edu',
     install_requires=[
         "Pylons>=1.0",
         "recaptcha-client>=1.0.5",
@@ -22,10 +22,6 @@ setup(
     include_package_data=True,
     test_suite='nose.collector',
     package_data={'np': ['i18n/*/LC_MESSAGES/*.mo']},
-    #message_extractors={'np': [
-    #        ('**.py', 'python', None),
-    #        ('templates/**.mako', 'mako', {'input_encoding': 'utf-8'}),
-    #        ('public/**', 'ignore', None)]},
     zip_safe=False,
     paster_plugins=['PasteScript', 'Pylons'],
     entry_points="""
@@ -34,5 +30,4 @@ setup(
 
     [paste.app_install]
     main = pylons.util:PylonsInstaller
-    """,
-)
+    """)

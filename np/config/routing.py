@@ -24,5 +24,14 @@ def make_map(config):
     map.connect('person_logout_plain', '/people/logout', controller='people', action='logout') 
     map.connect('person_logout', '/people/logout/{targetURL}', controller='people', action='logout')
     map.connect('person_reset', '/people/reset', controller='people', action='reset')
+    # Map scenarios
+    map.connect('scenario_index', '/', controller='scenarios', action='index')
+    map.connect('scenario_feedback', '/feedback', controller='scenarios', action='feedback')
+    map.connect('scenario_check', '/scenarios/{scenarioID}/check', controller='scenarios', action='check')
+    map.connect('scenario_clone', '/scenarios/{scenarioID}/clone', controller='scenarios', action='clone')
+    map.resource('scenario', 'scenarios')
+    # Map processors
+    map.connect('processor_index', '/processors', controller='processors', action='index')
+    map.connect('processor_update', '/processors/update', controller='processors', action='update')
     # Return
     return map

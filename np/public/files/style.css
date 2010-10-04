@@ -10,11 +10,16 @@ a {text-decoration: none}
 #navigation {position: absolute; top: 0; right: 0; text-align: right}
 
 /* Font */
-.normalFONT {font-family: Arial, Helvetica, sans-serif}
+.normalFONT {font-family: Helvetica, Arial, sans-serif}
 
 /* Hover */ 
 .linkOFF {color: darkblue; background-color: white} 
 .linkON {color: white; background-color: darkblue}
+
+/* Tab */
+.tabOFF {color: maroon; background-color: white} 
+.tabON {color: white; background-color: maroon}
+.tab_ {display: none}
 
 /* Bits */
 .maximumWidth {width: 100%}
