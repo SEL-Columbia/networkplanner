@@ -8,6 +8,8 @@ def make_map(config):
     map = Mapper(directory=config['pylons.paths']['controllers'], always_scan=config['debug'])
     map.minimization = False
     map.explicit = False
+    # Remove trailing slash
+    map.redirect('/{controller}/', '/{controller}')
     # Map errors
     map.connect('/errors/{action}', controller='errors')
     map.connect('/errors/{action}/{id}', controller='errors')
