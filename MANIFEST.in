@@ -3,6 +3,6 @@ include development.ini production.ini test.ini
 include restart
 recursive-include deployment *
 recursive-include docs *
+recursive-include utilities *
 recursive-include np/public *
 recursive-include np/templates *
-recursive-include utilities *
