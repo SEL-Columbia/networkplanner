@@ -1,7 +1,12 @@
 MANIFEST.in
 README.txt
+default.cfg
+development.ini
+production.ini
+restart
 setup.cfg
 setup.py
+test.ini
 deployment/cluster-processor-setup.sh
 deployment/cluster-processor.crt
 deployment/cluster-queue-reset.sh
@@ -94,6 +99,11 @@ np/public/files/dataTables/images/sort_desc.png
 np/public/files/dataTables/images/sort_desc_disabled.png
 np/public/files/dataTables/js/jquery.dataTables.dataSourcePlugins.js
 np/public/files/dataTables/js/jquery.dataTables.js
+np/public/files/demographicsXY/LeonaVillages.dbf
+np/public/files/demographicsXY/LeonaVillages.prj
+np/public/files/demographicsXY/LeonaVillages.qpj
+np/public/files/demographicsXY/LeonaVillages.shp
+np/public/files/demographicsXY/LeonaVillages.shx
 np/public/files/flot/excanvas.min.js
 np/public/files/flot/jquery.flot.min.js
 np/public/files/openlayers/OpenLayers.js

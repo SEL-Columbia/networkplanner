@@ -4,3 +4,4 @@ data
 development.db
 production.db
 np/public/files/demographicsXY
+dist
