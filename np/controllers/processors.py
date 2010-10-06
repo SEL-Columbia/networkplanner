@@ -17,7 +17,7 @@ class ProcessorsController(BaseController):
 
     def index(self):
         'Show processors that have updated in the last hour'
-        c.processors = Session.query(model.Processor).filter(model.Processor.when_updated > datetime.datetime.utcnow() - datetime.timedelta(hours=1)).order_by(model.Processor.when_updated.desc()).all()
+        c.processors = Session.query(model.Processor).filter(model.Processor.when_updated > datetime.datetime.utcnow() - datetime.timedelta(days=1)).order_by(model.Processor.when_updated.desc()).all()
         return render('/processors/index.mako')
 
     def update(self):
