@@ -1,2 +1,2 @@
 # Ensure the queue is running properly
-0 * * * * cd /var/www/np;/bin/bash deployment/cluster-queue-reset.sh >> cluster.log 2>&1
+0 * * * * cd /var/www/np;/bin/env bash deployment/cluster-queue-reset.sh >> cluster.log 2>&1

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/env bash
 if [ ! -f .production.cfg ]; then
     echo "Please run this script in a directory containing .production.cfg"
 fi
