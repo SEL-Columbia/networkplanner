@@ -1,0 +1,6 @@
+data
+.development.cfg
+.production.cfg
+development.db
+production.db
+np/public/files/demographicsXY
