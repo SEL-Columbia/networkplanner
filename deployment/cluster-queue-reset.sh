@@ -9,11 +9,11 @@ if [ "`rabbitmqctl list_users|grep guest`" = "guest" ]; then
     rabbitUsername=${rabbitCredentials% *}
     rabbitPassword=${rabbitCredentials#* }
     # Initialize rabbitMQ
-    rabbitmqctl stop_app
-    rabbitmqctl reset
-    rabbitmqctl start_app
-    rabbitmqctl delete_user guest
-    rabbitmqctl add_user $rabbitUsername $rabbitPassword
-    rabbitmqctl set_permissions $rabbitUsername '.*' '.*' '.*'
+    /usr/sbin/rabbitmqctl stop_app
+    /usr/sbin/rabbitmqctl reset
+    /usr/sbin/rabbitmqctl start_app
+    /usr/sbin/rabbitmqctl delete_user guest
+    /usr/sbin/rabbitmqctl add_user $rabbitUsername $rabbitPassword
+    /usr/sbin/rabbitmqctl set_permissions $rabbitUsername '.*' '.*' '.*'
     /bin/env python utilities/requeue.py -c production.ini
 fi
