@@ -9,7 +9,7 @@ from np.lib import dataset_store
 basePath = os.path.dirname(os.path.abspath(__file__))
 dataPath = os.path.join(os.path.dirname(os.path.dirname(basePath)), 'public', 'files')
 csvPath = os.path.join(dataPath, 'demographicsXY.csv')
-zipPath = os.path.join(dataPath, 'demographics.zip')
+zipPath = os.path.join(dataPath, 'demographicsXY.zip')
 
 
 class TestDatasetStore(unittest.TestCase):
