@@ -1,3 +1,5 @@
-include np/config/deployment.ini_tmpl
+recursive-include deployment *
+recursive-include docs *
 recursive-include np/public *
 recursive-include np/templates *
+recursive-include utilities *

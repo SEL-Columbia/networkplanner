@@ -28,7 +28,7 @@ elif [ "$1" = "cs" ]; then
     svn update
     rm -Rf data *.db
     paster setup-app production.ini
-    su -c "crontab deployment/cluster-queue.crt"
+    su -c "service rabbitmq-server restart; crontab deployment/cluster-queue.crt"
     paster serve --daemon production.ini
     kill `ps x |grep consumer.py|grep -v grep|awk '{print $1}'`
     crontab deployment/cluster-server.crt
