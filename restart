@@ -17,7 +17,7 @@ elif [ "$1" = "ds" ]; then
     paster serve --reload development.ini
 elif [ "$1" = "ss" ]; then
     kill `cat paster.pid`
-    svn update
+    git pull
     rm -Rf data *.db
     paster setup-app production.ini
     paster serve --daemon production.ini
@@ -25,7 +25,7 @@ elif [ "$1" = "ss" ]; then
     refreshDocumentation
 elif [ "$1" = "cs" ]; then
     kill `cat paster.pid`
-    svn update
+    git pull
     rm -Rf data *.db
     paster setup-app production.ini
     su -c "service rabbitmq-server restart; crontab deployment/cluster-queue.crt"
@@ -34,7 +34,7 @@ elif [ "$1" = "cs" ]; then
     crontab deployment/cluster-server.crt
     refreshDocumentation
 elif [ "$1" = "cp" ]; then
-    svn update
+    git pull
     sftp rhh@october.mech.columbia.edu:/var/www/np/.production.cfg
     mv .production.cfg .development.cfg
     rm -Rf data *.db
