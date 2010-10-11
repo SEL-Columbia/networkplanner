@@ -59,7 +59,7 @@ if __name__ == '__main__':
     # Loop
     while True:
         # Try to get the next incoming message
-        incomingMessage = channel.basic_get(incomingQueue)
+        incomingMessage = channel.basic_get(incomingQueue, no_ack=True)
         # If a message does not exist,
         if not incomingMessage:
             # Take a break
@@ -91,8 +91,6 @@ if __name__ == '__main__':
         outgoingMessage = amqp.Message(pickle.dumps(outgoingPack))
         outgoingMessage.properties['delivery_mode'] = 2
         channel.basic_publish(outgoingMessage, exchange=outgoingExchange, routing_key=outgoingKey)
-        # Delete incoming message
-        channel.basic_ack(incomingMessage.delivery_tag)
         # Clean up
         shutil.rmtree(scenarioFolder)
         store.removeSafely(scenarioFolder + '.zip')

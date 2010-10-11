@@ -42,8 +42,6 @@ def saveResult(outgoingMessage):
         scenarioPath = scenarioFolder + '.zip'
         open(scenarioPath, 'wb').write(scenarioData)
         store.unzipData(scenarioFolder, scenarioData)
-    # Delete outgoing message
-    channel.basic_ack(outgoingMessage.delivery_tag)
     # Save output
     scenario.output = scenarioOutput
     scenario.status = scenarioStatus
@@ -78,7 +76,7 @@ if __name__ == '__main__':
     channel.exchange_declare(exchange=outgoingExchange, type='direct', durable=True, auto_delete=False)
     channel.queue_bind(queue=outgoingQueue, exchange=outgoingExchange, routing_key=outgoingKey)
     # Bind callback to queue
-    channel.basic_consume(queue=outgoingQueue, callback=saveResult)
+    channel.basic_consume(queue=outgoingQueue, callback=saveResult, no_ack=True)
     # Wait for messages
     while True:
         channel.wait()
