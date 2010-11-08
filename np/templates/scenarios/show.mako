@@ -86,7 +86,7 @@ var myStyles = new OpenLayers.StyleMap({
         fillOpacity: 0.4,
         strokeColor: '#6633FF',
         strokeOpacity: 1,
-        strokeWidth: 3,
+        strokeWidth: 1,
         strokeDashstyle: 'solid',
         strokeLinecap: 'round',
         extendDefault: 'true',
@@ -139,14 +139,14 @@ var myStyles = new OpenLayers.StyleMap({
         fillOpacity: 1, 
         strokeColor: '#ff9900', 
         strokeOpacity: 1, 
-        strokeWidth: 3
+        strokeWidth: 1
     }),
     'select': new OpenLayers.Style({
         fillColor: '#ffff00',
         fillOpacity: 1,
         strokeColor: '#ffff00',
         strokeOpacity: 1,
-        strokeWidth: 3
+        strokeWidth: 1
     })
 });
 // Change style based on system type
