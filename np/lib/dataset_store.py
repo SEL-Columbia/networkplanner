@@ -138,10 +138,7 @@ class Store(object):
         # Write spatial reference
         csvWriter.writerow(['PROJ.4 ' + self.getProj4()])
         # Write column headers
-        customHeaders = sorted(node.input)
-        customHeaders.remove('name')
-        customHeaders.remove('x')
-        customHeaders.remove('y')
+        customHeaders = sorted(set(node.input) - set(['name', 'x', 'y']))
         csvWriter.writerow(['Name', 'X', 'Y'] + [x.capitalize() for x in customHeaders])
         # For each node,
         for node in self.cycleNodes(isFake):
