@@ -58,7 +58,7 @@ def load(shapePath):
         geometry = feature.GetGeometryRef()
         # Make sure that it is a point
         if geometry.GetGeometryType() != osgeo.ogr.wkbPoint: 
-            raise ShapeDataError('This module can only load points')
+            raise ShapeDataError('This module can only load points; use geometry_store.py')
         # Get pointCoordinates
         pointCoordinates = geometry.GetX(), geometry.GetY()
         # Append
@@ -73,6 +73,7 @@ def load(shapePath):
     return points, proj4
 
 def merge(sourcePaths, targetPath):
+    'Merge a list of shapefiles into a single shapefile'
     # Load
     items = [load(validateShapePath(x)) for x in sourcePaths]
     pointLists = [x[0] for x in items]
@@ -86,6 +87,7 @@ def merge(sourcePaths, targetPath):
     save(validateShapePath(targetPath), points, spatialReference)
 
 def getSpatialReferenceFromProj4(proj4):
+    'Return GDAL spatial reference object from proj4 string'
     spatialReference = osgeo.osr.SpatialReference()
     spatialReference.ImportFromProj4(proj4)
     return spatialReference
@@ -94,14 +96,16 @@ def getSpatialReferenceFromProj4(proj4):
 # Validate
 
 def validateShapePath(shapePath):
+    'Validate shapefile extension'
     return os.path.splitext(str(shapePath))[0] + '.shp'
 
 def validateShapeData(shapeData):
+    'Make sure we can access the shapefile'
     # Make sure the shapefile exists
-    if not shapeData: 
+    if not shapeData:
         raise ShapeDataError('The shapefile is invalid')
     # Make sure there is exactly one layer
-    if shapeData.GetLayerCount() != 1: 
+    if shapeData.GetLayerCount() != 1:
         raise ShapeDataError('The shapefile must have exactly one layer')
 
 
