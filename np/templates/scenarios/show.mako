@@ -50,8 +50,8 @@ ${h.stylesheet_link('/files/openlayers/theme/default/style.css')}
 ${h.javascript_link('/files/openlayers/OpenLayers.js')}
 ${h.javascript_link('http://maps.google.com/maps/api/js?sensor=false')}
 <style>
-.olLayerGoogleCopyright {right: 3px; bottom: 2px; left: auto}
-.olLayerGooglePoweredBy {display: none}
+.olControlScaleLine {left: 5px; bottom: 40px}
+.olLayerGoogleCopyright {display: none}
 </style>
 </%def>
 

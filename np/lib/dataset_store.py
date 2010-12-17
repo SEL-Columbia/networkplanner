@@ -130,6 +130,24 @@ class Store(object):
         'Save nodes to a shapefile'
         geometry_store.save(store.replaceFileExtension(targetPath, 'shp'), (shapely.geometry.asShape(node) for node in self.cycleNodes(isFake)), self.getProj4())
 
+    def saveNodesCSV(self, targetPath, isFake=False):
+        'Save nodes to a csv'
+        # Initialize
+        node = self.cycleNodes(isFake).next()
+        csvWriter = csv.writer(open(store.replaceFileExtension(targetPath, 'csv'), 'wb'))
+        # Write spatial reference
+        csvWriter.writerow(['PROJ.4 ' + self.getProj4()])
+        # Write column headers
+        customHeaders = sorted(node.input)
+        customHeaders.remove('name')
+        customHeaders.remove('x')
+        customHeaders.remove('y')
+        csvWriter.writerow(['Name', 'X', 'Y'] + [x.capitalize() for x in customHeaders])
+        # For each node,
+        for node in self.cycleNodes(isFake):
+            # Write row
+            csvWriter.writerow([node.input.get('name', ''), node.getX(), node.getY()] + [node.input.get(x, '') for x in customHeaders])
+
     # Metric
 
     def applyMetric(self, metricModel, metricValueByOptionBySection):
