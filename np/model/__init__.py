@@ -164,10 +164,12 @@ class Scenario(object):
         expandPath = lambda x: os.path.join(scenarioFolder, x)
         # Register demographics
         print 'Registering demographics'
+        nodesPath = expandPath('nodes')
         targetPath = self.getDatasetPath()
         sourcePath = expandPath(scenarioInput['demographic file name'])
         datasetStore = dataset_store.create(targetPath, sourcePath)
-        datasetStore.saveNodesSHP(expandPath('nodes'))
+        datasetStore.saveNodesSHP(nodesPath)
+        datasetStore.saveNodesCSV(nodesPath)
         # Apply metric
         print 'Applying metric'
         metricModel = metric.getModel(scenarioInput['metric model name'])

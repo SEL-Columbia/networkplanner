@@ -76,15 +76,15 @@ This option disables debugging and is useful for production release testing.
 Run production server on a cluster of computers
 -----------------------------------------------
 This option disables debugging and is useful for production deployment.
+Run these commands after you have performed steps 1 - 4 for running a 
+production server on a single computer.
 
-1. Perform steps 1-4 to run a production server on a single machine.
-
-2. Run cluster production server.
+1. Run cluster production server.
 ::
 
     ./restart cs
 
-3. Run the following script on each cluster machine.
+2. Run the following script on each cluster machine.
 ::
 
     cluster-processor-setup.sh              # Change 134f to your desired username

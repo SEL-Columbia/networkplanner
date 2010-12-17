@@ -4,4 +4,14 @@ data
 development.db
 production.db
 np/public/files/demographicsXY
+np/public/docs
 dist
+cluster.log
+paster.log
+paster.pid
+docs/_build/doctrees/
+docs/_build/html/
+docs/metric-mvMax2.rst
+docs/metric-mvMax3.rst
+docs/network-modKruskal.rst
+*.pyc
