@@ -549,7 +549,7 @@ You do not have access to this scenario, either because it is private to its own
     nodeOutput = node.output
 %>
     <tr id="nodeSummary${nodeID}" class="nodeSummary nodeNormal">
-        <td class=alignL>${nodeInput.get('name', 'Node%s' % nodeID).title()}</td>
+        <td class=alignL>${nodeInput.get('name', 'Node %s' % nodeID).title()}</td>
         <td class=alignR>${formatNumber(nodeOutput['demographics']['population count'])}</td>
         <td class=alignR>$${formatNumber(nodeOutput['system (off-grid)']['system nodal discounted cost'])}</td>
         <td class=alignR>$${formatNumber(nodeOutput['system (mini-grid)']['system nodal discounted cost'])}</td>
