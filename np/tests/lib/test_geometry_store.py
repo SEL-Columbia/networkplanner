@@ -8,7 +8,7 @@ import datetime
 from osgeo import ogr
 from shapely import geometry
 # Import custom modules
-from georegistry.lib import geometry_store
+from np.lib import geometry_store
 
 
 def test_geometry_store():
@@ -16,9 +16,9 @@ def test_geometry_store():
     # Create temporary folder
     temporaryFolder = tempfile.mkdtemp()
     # Set targetPath
-    targetPath = os.path.join(temporaryFolder, 'xxx')
+    targetPath = os.path.join(temporaryFolder, 'xxx.shp')
     # Save
-    geometry_store.save(targetPath, geometry_store.proj4Default, [
+    geometry_store.save(targetPath, geometry_store.proj4LL, [
         geometry.Point(0, 1), 
         geometry.Point(1, 0),
     ], [

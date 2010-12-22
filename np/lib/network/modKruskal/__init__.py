@@ -69,7 +69,7 @@ class VariableStore(variable_store.VariableStore):
             if not isValid:
                 raise variable_store.VariableError('Could not find shapefile in ZIP archive for existing networks')
             # Load network
-            networkGeometries, networkProj4 = geometry_store.load(networkPath)
+            networkProj4, networkGeometries = geometry_store.load(networkPath)[:2]
             networkCoordinatePairs = network.yieldSimplifiedCoordinatePairs(networkGeometries)
             # Prepare
             transformPoint = geometry_store.getTransformPoint(networkProj4, proj4)

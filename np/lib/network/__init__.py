@@ -207,7 +207,7 @@ class Network(object):
         return sum(x.countSegments() for x in self.subnets)
 
     # def saveSHP(self, targetPath):
-        # geometry_store.save(store.replaceFileExtension(targetPath, 'shp'), [x.multiLineString for x in self.cycleSubnets()], self.proj4)
+        # geometry_store.save(store.replaceFileExtension(targetPath, 'shp'), self.proj4, [x.multiLineString for x in self.cycleSubnets()])
 
     def findClosestDistinctSegment(self, targetGeometry, multiLineString=None):
         'Find the segment that is closest but not equal to the given geometry'
@@ -291,7 +291,7 @@ class Subnet(object):
 class SegmentFactory(object):
     'A factory for producing unique segments based on their coordinates'
 
-    def __init__(self, nodes=None, computeWeight=None, proj4=geometry_store.proj4Default):
+    def __init__(self, nodes=None, computeWeight=None, proj4=geometry_store.proj4LL):
         # Initialze defaults
         if not nodes:
             nodes = []

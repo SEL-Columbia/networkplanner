@@ -184,7 +184,7 @@ class ScenariosController(BaseController):
         c.status = model.statusDone
         c.scenarioInput = c.scenario.input
         c.scenarioOutput = c.scenario.output
-        transformPoint = geometry_store.getTransformPoint(geometry_store.proj4Default, geometry_store.proj4Google)
+        transformPoint = geometry_store.getTransformPoint(geometry_store.proj4LL, geometry_store.proj4SM)
         # If the user wants HTML,
         if format == 'html':
             # Render scenario

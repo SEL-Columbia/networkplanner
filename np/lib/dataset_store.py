@@ -128,7 +128,7 @@ class Store(object):
 
     def saveNodesSHP(self, targetPath, isFake=False):
         'Save nodes to a shapefile'
-        geometry_store.save(store.replaceFileExtension(targetPath, 'shp'), (shapely.geometry.asShape(node) for node in self.cycleNodes(isFake)), self.getProj4())
+        geometry_store.save(store.replaceFileExtension(targetPath, 'shp'), self.getProj4(), (shapely.geometry.asShape(node) for node in self.cycleNodes(isFake)))
 
     def saveNodesCSV(self, targetPath, isFake=False):
         'Save nodes to a csv'
@@ -307,7 +307,7 @@ class Store(object):
         if not self.countSegments(is_existing):
             return
         # Save
-        return geometry_store.save(store.replaceFileExtension(targetPath, 'shp'), (shapely.geometry.asShape(x) for x in self.cycleSegments(is_existing)), self.getProj4())
+        return geometry_store.save(store.replaceFileExtension(targetPath, 'shp'), self.getProj4(), (shapely.geometry.asShape(x) for x in self.cycleSegments(is_existing)))
 
     def saveSubnetsSHP(self, targetPath):
         'Save subnets to a shapefile'
@@ -315,7 +315,7 @@ class Store(object):
         if not self.countSubnets():
             return
         # Save
-        geometry_store.save(store.replaceFileExtension(targetPath, 'shp'), (shapely.geometry.asShape(x) for x in self.cycleSubnets()), self.getProj4())
+        geometry_store.save(store.replaceFileExtension(targetPath, 'shp'), self.getProj4(), (shapely.geometry.asShape(x) for x in self.cycleSubnets()))
 
     # Output
 
@@ -389,7 +389,7 @@ def digestNodesFromCSV(sourcePath):
         proj4 = match.group(1).strip()
         row = rowGenerator.next()
     else:
-        proj4 = geometry_store.proj4Default
+        proj4 = geometry_store.proj4LL
     # Prepare labels
     labels = []
     for label in row:
