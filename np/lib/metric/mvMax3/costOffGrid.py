@@ -70,7 +70,7 @@ class PhotovoltaicBatteryCostPerKilowattHour(V):
     option = 'photovoltaic battery cost per kilowatt-hour'
     aliases = ['og_pb_ckwh']
     default = 400
-    units = 'dollars per kilowatt'
+    units = 'dollars per kilowatt-hour'
 
 
 class PhotovoltaicPanelLifetime(V):
