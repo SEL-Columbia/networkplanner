@@ -180,7 +180,7 @@ class Variable(object):
         self.variableStore = variableStore
         self.state = variableStore.state
         # If we do not have a value,
-        if value == None:
+        if value == None or value == '':
             # Compute the value if we do not have a default
             self.value = self.compute() if self.default == None else self.c['parse'](self.default)
         # If we have a value,
