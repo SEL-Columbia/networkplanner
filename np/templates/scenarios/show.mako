@@ -236,7 +236,10 @@ function showNodeDetail(nodeID) {
     var nodeInputParts = [];
     for (var option in nodeInputByOption) {
         if ($.trim(option).length && option != 'x' && option != 'y' && option != 'name') {
-            nodeInputParts.push(option + " = <span class=value>" + nodeInputByOption[option] + "</span>");
+            var value = nodeInputByOption[option];
+            if (value != '') {
+                nodeInputParts.push(option + ' = <span class=value>' + value + '</span>');
+            }
         }
     }
     $('#nodeInput').html(nodeInputParts.join('<br>'));
