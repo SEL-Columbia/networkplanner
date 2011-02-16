@@ -142,9 +142,12 @@ class ScenariosController(BaseController):
         # If the output format is not supported, 
         if format not in ['html', 'zip', 'geojson', 'json']: 
             return 'Unsupported output format: ' + format 
-        # Initialize
-        personID = h.getPersonID()
+        try:
+            id = int(id)
+        except ValueError:
+            return redirect(url('scenarios'))
         # Load
+        personID = h.getPersonID()
         c.scenario = Session.query(model.Scenario).filter(model.Scenario.id==id).filter(model.getScopeFilter(personID)).first()
         # If user does not have access to the scenario,
         if not c.scenario:
