@@ -103,7 +103,10 @@ class ScenariosController(BaseController):
         scenario = model.Scenario(personID, scenarioName, scenarioScope)
         Session.add(scenario)
         Session.commit()
-        scenarioFolder = store.makeFolderSafely(scenario.getFolder())
+        scenarioFolder = scenario.getFolder()
+        if os.path.exists(scenarioFolder):
+            shutil.rmtree(scenarioFolder)
+        store.makeFolderSafely(scenarioFolder)
         # If the user is using an existing demographicDatabase,
         if demographicDatabase_h:
             # Copy source in case it is deleted
