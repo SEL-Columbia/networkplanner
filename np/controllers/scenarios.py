@@ -218,11 +218,7 @@ class ScenariosController(BaseController):
         elif format == 'geojson':
             return c.scenario.getDataset().exportGeoJSON(transformPoint)
         elif format == 'json':
-            try:
-                complete = int(request.params.get('complete', 1))
-            except ValueError:
-                complete = 1
-            return c.scenario.exportJSON(True if complete else False)
+            return c.scenario.exportJSON(request.params.get('nodeID'))
 
     @jsonify
     def check(self, scenarioID):

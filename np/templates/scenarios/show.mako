@@ -43,7 +43,7 @@ table {border-spacing: 0}
 ${h.stylesheet_link('/files/dataTables/css/dataTablesNP.css')}
 ${h.javascript_link('/files/dataTables/dataTablesPlus.min.js')}
 ${h.javascript_link('/files/flot/jquery.flot.min.js')}
-% if 'MSIE' in request.user_agent:
+% if 'MSIE' in request.environ.get('HTTP_USER_AGENT', ''):
 ${h.javascript_link('/files/flot/excanvas.min.js')}
 % endif
 ${h.stylesheet_link('/files/openlayers/theme/default/style.css')}
@@ -187,11 +187,8 @@ for (var i=0; i<featureCount; i++) {
 }
 
 // Prepare node data
-var scenario1Data = eval('(${h.literal(c.scenario.exportJSON(complete=False))})')
+var scenario1Data = eval('(${h.literal(c.scenario.exportJSON())})')
 var scenario2Data;
-$.get('/scenarios/${c.scenario.id}.json', function(data) {
-    scenario1Data = eval('(' + data + ')');
-});
 function isNumber(x) {return !isNaN(parseFloat(x)) && isFinite(x)}
 function isInteger(x) {return parseInt(x) == Number(x)}
 function formatInteger(x) {
@@ -218,6 +215,24 @@ function showNodeSummary(nodeID) {
     }
 }
 // Define node detail
+function loadNodeDetail(nodeID, callback) {
+    // Initialize
+    var variables = scenario1Data.outputs.variables;
+    if (variables.node === undefined) variables.node = {};
+    // If the node detail is cached,
+    if (variables.node[nodeID] !== undefined) {
+        callback(nodeID);
+    }
+    // Get node detail from server
+    $.get("${h.url('formatted_scenario', id=c.scenario.id, format='json')}", {
+        nodeID: nodeID
+    }, function(data) {
+        // Cache it
+        variables.node[nodeID] = eval('(' + data + ')');
+        // Do something with it
+        callback(nodeID);
+    });
+}
 function showNodeDetail(nodeID) {
     // Change style for corresponding node summary
     var nodeSummarySelect = $('#nodeSummary' + nodeID);
@@ -226,10 +241,6 @@ function showNodeDetail(nodeID) {
     $('#scenarioSummary').hide();
     // Show node detail
     $('#node').show();
-    if (!scenario1Data) {
-        $('#nodeInput').html('Scenario ${c.scenario.id} is still loading.&nbsp; Please try again in a few seconds.');
-        return;
-    }
     var nodeData = scenario1Data.outputs.variables.node[nodeID];
     var nodeInputByOption = nodeData.input;
     $('#nodeName').html(nodeInputByOption['name'] || 'Node ' + nodeID).show();
@@ -350,7 +361,7 @@ var selectControl = new OpenLayers.Control.SelectFeature([layer1], {
     onSelect: function(f) {
         // If the feature is a node,
         if (f.fid[0] == 'n') {
-            showNodeDetail(getNumber(f.fid));
+            loadNodeDetail(getNumber(f.fid), showNodeDetail);
         }
     },
     onUnselect: function(f) {

@@ -213,19 +213,20 @@ class Scenario(object):
     def __repr__(self):
         return '<Scenario(id=%s)>' % self.id
 
-    def exportJSON(self, complete=True): 
+    def exportJSON(self, nodeID=None): 
         'Export the entire scenario using JSON'
         # Prepare
         scenarioOutput = self.output
-        # If we want everything,
-        if complete:
-            scenarioInput = self.input
-            return cjson.encode({  
-                'inputs': scenarioInput,  
-                'outputs': scenarioOutput, 
-                'formats': dict((x, '%s/scenarios/%s.%s' % (scenarioInput['host url'], self.id, x)) for x in ['html', 'zip', 'geojson', 'json']), 
-            }) 
-        # If we want a summary,
+        # If we want nodeDetail,
+        if nodeID is not None:
+            # Prepare
+            nodeIDString = str(nodeID)
+            nodeByIDString = scenarioOutput['variables']['node']
+            # If the nodeID does not exist,
+            if nodeIDString not in nodeByIDString:
+                return cjson.encode({})
+            # Return
+            return cjson.encode(nodeByIDString[nodeIDString])
         else:
             return cjson.encode({  
                 'outputs': {
@@ -237,6 +238,16 @@ class Scenario(object):
                         'network': scenarioOutput['statistics']['network'],
                     },
                 }, 
+            }) 
+
+
+        # If we want everything,
+        if complete:
+            scenarioInput = self.input
+            return cjson.encode({  
+                'inputs': scenarioInput,  
+                'outputs': scenarioOutput, 
+                'formats': dict((x, '%s/scenarios/%s.%s' % (scenarioInput['host url'], self.id, x)) for x in ['html', 'zip', 'geojson', 'json']), 
             }) 
 
     def postCallback(self):
