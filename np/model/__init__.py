@@ -111,7 +111,7 @@ class Scenario(object):
 
     def __init__(self, owner_id, name, scope):
         self.owner_id = owner_id
-        self.name = name
+        self.name = name[:parameter.SCENARIO_NAME_LENGTH_MAXIMUM]
         self.scope = scope
         self.when_created = datetime.datetime.utcnow()
 

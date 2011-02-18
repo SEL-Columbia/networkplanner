@@ -23,6 +23,7 @@ td {vertical-align: top}
 function refresh() {window.location = "${request.path}?metricModel=" + $('#metricModelName').val() + "&networkModel=" + $('#networkModelName').val();}
 $('#metricModelName').change(refresh);
 $('#networkModelName').change(refresh);
+$('#scenarioName').change(validateName);
 $('#buttonAdd').click(function() {
     if ($('#demographicDatabase_h').val() == 0 && $('#demographicDatabase').val() == '') {
         alert('Please upload a demographic database');
@@ -35,6 +36,7 @@ $('#buttonAdd').click(function() {
         return;
     }
     var isOk = true;
+    if (!validateName()) isOk = false;
     if (!validateFields('validateNumber', validateNumber)) isOk = false;
     if (!validateFields('validateNumberList', validateNumberList)) isOk = false;
     if (!validateFields('validateCoordinatesList', validateCoordinatesList)) isOk = false;
@@ -48,6 +50,16 @@ $('#buttonAdd').click(function() {
 // Validators
 function isNumber(x) {return !isNaN(parseFloat(x)) && isFinite(x);}
 function getMessageObj(obj) {return $('#' + obj.id + '_m');}
+function validateName() {
+    var obj = $('#scenarioName');
+    var isOk = obj.val().length <= ${h.SCENARIO_NAME_LENGTH_MAXIMUM};
+    $('#' + obj.attr('id') + '_m').html(!isOk ? '<span class=error>This name is too long and will be truncated</span>' : '');
+    if (!isOk) {
+        obj.select();
+        obj.focus();
+    }
+    return isOk;
+}
 function validateFields(fieldClass, validate) {
     var isOk = true;
     var fields = $('.' + fieldClass);
@@ -194,6 +206,7 @@ from np.lib import metric, network, variable_store
             <option value=${model.scopePublic}>Public</option>
         </select>
     </td>
+    <td id=scenarioName_m></td>
 </tr>
 <tr>
     <td class=option>Existing locations</td>

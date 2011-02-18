@@ -426,6 +426,10 @@ $('#compare').change(function() {
         showDiff(['statistics', 'network', 'old segment weight'], 'grid_length_old', 'XXX m');
         showDiff(['statistics', 'network', 'new segment weight'], 'grid_length_new', 'XXX m');
         $('#download2').html('<a class=linkOFF href="' + "${h.url('formatted_scenario', id='XXX', format='zip')}".replace('XXX', scenarioID) + '">Download</a>');
+        $('#download2 a').hover(
+            function () {this.className = this.className.replace('OFF', 'ON');}, 
+            function () {this.className = this.className.replace('ON', 'OFF');}
+        );
     });
 });
 function followKeys(keys, x) {
@@ -605,10 +609,10 @@ personID = h.getPersonID()
             <b>Scenario ${c.scenario.id}</b>
         </td>
         <td class="summary3 alignR" id=scenario2>
-        <b>Comparison</b>
+            <b>Comparison</b>
         </td>
         <td class="summary4 alignR" id=diff>
-        <b>Difference</b>
+            <b>Difference</b>
         </td>
     </tr>
     <tr>

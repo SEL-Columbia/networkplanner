@@ -14,6 +14,25 @@ ${h.javascript_link('/files/dataTables/dataTablesPlus.min.js')}
 </%def>\
 \
 <%def name="js()">
+function applyDataTable() {
+    $('#scenarios').dataTable({
+        'bPaginate': false,
+        'bAutoWidth': true,
+        'oLanguage': {
+            'sSearch': 'Filter'
+        },
+        'aaSorting': [[ 2, 'desc' ]],
+        'aoColumns': [
+            {'sType': 'string'},
+            {'sType': 'string'},
+            {'sType': 'title-string'},
+            {'sType': 'string'},
+            {'sType': 'string'},
+            {'bSortable': false}
+        ]
+    });
+    $('#scenarios_filter input').focus();
+}
 $('#feedback').click(function() {
     var text = prompt('Please enter your comments below.');
     if (text) {
@@ -59,37 +78,35 @@ $('.scenario').hover(
         scenarioName.className = scenarioName.className.replace('ON', 'OFF');
     }
 );
-$('#scenarios').dataTable({
-    "bPaginate": false,
-    "bAutoWidth": true,
-    "oLanguage": {
-        'sSearch': 'Filter'
-    },
-    "aaSorting": [[ 2, "desc" ]],
-    "aoColumns": [
-        {'sType': 'string'},
-        {'sType': 'string'},
-        {'sType': 'title-string'},
-        {'sType': 'string'},
-        {'sType': 'string'},
-        {'bSortable': false}
-    ]
+$('#scope').change(function() {
+    $.get("${h.url('scenario_index')}", {
+        scope: this.value,
+        refresh: 1
+    }, function(data) {
+        $('#scenariosBody').html(data);
+    });
 });
-$('#scenarios_filter input').focus();
+applyDataTable();
 </%def>\
 \
 <%def name="toolbar()">
+<%
+from np import model 
+personID = h.getPersonID()
+%>
 <input type=button id=create value="Create new scenario" title="Run a scenario using your own datasets and parameters">
 <input type=button id=feedback value="Send feedback" title="Send comments or bug reports">
+% if personID:
+<select id=scope>
+    <option value=${model.scopePrivate}>Private</option>
+    <option value='-'>Mine</option>
+    <option value='*'>All</option>
+</select>
+% endif
 <span id=message></span>
 </%def>
 \
 % if c.scenarios:
-<% 
-from np import model 
-personID = h.getPersonID()
-whenIO = h.getWhenIO()
-%>
 <table class=maximumWidth id=scenarios>
 <thead>
 <tr>
@@ -100,28 +117,8 @@ whenIO = h.getWhenIO()
     <th class=alignL><b>Scope</b></th>
 </tr>
 </thead>
-% for scenario in c.scenarios:
-<tr class=scenario id=scenario${scenario.id}>
-    <td>${scenario.owner.nickname}</td>
-    <td class=scenarioOFF id=scenarioName${scenario.id}>${scenario.name}</td>
-    <td>
-        <span title=${whenIO.toLocal(scenario.when_created).strftime('%Y%m%d%H%M%S')}></span>
-        ${whenIO.format(scenario.when_created)}
-    </td>
-    <td>${model.statusDictionary[scenario.status]}</td>
-    <td>${'Public' if scenario.scope == model.scopePublic else 'Private'}</td>
-    <td>
-        <a class=linkOFF href="${h.url('formatted_scenario', id=scenario.id, format='html')}">View</a>
-        &nbsp;
-        <a class=linkOFF href="${h.url('formatted_scenario', id=scenario.id, format='zip')}">Download</a>
-        &nbsp;
-        <a class=linkOFF href="${h.url('scenario_clone', scenarioID=scenario.id)}">Clone</a>
-        &nbsp;
-    % if personID == scenario.owner_id:
-        <a class='linkOFF delete' id=delete${scenario.id}>Delete</a>
-    % endif
-    </td>
-</tr>
-% endfor
+<tbody id=scenariosBody>
+<%include file='scenarios.mako'/>\
+</tbody>
 </table>
 % endif

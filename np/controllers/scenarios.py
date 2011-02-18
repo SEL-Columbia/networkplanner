@@ -26,12 +26,25 @@ class ScenariosController(BaseController):
         'GET /scenarios: Show all items in the collection'
         # Initialize
         personID = h.getPersonID()
+        refresh = request.GET.get('refresh', 0)
+        scope = request.GET.get('scope', str(model.scopePrivate))
         # Load
-        c.scenarios = Session.query(model.Scenario).filter(model.getScopeFilter(personID)).options(orm.eagerload(model.Scenario.owner)).order_by(model.Scenario.when_created.desc()).all()
-        # If the desired format is html,
-        if format == 'html':
-            # Return
+        scenarioQuery = Session.query(model.Scenario)
+        if not personID:
+            scenarioQuery = scenarioQuery.filter_by(scope=model.scopePublic)
+        elif scope == '-':
+            scenarioQuery = scenarioQuery.filter_by(owner_id=personID)
+        elif scope == '*':
+            scenarioQuery = scenarioQuery.filter(model.getScopeFilter(personID))
+        else:
+            scenarioQuery = scenarioQuery.filter_by(owner_id=personID).filter_by(scope=model.scopePrivate)
+        c.scenarios = scenarioQuery.options(orm.eagerload(model.Scenario.owner)).order_by(model.Scenario.when_created.desc()).all()
+        # If this is not a refresh request,
+        if not refresh:
             return render('/scenarios/index.mako')
+        # If this is a refresh request,
+        else:
+            return render('/scenarios/scenarios.mako')
 
     def new(self, format='html'):
         'GET /scenarios/new: Show form to create a new item'
