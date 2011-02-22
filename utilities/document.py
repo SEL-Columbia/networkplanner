@@ -83,7 +83,7 @@ if __name__ == '__main__':
         metricRoots, metricLines, metricRows = generateDocumentation(metricModel)
         # Save and close
         referenceFile = open(os.path.join(script_process.basePath, 'docs/metric-%s.rst' % metricModelName), 'wt')
-        referenceFile.write(formatHeader('Metric model %s' % metricModelName, '='))
+        referenceFile.write(formatHeader('Metric Model %s' % metricModelName, '='))
         for root in sorted(metricRoots, key=lambda x: metricModel.roots.index(x)):
             referenceFile.write('- :ref:`%s`\n' % variable_store.formatLabel(root))
         referenceFile.write('\n\n' + 'You can override the value of any variable in the model on a node-by-node basis.  To perform a node-level override, use the aliases in the following table as additional columns in your spreadsheet or fields in your shapefile.  Both long and short aliases are recognized.')
@@ -97,7 +97,7 @@ if __name__ == '__main__':
         networkRoots, networkLines, networkRows = generateDocumentation(networkModel)
         # Save and close
         referenceFile = open(os.path.join(script_process.basePath, 'docs/network-%s.rst' % networkModelName), 'wt')
-        referenceFile.write(formatHeader('Network model %s' % networkModelName, '='))
+        referenceFile.write(formatHeader('Network Model %s' % networkModelName, '='))
         for root in sorted(networkRoots, key=lambda x: networkModel.roots.index(x)):
             referenceFile.write('- :ref:`%s`\n' % variable_store.formatLabel(root))
         referenceFile.write('\n\n' + '\n'.join(networkLines))

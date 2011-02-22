@@ -1,59 +1,20 @@
-.. np documentation master file, created by
-   sphinx-quickstart on Mon Apr 12 17:22:38 2010.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+NP Electricity Infrastructure Prototyping Framework
+===================================================
 
+NP is a decision support tool for exploring electrification options in rural communities.  It has been used to perform sensitivity analyses on variables such as change in interest rate, growth in demand or fluctuations in diesel fuel cost for electrification plans in Kenya, Senegal and Ghana.
 
-Welcome to the NP electricity infrastructure prototyping framework
-==================================================================
-.. raw:: html
-
-    <table>
-        <tr>
-            <td style="padding-right: 1em">Principal Investigator</td>
-            <td>Vijay Modi</td>
-        </tr>
-        <tr>
-            <td style="padding-right: 1em">Project Manager</td>
-            <td>J. Edwin Adkins</td>
-        </tr>
-        <tr>
-            <td style="padding-right: 1em">Lead Software Engineer</td>
-            <td>Roy Hyunjin Han</td>
-        </tr>
-        <tr>
-            <td style="padding-right: 1em">Econometric Analysts</td>
-            <td>Aly Sanoh, Sahil Shah, Alex Hofmann</td>
-        </tr>
-        <tr>
-            <td style="padding-right: 1em">Operations Research Analysts</td>
-            <td>Ayse Selin Kocaman, Alex Zvoleff</td>
-        </tr>
-        <tr>
-            <td style="padding-right: 1em">GIS Specialists</td>
-            <td>Susan Kum, Shaky Sherpa</td>
-        </tr>
-        <tr>
-            <td style="padding-right: 1em">Software Engineers</td>
-            <td>Po-Han Freeza Huang, Andrew Doro</td>
-        </tr>
-        <tr>
-            <td style="padding-right: 1em">Early Contributors</td>
-            <td>Arnaud Algrin, Lily Parshall, Dana Pillai, Shashank Mohan, Matt Berg</td>
-        </tr>
-    </table>
-
+Given community locations and populations, the system projects electricity demand, compares costs for different electricity technology options and suggests where to extend the grid.  If provided the location of existing grid lines, the system will optimize the grid extension to use the existing grid.  If provided community-specific values for model variables, the system will use the community-specific values during computation.
 
 .. toctree::
     :maxdepth: 2
 
-    metric-mvMax3.rst
-    metric-mvMax2.rst
-    network-modKruskal.rst
+    tutorial
+    architecture
+    credits
 
 
 Indices and tables
-==================
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`
