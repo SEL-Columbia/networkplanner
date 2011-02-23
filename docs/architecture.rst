@@ -57,7 +57,13 @@ The computation of *mvMax* takes four stages:
 Projecting population and household counts
 """"""""""""""""""""""""""""""""""""""""""
 
+.. index::
+    single: count; projected population
+
 To project population in the first year, the system takes the community's initial population, determines whether it is rural or urban using a threshold and multiplies the population by the appropriate rural or urban growth rate.  For each subsequent year, the process repeats.  Thus it is possible for a community to start with a rural growth rate but end with an urban growth rate.
+
+.. index::
+    single: count; projected household
 
 To project household count, the system takes the community's projected population count at the end of the time horizon and divides it by the appropriate rural or urban mean household size.
 
@@ -67,20 +73,56 @@ Projecting electricity demand
 
 To estimate each type of demand, the system multiplies the following factors:
 
-- Demand multiplier relative to economic growth
-- Demand scaling factor relative to projected population count
-- Base demand in kWh/yr
-- Projected facility count
+A. Demand multiplier relative to economic growth
+B. Demand scaling factor relative to projected population count
+C. Base demand in kWh/yr
+D. Projected facility count
+
+Let's explore each factor in more detail.
   
 .. index::
     single: elasticity
 
-To compute the demand multiplier, the system multiplies elasticity of demand by economic growth rate.  *Elasticity of demand* is a measure of how much demand will change in response to economic growth.  It is a way to capture the observation that as poor households get richer, the increase in their electricity demand tends to be proportionally larger than the increase in demand when rich households get richer.  A large value for elasticity means that economic growth will result in large increases in demand, while a small value for elasticity means that economic growth will have a negligible effect on demand.  Put mathematically, elasticity is the change in electricity demand per unit of economic growth.  Thus multiplying elasticity by economic growth rate gives electricity demand growth rate.
+A. To compute the demand multiplier, the system multiplies elasticity of demand by economic growth rate.  *Elasticity of demand* is a measure of how much demand will change in response to economic growth.  It is a way to capture the observation that as poor households get richer, the increase in their electricity demand tends to be proportionally larger than the increase in demand when rich households get richer.  A large value for elasticity means that economic growth will result in large increases in demand, while a small value for elasticity means that economic growth will have a negligible effect on demand.  Put mathematically, elasticity is the change in electricity demand per unit of economic growth.  Thus multiplying elasticity by economic growth rate gives electricity demand growth rate.
 
 .. index::
-    single: curve, demand
+    pair: curve; demand
 
-To compute the demand scaling factor, the system fits a demand curve and interpolates the scaling factor using the projected population count.
+B. To compute the demand scaling factor, the system fits a demand curve and interpolates the scaling factor using the projected population count.  You can derive the points used to fit the demand curve by tabulating population and demand data from a random sample of communities.  For example, the following table generates the household demand curve points 10000000 6; 4000000 5; 1000000 3; 500000 1.
+
+=========== ========== ======================== =====================
+Name        Population Average Household Demand Demand Scaling Factor
+=========== ========== ======================== =====================
+WWW Metro   10,000,000             1,200 kWh/yr       1,200 / 200 = 6
+XXX City     4,000,000             1,000 kWh/yr       1,000 / 200 = 5
+YYY Town     1,000,000               600 kWh/yr         600 / 200 = 3
+ZZZ Village    500,000               200 kWh/yr         200 / 200 = 1
+=========== ========== ======================== =====================
+
+.. Add demand curve plot here
+
+.. index::
+    single: demand; base unit
+
+C. The base unit demand specifies the demand corresponding to the scaling factor of one.  In the example above, the base unit demand is 200 kWh/yr.
+
+.. index::
+    pair: curve; count
+    single: count; projected facility
+
+D. To compute the projected facility count, the system fits a count curve and interpolates the facility count using the projected population count.  You can derive the points used to fit the count curve by tabulating population and facility count data from a random sample of communities.  For example, the following table generates the commercial facility count curve points 10000000 10000; 4000000 5000; 1000000 500; 500000 50.
+
+=========== ========== =================================
+Name        Population Average Commercial Facility Count
+=========== ========== =================================
+WWW Metro   10,000,000                            10,000
+XXX City     4,000,000                             5,000
+YYY Town     1,000,000                               500
+ZZZ Village    500,000                                50 
+=========== ========== =================================
+
+.. Add count curve plot here
+
 
 
 Choosing system sizes
