@@ -51,7 +51,7 @@ The computation of *mvMax* takes four stages:
   - Determine the diesel generator capacity for mini-grid technology.
   - Determine the transformer capacity for grid technology.
 
-4. Estimate initial and recurring costs for each technology.
+4. Estimate capital and recurring costs for each technology.
 
 
 Projecting population and household counts
@@ -124,23 +124,40 @@ ZZZ Village    500,000                                50
 .. Add count curve plot here
 
 
-
 Choosing system sizes
 """""""""""""""""""""
 
+A. The projected demand determines the desired system capacity for electricity.
 
-Estimating initial and recurring costs
+  - For off-grid technology, the photovoltaic panel capacity is sized on projected household, educational, health and public lighting demand while the diesel generator capacity is sized on projected productive and commercial demand.
+  - For mini-grid technology, the diesel generator capacity is sized on projected demand for the community.
+  - For grid technology, the transformer capacity is sized on projected demand for the community.
+
+B. The desired system capacity translates into the available system capacities in a manner similar to converting money into a linear combination of fixed denominations like quarters, dimes and nickels.
+
+C. The actual system capacity corresponds to the combined capacity of the chosen linear combination of system sizes and is guaranteed to be greater than or equal to the desired system capacity.
+
+
+Estimating capital and recurring costs
 """"""""""""""""""""""""""""""""""""""
+
+The costs are broadly split between initial capital costs of purchasing and installing the technology and annual recurring costs of maintaining and replacing the technology.  Both material and human costs are included.
 
 
 Overriding projections using community-specific data
-""""""""""""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Note that community-specific data can override any of the intermediate variables in the model.  The model is useful because it can estimate demand and cost given only population and some country-wide assumptions, but community-specific data can provide more accurate localized projections when available.  It is a trade-off between gathering high-resolution data and getting estimates that are good enough.
 
 
 Network Building Algorithms
 ---------------------------
 
+The network building algorithms try to connect communities that are grid-compatible while optimizing for access or cost.
+
 .. toctree::
     :maxdepth: 1
 
     network-modKruskal
+
+The *modKruskal* algorithm is a variation of Kruskal's algorithm that tries to optimize construction cost using the *mvMax* decision metric.
