@@ -321,7 +321,7 @@ class ProjectedHouseholdDemandPerYear(V):
 class ProductiveUnitDemandPerHouseholdPerYear(V):
 
     section = 'demand (productive)'
-    option = 'productive unit demand'
+    option = 'productive unit demand per household per year'
     aliases = ['pr_dc_unit']
     default = 0 # 19.5
     units = 'kilowatt-hours per year'

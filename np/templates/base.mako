@@ -34,7 +34,7 @@ $(document).ready(function() {
 ${self.navigation()}
 <%
 linkPacks = [
-    ('Credits', '/docs'),
+    ('Help', '/docs'),
     ('Processors', h.url('processor_index')),
     ('Scenarios', h.url('scenario_index')),
     ('People', h.url('person_index')),
