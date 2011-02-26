@@ -33,7 +33,7 @@ The mvMax decision metric is the maximum length of medium voltage line for which
 Computing mvMax
 ^^^^^^^^^^^^^^^
 
-The computation of mvMax takes four stages:
+Computation of mvMax takes four stages:
 
 1. Project population and household counts.
 2. Project demands.
@@ -100,6 +100,13 @@ XXX City     4,000,000             1,000 kWh/yr       1,000 / 200 = 5
 YYY Town     1,000,000               600 kWh/yr         600 / 200 = 3
 ZZZ Village    500,000               200 kWh/yr         200 / 200 = 1
 =========== ========== ======================== =====================
+
+.. image:: images/NPDemandCurve.png
+    :align: center
+
+.. note::
+
+    The assumption is that households in large cities consume more electricity than households in small towns.  A household in a city might have air conditioning and more lighting than a household in a village.
 
 .. Add demand curve plot here
 

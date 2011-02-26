@@ -14,6 +14,7 @@ The value of NP is its ability to compute detailed cost projections and operatio
     :maxdepth: 3
 
     tutorial
+    reference
     architecture
     credits
 
