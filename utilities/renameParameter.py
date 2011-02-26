@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# Import pylons modules
+from pylons import config
 # Import system modules
 import os
 # Import custom modules
@@ -9,6 +11,7 @@ from np.model import Session
 
 # Connect
 configuration = script_process.connect()
+config['storage_path'] = configuration.get('app:main', 'storage_path')
 # For each scenario,
 for scenario in Session.query(model.Scenario):
     scenarioInput = scenario.input
