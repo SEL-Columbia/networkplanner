@@ -7,7 +7,9 @@ from np import model
 from np.model import Session
 
 
+# Connect
 configuration = script_process.connect()
+# For each scenario,
 for scenario in Session.query(model.Scenario):
     scenarioInput = scenario.input
     try:
@@ -36,4 +38,5 @@ for scenario in Session.query(model.Scenario):
             'demographic file name': u'demographics.csv' if os.path.exists(os.path.join(scenario.getFolder(), 'demographic.csv')) else u'demographics.zip',
         }
     scenario.status = model.statusNew
-    scenario.commit()
+# Commit
+Session.commit()
