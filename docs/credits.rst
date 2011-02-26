@@ -41,6 +41,13 @@ Software Engineers
 - `Andrew Doro <http://modi.mech.columbia.edu/about/alumni/andy-doro/>`_
 
 
+Documentation Writers
+
+- `Shaky Sherpa <http://modi.mech.columbia.edu/about/staff/shaky-sherpa/>`_
+- `Susan Kum <http://modi.mech.columbia.edu/about/alumni/susan-kum/>`_
+- `Roy Hyunjin Han <http://modi.mech.columbia.edu/about/staff/roy-hyunjin-han/>`_
+
+
 Early Contributors
 
 - Arnaud Algrin

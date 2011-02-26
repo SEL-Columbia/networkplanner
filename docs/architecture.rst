@@ -3,6 +3,8 @@ Architecture
 
 Abstractly, the system takes a set of locations and populations, computes a decision metric for each location and connects selected communities to form networks.
 
+`You are welcome to browse the source code <https://github.com/invisibleroads/networkplanner>`_.  
+
 
 Decision Metrics
 ----------------
@@ -16,22 +18,22 @@ The decision metric is used to decide between different electricity technology o
     metric-mvMax2
 
 
-Understanding *mvMax*
-^^^^^^^^^^^^^^^^^^^^^
+Understanding mvMax
+^^^^^^^^^^^^^^^^^^^
 
-The *mvMax* decision metric is the maximum length of medium voltage line for which grid extension is cheaper than standalone options.  It is best understood by example.  
+The mvMax decision metric is the maximum length of medium voltage line for which grid extension is cheaper than standalone options.  It is best understood by example.  
 
     Suppose the total cost of installing off-grid technology in a community is $50,000 and mini-grid technology is $40,000 including capital and recurring costs over a time horizon of ten years.  Then the cheapest standalone option costs $40,000.  
     
     Suppose also that the cost of preparing and maintaining a community for grid connection is $34,000 excluding the cost of the actual grid extension.  That means that we have a budget of $6,000 to extend the grid to the community because if the extension cost more than $6,000 it would be more cost-effective to go with a standalone option such as off-grid or mini-grid.  
     
-    If grid extension costs $10 per meter, then we can convert the budget of $6,000 into 600 meters of extension.  That means that if the community is within 600 meters of an existing grid backbone, then it is cost-effective to connect the community to the grid compared to standalone options.  The *mvMax* decision metric for the community is 600 meters.
+    If grid extension costs $10 per meter, then we can convert the budget of $6,000 into 600 meters of extension.  That means that if the community is within 600 meters of an existing grid backbone, then it is cost-effective to connect the community to the grid compared to standalone options.  The mvMax decision metric for the community is 600 meters.
 
 
-Computing *mvMax*
-^^^^^^^^^^^^^^^^^
+Computing mvMax
+^^^^^^^^^^^^^^^
 
-The computation of *mvMax* takes four stages:
+The computation of mvMax takes four stages:
 
 1. Project population and household counts.
 2. Project demands.
@@ -160,4 +162,4 @@ The network building algorithms try to connect communities that are grid-compati
 
     network-modKruskal
 
-The *modKruskal* algorithm is a variation of Kruskal's algorithm that tries to optimize construction cost using the *mvMax* decision metric.
+The *modKruskal* algorithm is a variation of Kruskal's algorithm that tries to optimize construction cost using the mvMax decision metric.
