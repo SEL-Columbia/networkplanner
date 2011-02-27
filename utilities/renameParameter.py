@@ -2,6 +2,7 @@
 # Import pylons modules
 from pylons import config
 # Import system modules
+import glob
 import os
 # Import custom modules
 import script_process
@@ -28,7 +29,7 @@ for scenario in Session.query(model.Scenario).order_by(model.Scenario.id):
             scenario.input = scenarioInput
             print 'Changed parameter name'
         except KeyError:
-            scenarioInput['demographic file name'] = u'demographics.csv' if os.path.exists(os.path.join(scenario.getFolder(), 'demographics.csv')) else u'demographics.zip'
+            scenarioInput['demographic file name'] = glob.glob(os.path.join(scenario.getFolder(), 'demographics.*'))[0]
             scenario.input = scenarioInput
             print 'Fixed demographic file name'
     except KeyError:
@@ -51,6 +52,6 @@ for scenario in Session.query(model.Scenario).order_by(model.Scenario.id):
         }
         scenario.input = scenarioInput
         print 'Restored input'
-    scenario.status = model.statusNew
+    # scenario.status = model.statusNew
     # Commit
     Session.commit()
