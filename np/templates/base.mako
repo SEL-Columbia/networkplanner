@@ -37,7 +37,6 @@ linkPacks = [
     ('Processors', h.url('processor_index')),
     ('Scenarios', h.url('scenario_index')),
     ('People', h.url('person_index')),
-    ('Help', '/docs'),
 ]
 %>\
 % for linkName, linkURL in linkPacks:
@@ -46,6 +45,8 @@ linkPacks = [
 <a href="${linkURL}" class=linkOFF>${linkName}</a>
 % endif
 % endfor
+&nbsp;
+<a href="/docs" class=linkOFF target="_blank">Help</a>
 % if not h.isPerson():
 % if not request.path.startswith('/people/login'):
 &nbsp;
