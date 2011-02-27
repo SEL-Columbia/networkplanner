@@ -26,7 +26,7 @@ def create(targetPath, sourcePath):
         '.zip': digestNodesFromZIP,
     }
     # Prepare
-    sourceExtension = os.path.splitext(sourcePath)[1]
+    sourceExtension = os.path.splitext(sourcePath)[1].lower()
     if sourceExtension not in digestByExtension:
         raise DatasetError('Only the following formats are currently supported: ' + ' '.join(digestByExtension))
     # Import
