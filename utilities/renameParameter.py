@@ -29,7 +29,7 @@ for scenario in Session.query(model.Scenario).order_by(model.Scenario.id):
             scenario.input = scenarioInput
             print 'Changed parameter name'
         except KeyError:
-            scenarioInput['demographic file name'] = glob.glob(os.path.join(scenario.getFolder(), 'demographics.*'))[0]
+            scenarioInput['demographic file name'] = os.path.basename(glob.glob(os.path.join(scenario.getFolder(), 'demographics.*'))[0])
             scenario.input = scenarioInput
             print 'Fixed demographic file name'
     except KeyError:
@@ -52,6 +52,6 @@ for scenario in Session.query(model.Scenario).order_by(model.Scenario.id):
         }
         scenario.input = scenarioInput
         print 'Restored input'
-    # scenario.status = model.statusNew
+    scenario.status = model.statusNew
     # Commit
     Session.commit()
