@@ -14,14 +14,23 @@ ${h.javascript_link('/files/dataTables/dataTablesPlus.min.js')}
 </%def>\
 \
 <%def name="js()">
+var scenariosDataTable;
 function applyDataTable() {
-    $('#scenarios').dataTable({
+    var aaSorting;
+    if (scenariosDataTable) {
+        scenariosDataTable.fnClearTable(false);
+        aaSorting = scenariosDataTable.fnSettings().aaSorting;
+    } else {
+        aaSorting = [[ 2, 'desc' ]];
+    }
+    scenariosDataTable = $('#scenarios').dataTable({
+        'bDestroy': true,
         'bPaginate': false,
         'bAutoWidth': true,
         'oLanguage': {
             'sSearch': 'Filter'
         },
-        'aaSorting': [[ 2, 'desc' ]],
+        'aaSorting': aaSorting,
         'aoColumns': [
             {'sType': 'string'},
             {'sType': 'string'},
@@ -84,6 +93,11 @@ $('#scope').change(function() {
         refresh: 1
     }, function(data) {
         $('#scenariosBody').html(data);
+        applyDataTable();
+        $('#scenariosBody a').hover(
+            function () {this.className = this.className.replace('OFF', 'ON');}, 
+            function () {this.className = this.className.replace('ON', 'OFF');}
+        );
     });
 });
 applyDataTable();
