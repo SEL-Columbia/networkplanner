@@ -16,6 +16,8 @@ config['storage_path'] = configuration.get('app:main', 'storage_path')
 for scenario in Session.query(model.Scenario).order_by(model.Scenario.id):
     print scenario.getFolder(),
     scenarioInput = scenario.input
+    scenario.input = None
+    Session.commit()
     try:
         metricConfiguration = scenarioInput['metric configuration']
         valueByName = metricConfiguration['demand (productive)']
@@ -24,12 +26,14 @@ for scenario in Session.query(model.Scenario).order_by(model.Scenario.id):
             del valueByName['productive unit demand']
             valueByName['productive unit demand per household per year'] = value
             scenario.input = scenarioInput
-            print 'Change parameter name'
+            print 'Changed parameter name'
         except KeyError:
-            print 'Do nothing'
+            scenarioInput['demographic file name'] = u'demographics.csv' if os.path.exists(os.path.join(scenario.getFolder(), 'demographics.csv')) else u'demographics.zip'
+            scenario.input = scenarioInput
+            print 'Fixed demographic file name'
     except KeyError:
         metricConfiguration = scenarioInput
-        scenario.input = {
+        scenarioInput = {
             'host url': 'http://october.mech.columbia.edu',
             'metric configuration': metricConfiguration,
             'callback url': None,
@@ -43,9 +47,10 @@ for scenario in Session.query(model.Scenario).order_by(model.Scenario.id):
                 }
             },
             'network model name': u'modKruskal',
-            'demographic file name': u'demographics.csv' if os.path.exists(os.path.join(scenario.getFolder(), 'demographic.csv')) else u'demographics.zip',
+            'demographic file name': u'demographics.csv' if os.path.exists(os.path.join(scenario.getFolder(), 'demographics.csv')) else u'demographics.zip',
         }
-        print 'Restore input'
+        scenario.input = scenarioInput
+        print 'Restored input'
     scenario.status = model.statusNew
     # Commit
     Session.commit()
