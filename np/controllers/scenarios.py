@@ -203,7 +203,7 @@ class ScenariosController(BaseController):
         c.status = model.statusDone
         c.scenarioInput = c.scenario.input
         c.scenarioOutput = c.scenario.output
-        transformPoint = geometry_store.getTransformPoint(geometry_store.proj4LL, geometry_store.proj4SM)
+        transform_point = geometry_store.get_transform_point(geometry_store.proj4LL, geometry_store.proj4SM)
         # If the user wants HTML,
         if format == 'html':
             # Render scenario
@@ -211,12 +211,12 @@ class ScenariosController(BaseController):
             scenarioStatistics = c.scenarioOutput['statistics']
             nodeStatistics = scenarioStatistics['node']
             # Prepare map
-            centerX, centerY = transformPoint(nodeStatistics['mean longitude'], nodeStatistics['mean latitude'])
-            box1X, box1Y = transformPoint(nodeStatistics['minimum longitude'], nodeStatistics['maximum latitude'])
-            box2X, box2Y = transformPoint(nodeStatistics['maximum longitude'], nodeStatistics['minimum latitude'])
+            centerX, centerY = transform_point(nodeStatistics['mean longitude'], nodeStatistics['mean latitude'])
+            box1X, box1Y = transform_point(nodeStatistics['minimum longitude'], nodeStatistics['maximum latitude'])
+            box2X, box2Y = transform_point(nodeStatistics['maximum longitude'], nodeStatistics['minimum latitude'])
             # Render map
             datasetStore = c.scenario.getDataset()
-            c.mapFeatures = datasetStore.exportGeoJSON(transformPoint)
+            c.mapFeatures = datasetStore.exportGeoJSON(transform_point)
             c.mapCenter = '%s, %s' % (centerX, centerY)
             c.mapBox = '%s, %s, %s, %s' % (box1X, box1Y, box2X, box2Y)
             # Render nodes
@@ -229,7 +229,7 @@ class ScenariosController(BaseController):
         elif format == 'zip':
             return forward(FileApp(c.scenario.getFolder() + '.zip'))
         elif format == 'geojson':
-            return c.scenario.getDataset().exportGeoJSON(transformPoint)
+            return c.scenario.getDataset().exportGeoJSON(transform_point)
         elif format == 'json':
             return c.scenario.exportJSON(request.params.get('nodeID'))
 

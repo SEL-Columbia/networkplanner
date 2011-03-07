@@ -302,7 +302,7 @@ class SegmentFactory(object):
         self.segmentByCoordinates = {}
         # Set
         self.computeWeight = computeWeight if computeWeight else lambda x, y: 1
-        self.transformPoint = geometry_store.getTransformPoint(proj4)
+        self.transform_point = geometry_store.get_transform_point(proj4)
 
     def getNodes(self):
         return self.nodeByCoordinates.values()
@@ -332,7 +332,7 @@ class SegmentFactory(object):
         # Expand coordinates
         x, y = coordinates
         # Create a fake node
-        node = Node(self.nodeIndex, (x, y), self.transformPoint(x, y), 0)
+        node = Node(self.nodeIndex, (x, y), self.transform_point(x, y), 0)
         self.nodeIndex -= 1
         # Store node
         self.nodeByCoordinates[coordinates] = node

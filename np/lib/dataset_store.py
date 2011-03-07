@@ -63,7 +63,7 @@ class Store(object):
             self.session.add(SpatialReference(proj4))
             self.session.commit()
         self.proj4 = str(self.session.query(SpatialReference).first().proj4)
-        self.transformPoint = geometry_store.getTransformPoint(self.proj4)
+        self.transform_point = geometry_store.get_transform_point(self.proj4)
 
     def getBasePath(self):
         return os.path.dirname(self.getDatasetPath())
@@ -79,7 +79,7 @@ class Store(object):
 
     def addNode(self, coordinates, nodePack=None, is_fake=False):
         # Compute longitude and latitude
-        longitude, latitude = self.transformPoint(*coordinates)
+        longitude, latitude = self.transform_point(*coordinates)
         # Add the node
         node = Node(coordinates, (longitude, latitude), nodePack, is_fake)
         self.session.add(node)
@@ -340,7 +340,7 @@ class Store(object):
         # Return
         return jobVS.getValueByOptionBySection()
     
-    def exportGeoJSON(self, transformPoint=None):
+    def exportGeoJSON(self, transform_point=None):
         # Initialize features as a list
         features = []
         # For each node,
@@ -351,7 +351,7 @@ class Store(object):
             # Append a geojson feature using the node's id and other desired properties
             features.append(geojson.Feature(
                 id='n%s' % node.id, 
-                geometry=node.exportGeoJSONGeometry(transformPoint), 
+                geometry=node.exportGeoJSONGeometry(transform_point), 
                 properties={
                     'population': nodeOutput['demographics']['population count'],
                     'system': nodeOutput['metric']['system'],
@@ -362,7 +362,7 @@ class Store(object):
             # Append a geojson feature using the segment's id and other desired properties
             features.append(geojson.Feature(
                 id='s%s-%s' % (segment.node1_id, segment.node2_id), 
-                geometry=segment.exportGeoJSONGeometry(transformPoint),
+                geometry=segment.exportGeoJSONGeometry(transform_point),
                 properties={
                     'subnet_id': segment.subnet_id,
                     'is_existing': 1 if segment.is_existing else 0,
@@ -533,10 +533,10 @@ class Node(object):
     def __geo_interface__(self):
         return {'type': 'Point', 'coordinates': self.getCoordinates()}
 
-    def exportGeoJSONGeometry(self, transformPoint=None):
+    def exportGeoJSONGeometry(self, transform_point=None):
         coordinates = self.getCommonCoordinates()
-        if transformPoint:
-            coordinates = transformPoint(*coordinates)
+        if transform_point:
+            coordinates = transform_point(*coordinates)
         return geojson.Point(coordinates)
 
     # Display
@@ -567,10 +567,10 @@ class Segment(object):
     def __geo_interface__(self):
         return {'type': 'LineString', 'coordinates': self.getCoordinates()}
 
-    def exportGeoJSONGeometry(self, transformPoint=None):
+    def exportGeoJSONGeometry(self, transform_point=None):
         coordinates = self.getCommonCoordinates()
-        if transformPoint:
-            coordinates = [transformPoint(*x) for x in coordinates]
+        if transform_point:
+            coordinates = [transform_point(*x) for x in coordinates]
         return geojson.LineString(coordinates)
 
 
@@ -586,10 +586,10 @@ class Subnet(object):
     def __geo_interface__(self):
         return {'type': 'MultiLineString', 'coordinates': self.getCoordinates()}
 
-    def exportGeoJSONGeometry(self, transformPoint=None):
+    def exportGeoJSONGeometry(self, transform_point=None):
         coordinates = self.getCommonCoordinates()
-        if transformPoint:
-            coordinates = [(transformPoint(*x[0]), transformPoint(*x[1])) for x in coordinates]
+        if transform_point:
+            coordinates = [(transform_point(*x[0]), transform_point(*x[1])) for x in coordinates]
         return geojson.MultiLineString(coordinates)
 
 
