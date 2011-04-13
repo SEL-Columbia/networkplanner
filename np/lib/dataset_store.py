@@ -14,8 +14,7 @@ import itertools
 import collections
 import shapely.geometry
 # Import custom modules
-import store
-import geometry_store
+from np.lib import store, geometry_store
 
 
 def create(targetPath, sourcePath):
@@ -346,7 +345,6 @@ class Store(object):
         # For each node,
         for node in self.cycleNodes():
             # Load node
-            nodeInput = node.input
             nodeOutput = node.output
             # Append a geojson feature using the node's id and other desired properties
             features.append(geojson.Feature(
