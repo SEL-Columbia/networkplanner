@@ -72,7 +72,7 @@ class VariableStore(variable_store.VariableStore):
             networkProj4, networkGeometries = geometry_store.load(networkPath)[:2]
             networkCoordinatePairs = network.yieldSimplifiedCoordinatePairs(networkGeometries)
             # Prepare
-            transform_point = geometry_store.transform_point(networkProj4, proj4)
+            transform_point = geometry_store.get_transform_point(networkProj4, proj4)
             # Load existing network as a single subnet and allow overlapping segments
             net.subnets.append(network.Subnet([segmentFactory.getSegment(transform_point(c1[0], c1[1]), transform_point(c2[0], c2[1]), is_existing=True) for c1, c2 in networkCoordinatePairs]))
             # Add candidate segments that connect each node to its projection on the existing network
