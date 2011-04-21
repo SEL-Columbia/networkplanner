@@ -35,7 +35,7 @@ elif [ "$1" = "cs" ]; then
     refreshDocumentation
 elif [ "$1" = "cp" ]; then
     git pull
-    sftp rhh@october.mech.columbia.edu:/var/www/np/.production.cfg
+    sftp 134f@october.mech.columbia.edu:/var/www/np/.production.cfg
     mv .production.cfg .development.cfg
     rm -Rf data *.db
     paster setup-app development.ini
