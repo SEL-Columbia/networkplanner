@@ -8,7 +8,7 @@ whenIO = h.getWhenIO()
     <td>${scenario.owner.nickname}</td>
     <td class=scenarioOFF id=scenarioName${scenario.id}>${scenario.name}</td>
     <td>
-        <span title=${whenIO.toLocal(scenario.when_created).strftime('%Y%m%d%H%M%S')}></span>
+        <span title=${whenIO.to_local(scenario.when_created).strftime('%Y%m%d%H%M%S')}></span>
         ${whenIO.format(scenario.when_created)}
     </td>
     <td>${model.statusDictionary[scenario.status]}</td>

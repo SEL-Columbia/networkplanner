@@ -1,9 +1,8 @@
 'Methods for transforming dates to strings and vice versa'
-# Import system modules
 import datetime
+import re
 
 
-# Set indexByWeekday
 indexByWeekday = {
        'monday': 0, 'mon': 0,
       'tuesday': 1, 'tue': 1,
@@ -13,7 +12,6 @@ indexByWeekday = {
      'saturday': 5, 'sat': 5,
        'sunday': 6, 'sun': 6,
 }
-# Set templates
 dateTemplates = '%m/%d/%Y', '%m/%d/%y', '%m/%d'
 timeTemplates = '%I%p', '%I:%M%p'
 
@@ -27,32 +25,36 @@ class WhenIO(object):
         'Initialize time offset and special dates'
         # Set
         self.minutesOffset = minutesOffset
-        self.localToday = localToday.date() if localToday else self.toLocal(datetime.datetime.utcnow()).date()
+        self.localToday = localToday.date() if localToday else self.to_local(datetime.datetime.utcnow()).date()
         self.localTomorrow = self.localToday + datetime.timedelta(days=1)
         self.localYesterday = self.localToday + datetime.timedelta(days=-1)
 
     # Parse
 
-    def parse(self, whensString, withConversion=True):
-        'Parse whens from strings'
+    def parse(self, whensString, toUTC=True):
+        """
+        Parse whens from strings.
+        toUTC=True   Convert whens to UTC after parsing
+        toUTC=False  Parse whens without conversion
+        """
         # Initialize
         whens, terms = [], []
         # For each term,
         for term in whensString.split():
             # Try to parse the term as a date
-            date = self.parseDate(term)
+            date = self.parse_date(term)
             # If the term is a date,
             if date != None: 
                 if date not in whens:
                     whens.append(date)
                 continue
             # Try to parse the term as a time
-            time = self.parseTime(term)
+            time = self.parse_time(term)
             # If the term is a time,
             if time != None: 
                 # Load
                 oldWhen = whens[-1] if whens else self.localToday
-                newWhen = self.combineDateTime(oldWhen, time)
+                newWhen = self.combine_date_time(oldWhen, time)
                 # If oldWhen already has a time or we have no whens, append newWhen
                 if isinstance(oldWhen, datetime.datetime) or not whens:
                     whens.append(newWhen)
@@ -66,14 +68,14 @@ class WhenIO(object):
         # Make sure every when has a time
         for whenIndex, when in enumerate(whens):
             if not isinstance(when, datetime.datetime):
-                whens[whenIndex] = self.combineDateTime(when, whenTime=None)
+                whens[whenIndex] = self.combine_date_time(when, whenTime=None)
         # Convert
-        if withConversion:
-            whens = map(self.fromLocal, whens)
+        if toUTC:
+            whens = map(self.from_local, whens)
         # Return
         return sorted(whens), terms
 
-    def parseDate(self, dateString):
+    def parse_date(self, dateString):
         'Parse date from a string'
         # Prepare string
         dateString = dateString.strip().lower()
@@ -100,7 +102,7 @@ class WhenIO(object):
                     date = date.replace(year=self.localToday.year)
                 return date
 
-    def parseTime(self, timeString):
+    def parse_time(self, timeString):
         'Parse time from a string'
         # Prepare string
         timeString = timeString.strip().lower()
@@ -115,13 +117,19 @@ class WhenIO(object):
 
     # Format
 
-    def format(self, whens, dateTemplate=dateTemplates[0], dateTemplateSpecial='', separator=' ', withConversion=True):
-        'Format whens into strings'
+    def format(self, whens, dateTemplate=dateTemplates[0], dateTemplate_='', fromUTC=True):
+        """
+        Format whens into strings.
+        dateTemplate   Date template to use when the date is more than seven days from today
+        dateTemplate_  Date template to use when the date is less than seven days from today
+        fromUTC=True   Convert whens to local time before formatting
+        fromUTC=False  Format whens without conversion
+        """
         # Convert
         if not isinstance(whens, list):
             whens = [whens]
-        if withConversion:
-            whens = map(self.toLocal, whens)
+        if fromUTC:
+            whens = map(self.to_local, whens)
         # Initialize
         strings = []
         previousDate = None
@@ -133,24 +141,24 @@ class WhenIO(object):
             # If the when matches the previousDate,
             if when.date() == previousDate:
                 # Only format time
-                string = self.formatTime(when)
+                string = self.format_time(when)
             # Otherwise,
             else:
                 # Format
-                string = '%s %s' % (self.formatDate(when, dateTemplate, dateTemplateSpecial), self.formatTime(when))
+                string = '%s %s' % (self.format_date(when, dateTemplate, dateTemplate_), self.format_time(when))
             # Append
             strings.append(string)
             # Prepare for next iteration
             previousDate = when.date()
         # Return
-        return separator.join(strings)
+        return ' '.join(strings)
 
-    def formatDate(self, date, dateTemplate=dateTemplates[0], dateTemplateSpecial=''):
+    def format_date(self, date, dateTemplate=dateTemplates[0], dateTemplate_=''):
         'Format date into string'
         # Convert
         if isinstance(date, datetime.datetime): 
             date = date.date()
-        dateString = date.strftime(dateTemplateSpecial) if dateTemplateSpecial else ''
+        dateString = date.strftime(dateTemplate_) if dateTemplate_ else ''
         # Format special
         if date == self.localToday: 
             return 'Today' + dateString
@@ -165,7 +173,7 @@ class WhenIO(object):
         # Return
         return date.strftime(dateTemplate)
 
-    def formatTime(self, time):
+    def format_time(self, time):
         'Format time into string'
         # Convert
         if isinstance(time, datetime.datetime): 
@@ -180,9 +188,12 @@ class WhenIO(object):
         # Return
         return hour + time.strftime(':%M%p').lower()
 
+    def format_offset(self):
+        return format_offset(self.minutesOffset)
+
     # Helpers
 
-    def combineDateTime(self, whenDate, whenTime=None):
+    def combine_date_time(self, whenDate, whenTime=None):
         'Create when from date and time, assuming where necessary'
         # If both terms are present, combine them            
         if whenTime != None and whenDate: 
@@ -194,12 +205,35 @@ class WhenIO(object):
         if whenDate: 
             return datetime.datetime.combine(whenDate, datetime.time(0, 0))
 
-    def fromLocal(self, when):
+    def from_local(self, when):
         'Convert whenLocal into UTC'
         if when:
             return when + datetime.timedelta(minutes=self.minutesOffset)
 
-    def toLocal(self, when):
+    def to_local(self, when):
         'Convert UTC into whenLocal'
         if when: 
             return when - datetime.timedelta(minutes=self.minutesOffset)
+
+
+def format_offset(minutesOffset):
+    'Format timezone offset'
+    hourCount = minutesOffset / 60.
+    hourQuotient = int(hourCount)
+    hourRemainder = abs(hourCount - hourQuotient)
+    return '%+03d%02d UTC' % (-1 * hourCount, hourRemainder * 60)
+
+
+def parse_offset(text):
+    'Parse timezone offset'
+    pattern_offset = re.compile(r'([+-]\d\d)(\d\d) UTC')
+    matchOffset = pattern_offset.search(text)
+    if matchOffset:
+        x, y = matchOffset.groups()
+        x = int(x)
+        y = int(y)
+        minutesOffset = (1 if x < 0 else -1) * (abs(x) * 60 + y)
+        text = pattern_offset.sub('', text)
+    else:
+        minutesOffset = None
+    return minutesOffset, text
