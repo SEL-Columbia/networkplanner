@@ -1,0 +1,346 @@
+verify np 0.8.5
+    verify metric model
+        write unit tests
+            test demographic growth
+                make sure that population does not change when the population growth rate is zero
+                make sure that population shrinks when the population growth rate is negative
+
+            test economic growth
+                assert that the demand multiplier is one when the economic growth rate is zero
+                assert that the demand multiplier is one when the elasticity is zero
+
+            zero household demand
+                expect the low voltage cost per household to be zero when the household demand is zero
+
+            zero other demands
+                see what happens when there is no commercial or productive demand
+                expect all costs to be zero and no technologies chosen when all demands are zero
+
+            test costs
+                check LV/HH value
+                expect capital costs to be zero when component costs are zero
+                expect recurring costs to equal total cost when capital costs are zero
+                expect capital costs to equal total cost when recurring costs are zero
+
+            test technology selection
+                expect that a node will have the technology with the least overall cost
+                expect the number of off-grid nodes to increase when facility demand is zeroed
+
+        write parameter tests
+            expect not to have diesel generator costs if there is no commercial or productive demand
+            expect the net recurring costs to increase when the time horizon increases
+            expect the net recurring costs to increase when the interest rate increases
+            expect the demand to increase when the economic growth rate increases
+            expect the demand to increase when the elasticity increases
+            expect the mv cost per household to decrease when demand increases (economy of scale)
+            expect the lv cost per household to decrease when demand increases (economy of scale)
+            expect more nodes as grid when demand increases
+            expect the number of households to increase when the population increases
+            expect the demand to increase when the population increases
+            expect the # of urban households to decrease when the urban household size increases
+            expect the # of rural households to decrease when the rural household size increases
+            expect the # of urban households to decrease when the urban threshold increases
+            expect the LV cost to increase when the mean interhousehold distance increases
+            expect the # of nodes with grid to increase when the base household and productive demands increase
+            expect the # of nodes with off-grid to decrease when the base household and productive demands decrease
+            check demand curves by setting all demand curve points to y=1 and check that all households have base demand
+            expect the peak demand to increase when the peak fraction increases
+            expect the peak demand kW to decrease when the annual peak usage increases but demand kW-h/year stays constant
+                note that usually demand increases when annual peak usage increases
+
+            make sure that the system always picks a system with larger capacity than the required demand
+            expect to have fewer of a given technology when that technology is made more expensive
+            expect to have increased replacement costs when increasing lifetimes
+            expect to have increased recurring costs when increasing OM or fuel costs
+
+release np 0.9.2
+    improve output
+        put attributes in shapefile
+
+    improve documentation
+        consider adding hint bubble + spotlight tutorial
+        add one glimpse overview to NP homepage
+        add indices to NP documentation
+        add my description of peak nodal demand
+
+    deploy
+        implement fabric SSH deployment script (thanks to Alex Dorey)
+
+    improve metric model
+        think how to estimate demand if facility count is less than one
+        consider making MID different for rural vs urban
+        consider making number of peak hours different for rural vs urban
+        make it possible to specify electricity costs in usage brackets
+        consider adding support for exchange rate
+        consider replacing scaling factors and base unit demand with direct demands
+        consider using Decimal class for more accuracy
+
+    improve architecture
+        consider applying surface maps of cost
+        consider applying surface maps of demand
+        consider putting modelling blocks into modules
+        consider making it possible to read a metric model from a spreadsheet
+
+    improve network algorithm
+        fix network algorithm to handle case when new grid affects results (might require iteration)
+        remove geometric intersection check for nodes because it doesn't work for real data
+        consider using heapq to get smallest segment
+        consider using roads between electrified communities to approximate location of existing grid line
+
+    improve user interface
+        fix column headers and filter in dataTable to be always visible even when scrolling
+        use Layer.getDataExtent instead of computing bounds
+        consider changing wording of commercial facility to "vendor"
+        add fallback WMS layer in case there is no internet
+        make it possible to see map on whole screen
+        let user click on difference for system count to see which communities are different
+        increase scenario name length
+            add error message in controller if scenario name is too long
+
+        make it clear that base unit demand corresponds to scaling factor = 1
+        revise productive unit demand to be per household per year
+        enable node-level overrides directly in page
+        make it easy to see tabulated costs
+        specify projected per node where applicable
+
+    fix bugs
+        restore hover after scope selection update
+        check why we cannot specify TimeHorizon=1
+
+    improve usability
+        make it easier to use default datasets
+            add datasets at three scales (local, national, continental)
+
+        change input form to use tabs
+        enable links to default templates to be cloned
+
+release np 0.9.3
+    enhance user interface
+        fix node detail
+            * fix job view so that it can handle foreign characters using unicode
+            enable comparison between node detail variables
+                display node details for comparison scenario as well
+
+        improve map interface
+            add measurement tool
+            enable toggling on/off for Google map labels
+
+        fix scenario creation
+            add quick plot for curves
+                add instant ajax curve plots
+
+            handle case if scenario name is too long
+
+        handle unicode in scenario name
+        enable user to compare custom community-level columns in the summary table
+        consider delaying login until after the user tries to submit a new scenario
+        move social infrastructure count from grid section to demand section
+
+    put duplicate nodes warning in warnings output
+    consider reducing package size by storing and sending parameters and outputs as lists instead of dictionaries
+    figure out some way to ensure that large jobs are run on the cluster machines with more horsepower
+    put large jobs on separate queue
+    consider reimplementing search radius, but determine it automatically
+    save segments to sqlite temporary file during segment generation phase
+    consider weighting regions by population density when computing in zoomed out scale
+    change beaker session secret
+    figure out why sometimes rabbitMQ queues disappear
+    update metric estimation models
+        consider having a connection cost for mini-grid just like for grid (although i recall Aly wanted to remove it for mini-grid)
+
+    update network optimization models
+        add 4th option to consider optimality of standalone subgroups connected to each other
+        consider having a search radius that is different for each node, computed from local metrics
+            set search radius to be (current subnetwork's mvMax) + (local maximum mvMax of all other subnetworks)
+
+release np 1.4.0
+    fix network building algorithm
+        fix minimum subnetwork size so it does not eliminate nodes on existing grid
+        enable large distance connections
+            consider how to add HV
+            consider when each node has limitations on what technologies are available
+
+        think how the existence of nodes with existing grid will affect the network building algorithm
+
+    update metric models
+        add warning if largest population requires extrapolation because it is outside the point range for the curves
+        figure out how to pay attention to whether a node is already electrified
+            modify nodal costs so that they take into account whether the place has existing grid or not
+
+        consider adding civil engineering cost (constructing building to house generator) as a separate cost to mini-grid based on % gen
+        implement simplified X,Y,demand metric model
+            consider adding simplified mvMax model with initial + maintenance + fuel
+
+        add pure PV as tech option
+        add wind as tech option
+        rethink how to do grid internal system
+            change gridInternalCost so that communitys with large spatial area have extra MV cost (look in kenya paper)
+                place transformers first based on community area
+                figure out length of extra internal mv line
+
+        consider how to implement MV reinforcement cost to gridExternalCost on MV line near grid extension
+        add way to mark whether a node has existing grid, mini-grid, off-grid
+
+    enhance user interface
+        enable measuring distance between nodes and existing grid
+        add segment weights to global outputs csv
+        use openlayerer to hand select the parts we need
+        group datasets into locations
+            show locations via polygons
+
+        consider adding tooltips for fields
+        consider adding self-served WMS backup
+
+release network-planner 1.5.0
+    increase types of input that the system can accept
+        let the user enter nodes from a map
+
+    add feedback after user uploads demographic data
+        map communitys in demographic layer
+            add feedback when user clicks on a node
+                plot rural and urban populations over time horizon for a single node
+
+        map administrative regions (i.e. states or districts) in an administrative layer of the map.
+            add feedback when user selects administrative region from a drop down
+                show demographic statistics for the selected administrative region
+
+            map resource availability by region
+            map resource cost by region
+
+        add feedback when user enters curve points
+            plot curve immediately so that user can verify the shape of the curve
+
+        add feedback after user enters metric parameters
+            display a pie chart of demands aggregated over all nodes
+            display a demand layer that shows the community nodes sized differentially according to the each node's demand
+            display an administrative demand layer that colors each region differently according to the aggregated demand for the region
+                visualize demand via colormap as they are aggregated by administrative level
+
+            show where each population was interpolated on demand curve plots
+            show where each population was interpolated on count curve plots
+            generate three graphs of peak demand by population for household, institution and total peak demand
+            add feedback when user clicks on a node
+                show pie chart break of the demands for that node
+
+            add feedback when user selects an administrative region from the dropdown
+                show a pie chart breakdown of the demands for the selected administrative region
+
+        add feedback after user enters cost parameters
+            plot a histogram of system cost vs. system type aggregated over all nodes
+            add a new cost map node layer to size each node differentially based on cost by diesel
+            add a new cost map node layer to size each node differentially based on cost by photovoltaic diesel
+            add a new cost map node layer to size each node differentially based on cost by grid
+            add a new cost map node layer to show a different icon for each node depending on best technology choice
+            add a new administrative cost map layer to show each region in a different color based on cost by diesel
+            add a new administrative cost map layer to show each region in a different color based on cost by pvdiesel
+            add feedback after user clicks on a node
+                show histogram of system cost vs system type for the node
+                show mvMax for the node
+                    visualize mvMax
+
+            add a new administrative cost map layer to show each region in a different color based on cost by grid
+            add a new administrative cost map layer to show each region in a different color based on best system type
+            show a plot showing the number of nodes binned by least cost system type
+
+        add feedback after user asks application to build network based on metrics
+            display existing grid on map in existing grid layer
+            display proposed grid extension on map in proposed grid layer
+
+        add feedback after user asks application to generate feasible rollout plan based on computed network
+            show a movie of the rollout plan
+            show plot of how each type of demand varies over time, aggregated over all nodes
+            show a plot of how each type of cost various over time, aggregated over all nodes
+            add feedback after user clicks on a node
+                show a list of what will happen to the node during the course of the rollout grouped by year
+                show how the demand of the node will vary during the course of the rollout grouped by year
+                show a list of what the node should expect to pay during the course of the rollout grouped by year
+
+        show information aggregated over all nodes
+            plot rural and urban populations over time horizon aggregated for all nodes
+
+    update metric model
+        consider how to model the ability to pay
+        vary the engine cost per kilowatt based on a linear or logistic function (economy of scale)
+            make cost of electricity decrease for larger generators
+            map engine cost directly to diesel system cost using a logistic curve
+
+        use projected population at specific points in time
+        set same default threshold populations for Count Curve Points and Demand Curve Points
+        scale base unit demand to minimum threshold population point
+            indicate that the value of the population corresponding to 1 is the most accurately represented by a curve
+
+        distinguish between peak demand and peak capacity
+        add target electrification rate (how is this different from penetration rate?)
+        add time varying growth rates by enabling rates to be entered as list
+        add aggregated outputs to job output
+        split off-grid demands to size panels separately for each type of demand
+
+    update network sequencing algorithms
+        implement basic rollout code
+            make sure capital costs are discounted by the year they are constructed
+            make sure recurrent costs are discounted after capital costs
+
+        consider three stage network optimization (with HV for large cities first, then MV, then LV) depending on source prices
+
+    update user interface
+        give live feedback during processing
+        group results by extra attributes in each node
+            make it possible to group results by administrative level like state
+                aggregate cost, growth, demand by region
+
+            aggregate by different attributes
+
+        record elapsed computational time
+        show custom satellite image backdrop
+        add aggregated cost breakdown for grid
+        let user pick what columns are output in csv
+        enable comparing nodes
+
+    update tests
+        add unit test to ensure that callbacks work properly
+
+    add plain language description for each variable
+
+
+release network-planner 2.0.0
+    update data import modules
+        consider dealing with CAD files
+
+    update metric estimation models
+        make it easy to add another technology option
+        expand software for use in water pipe design
+        include topography such as mountains, valleys, obstacles
+            let the user specify no-go-through zones or preferable zones
+
+        consider how to optimize load flow
+        consider adding industrial demand like factories
+        consider adding institutional demand like government buildings
+        modify cost code to support increasing electricity access in a partially electrified community i.e. intensification
+        determine high-voltage line cost
+            determine which lines should be high-voltage based on number of people served by that line (thanks to Alex Hofmann)
+
+    update network building algorithms
+        redo network modelling to follow roads
+        think of how to model the sources of energy as well as the sinks (demands)
+        recompute costs for a network based on wire type (HV, MV, LV)
+        implement neuron growth model like the peripheral nervous system
+        implement slime mold model
+        consider adding flow models that depend on time based on cost efficiencies
+        ask selin for new network code
+        email selin and aly the new optimization problem description
+        * consider performing optimization in iterations because a new grid might appear and change optimality of grid for certain nodes
+        fix wire cost so that it depends on distance and load (how much electricity it is carrying)
+        consider enabling iterative equilibrium computation for cost/demand using game theory
+        consider enabling connection of regions, perhaps weighted, to reflect borders and density
+
+    improve user interface
+        add email notification for completed jobs
+        show flowchart of model as moving along
+
+    fix realistics
+        make it more expensive to go through an urban area than a rural area
+        make cost iteratively interlinked with demand because if there is more demand, it will affect cost and vice versa
+
+    update data export modules
+        investigate how to create interactive maps in PDF for download
+
