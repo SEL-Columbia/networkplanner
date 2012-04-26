@@ -454,3 +454,5 @@ class GridExternalSystemNodalDiscountedCostPerMeter(V):
 
     def compute(self):
         return self.get(GridExternalSystemInitialCostPerMeter) + self.get(GridExternalSystemRecurringCostPerMeterPerYear) * self.get(finance.DiscountedCashFlowFactor)
+
+
