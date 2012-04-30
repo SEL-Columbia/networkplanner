@@ -694,6 +694,12 @@ personID = h.getPersonID()
         <td class="summary4 alignR compare" id=grid_initial_cost_diff></td>
     </tr>
     <tr>
+        <td class="summary1">Grid recurring cost</td>
+        <td class="summary2 alignR" id=grid_recurring_cost_1>$${formatFloat(metricByOptionBySection['system (grid)']['system total recurring cost'])}</td>
+        <td class="summary3 alignR compare" id=grid_recurring_cost_2></td>
+        <td class="summary4 alignR compare" id=grid_recurring_cost_diff></td>
+    </tr>
+    <tr>
         <td class="summary1"></td>
         <td class="summary2 alignR" id=download1><a class=linkOFF href="${h.url('formatted_scenario', id=c.scenario.id, format='zip')}">Download</a></td>
         <td class="summary3 alignR compare" id=download2></td>

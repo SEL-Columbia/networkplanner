@@ -250,6 +250,26 @@ class GridSystemTotalInitialCost(V):
              totalSystemMeters)
 
 
+class GridSystemTotalRecurringCost(V):
+
+    section = 'system (grid)'
+    option = 'system total recurring cost'
+    aliases = ['gr_tot_recur']
+    dependencies = [
+        costGrid.GridInternalSystemRecurringCostPerYear,
+        costGrid.GridExternalSystemRecurringCostPerMeterPerYear,
+        finance.TimeHorizon,
+    ]
+    units = 'dollars'
+
+    def compute(self):
+        totalSystemMeters = self.state[0].sumNetworkWeight(is_existing=False)
+        years = self.get(finance.TimeHorizon)
+        intlCostPerYear = self.get(costGrid.GridInternalSystemRecurringCostPerYear)
+        extlCostPerYear = totalSystemMeters * \
+                self.get(costGrid.GridExternalSystemRecurringCostPerMeterPerYear)
+        return (years * (intlCostPerYear + extlCostPerYear))
+
 # VariableStore
 
 class VariableStore(VS):
@@ -280,6 +300,7 @@ class VariableStore(VS):
         MiniGridSystemTotalLevelizedCost,
         GridSystemTotalLevelizedCost,
         GridSystemTotalInitialCost,
+        GridSystemTotalRecurringCost,
     ]
 
 
@@ -296,6 +317,7 @@ roots = [
     GridSystemTotalDiscountedCost, 
     GridSystemTotalLevelizedCost,
     GridSystemTotalInitialCost,
+    GridSystemTotalRecurringCost,
 ]
 sections = [
     'finance',
