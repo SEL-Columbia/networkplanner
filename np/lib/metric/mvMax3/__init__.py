@@ -232,20 +232,62 @@ class GridSystemTotalLevelizedCost(V):
         return self.get(GridSystemTotalDiscountedCost) / float(self.get(GridSystemTotalDiscountedDemand))
 
 
+class GridSystemTotalInternalInitialCost(V):
+
+    section = 'system (grid)'
+    option = 'system total internal initial cost'
+    aliases = ['gr_tot_int_init']
+    default = 0
+    units = 'dollars'
+
+    def aggregate(self, childVS):
+        # Get
+        childDataset = childVS.state[0]
+        childNode = childVS.state[1]
+        # If the system is grid and we are connecting a node that was not in the existing grid,
+        if childVS.get(System)[0] == 'g' and not childDataset.wasNodeAlreadyConnected(childNode):
+            # Get internal cost
+            internalCost = childVS.get(costGrid.GridInternalSystemInitialCost)
+            # Add up internal cost
+            self.value += internalCost
+
+
+class GridSystemTotalInternalRecurringCostPerYear(V):
+
+    section = 'system (grid)'
+    option = 'system total internal recurring cost per year'
+    aliases = ['gr_tot_int_recur']
+    default = 0
+    units = 'dollars per year'
+
+    def aggregate(self, childVS):
+        # Get
+        childDataset = childVS.state[0]
+        childNode = childVS.state[1]
+        # If the system is grid and we are connecting a node that was not in the existing grid,
+        if childVS.get(System)[0] == 'g' and not childDataset.wasNodeAlreadyConnected(childNode):
+            # Get internal cost
+            internalAnnualCost = childVS.get(costGrid.GridInternalSystemRecurringCostPerYear)
+            # Add up internal cost
+            self.value += internalAnnualCost
+
+
 class GridSystemTotalInitialCost(V):
 
     section = 'system (grid)'
     option = 'system total initial cost'
     aliases = ['gr_tot_init']
     dependencies = [
-        costGrid.GridInternalSystemInitialCost,
+        GridSystemTotalInternalInitialCost,
         costGrid.GridExternalSystemInitialCostPerMeter,
     ]
     units = 'dollars'
 
     def compute(self):
+        #Major Assumption:  GridExternalSystemInitialCostPerMeter is the same
+        #across the entire system (vs per node)
         totalSystemMeters = self.state[0].sumNetworkWeight(is_existing=False)
-        return self.get(costGrid.GridInternalSystemInitialCost) + \
+        return self.get(GridSystemTotalInternalInitialCost) + \
             (self.get(costGrid.GridExternalSystemInitialCostPerMeter) * \
              totalSystemMeters)
 
@@ -256,19 +298,23 @@ class GridSystemTotalRecurringCost(V):
     option = 'system total recurring cost'
     aliases = ['gr_tot_recur']
     dependencies = [
-        costGrid.GridInternalSystemRecurringCostPerYear,
+        GridSystemTotalInternalRecurringCostPerYear,
         costGrid.GridExternalSystemRecurringCostPerMeterPerYear,
         finance.TimeHorizon,
     ]
     units = 'dollars'
 
     def compute(self):
+        #TODO:  Address below...(may need to use an 'aggregate' function
+        #Major Assumption the following are the same across all nodes:  
+        # GridExternalSystemRecurringCostPerMeterPerYear
+        # DiscountedCashFlowFactor 
         totalSystemMeters = self.state[0].sumNetworkWeight(is_existing=False)
-        years = self.get(finance.TimeHorizon)
-        intlCostPerYear = self.get(costGrid.GridInternalSystemRecurringCostPerYear)
+        dcff = self.get(finance.DiscountedCashFlowFactor)
+        intlCostPerYear = self.get(GridSystemTotalInternalRecurringCostPerYear)
         extlCostPerYear = totalSystemMeters * \
                 self.get(costGrid.GridExternalSystemRecurringCostPerMeterPerYear)
-        return (years * (intlCostPerYear + extlCostPerYear))
+        return (dcff * (intlCostPerYear + extlCostPerYear))
 
 # VariableStore
 
@@ -294,6 +340,8 @@ class VariableStore(VS):
         MiniGridSystemTotalDiscountedCost,
         GridSystemTotalDiscountedDemand,
         GridSystemTotalDiscountedCost,
+        GridSystemTotalInternalInitialCost,
+        GridSystemTotalInternalRecurringCostPerYear,
     ]
     summaryClasses = [
         OffGridSystemTotalLevelizedCost,
