@@ -623,9 +623,21 @@ personID = h.getPersonID()
     </tr>
     <tr>
         <td class="summary1">Off-grid</td>
-        <td class="summary2 alignR" id=off_grid_count_1>${countBySystem.get('off-grid', 0)}</td>
+        <td class="summary2 alignR" id=off_grid_count_1>${formatNumber(metricByOptionBySection['system (off-grid)']['system total'])}</td>
         <td class="summary3 alignR compare" id=off_grid_count_2></td>
         <td class="summary4 alignR compare" id=off_grid_count_diff></td>
+    </tr>
+    <tr>
+        <td class="summary1">Off-grid initial cost</td>
+        <td class="summary2 alignR" id=off_grid_initial_cost_1>$${formatFloat(metricByOptionBySection['system (off-grid)']['system total initial cost'])}</td>
+        <td class="summary3 alignR compare" id=off_grid_initial_cost_2></td>
+        <td class="summary4 alignR compare" id=off_grid_initial_cost_diff></td>
+    </tr>
+    <tr>
+        <td class="summary1">Off-grid recurring cost</td>
+        <td class="summary2 alignR" id=off_grid_recurring_cost_1>$${formatFloat(metricByOptionBySection['system (off-grid)']['system total discounted recurring cost'])}</td>
+        <td class="summary3 alignR compare" id=off_grid_recurring_cost_2></td>
+        <td class="summary4 alignR compare" id=off_grid_recurring_cost_diff></td>
     </tr>
     <tr>
         <td class="summary1">Off-grid cost</td>
@@ -641,9 +653,21 @@ personID = h.getPersonID()
     </tr>
     <tr>
         <td class="summary1">Mini-grid</td>
-        <td class="summary2 alignR" id=mini_grid_count_1>${countBySystem.get('mini-grid', 0)}</td>
+        <td class="summary2 alignR" id=mini_grid_count_1>${formatNumber(metricByOptionBySection['system (mini-grid)']['system total'])}</td>
         <td class="summary3 alignR compare" id=mini_grid_count_2></td>
         <td class="summary4 alignR compare" id=mini_grid_count_diff></td>
+    </tr>
+    <tr>
+        <td class="summary1">Mini-grid initial cost</td>
+        <td class="summary2 alignR" id=mini_grid_initial_cost_1>$${formatFloat(metricByOptionBySection['system (mini-grid)']['system total initial cost'])}</td>
+        <td class="summary3 alignR compare" id=mini_grid_initial_cost_2></td>
+        <td class="summary4 alignR compare" id=mini_grid_initial_cost_diff></td>
+    </tr>
+    <tr>
+        <td class="summary1">Mini-grid recurring cost</td>
+        <td class="summary2 alignR" id=mini_grid_recurring_cost_1>$${formatFloat(metricByOptionBySection['system (mini-grid)']['system total discounted recurring cost'])}</td>
+        <td class="summary3 alignR compare" id=mini_grid_recurring_cost_2></td>
+        <td class="summary4 alignR compare" id=mini_grid_recurring_cost_diff></td>
     </tr>
     <tr>
         <td class="summary1">Mini-grid cost</td>
@@ -659,9 +683,21 @@ personID = h.getPersonID()
     </tr>
     <tr>
         <td class="summary1">Grid</td>
-        <td class="summary2 alignR" id=grid_count_1>${countBySystem.get('grid', 0)}</td>
+        <td class="summary2 alignR" id=grid_count_1>${formatNumber(metricByOptionBySection['system (grid)']['system total'])}</td>
         <td class="summary3 alignR compare" id=grid_count_2></td>
         <td class="summary4 alignR compare" id=grid_count_diff></td>
+    </tr>
+    <tr>
+        <td class="summary1">Grid initial cost</td>
+        <td class="summary2 alignR" id=grid_initial_cost_1>$${formatFloat(metricByOptionBySection['system (grid)']['system total initial cost'])}</td>
+        <td class="summary3 alignR compare" id=grid_initial_cost_2></td>
+        <td class="summary4 alignR compare" id=grid_initial_cost_diff></td>
+    </tr>
+    <tr>
+        <td class="summary1">Grid recurring cost</td>
+        <td class="summary2 alignR" id=grid_recurring_cost_1>$${formatFloat(metricByOptionBySection['system (grid)']['system total discounted recurring cost'])}</td>
+        <td class="summary3 alignR compare" id=grid_recurring_cost_2></td>
+        <td class="summary4 alignR compare" id=grid_recurring_cost_diff></td>
     </tr>
     <tr>
         <td class="summary1">Grid cost</td>
@@ -677,27 +713,27 @@ personID = h.getPersonID()
     </tr>
     <tr>
         <td class="summary1">Grid length existing</td>
+        <td class="summary2 alignR" id=grid_length_old_1>${formatNumber(metricByOptionBySection['system (grid)']['system total existing network length'])} m</td>
+        <td class="summary3 alignR compare" id=grid_length_old_2></td>
+        <td class="summary4 alignR compare" id=grid_length_old_diff></td>
+    </tr>
+    <tr>
+        <td class="summary1">Grid length existing</td>
         <td class="summary2 alignR" id=grid_length_old_1>${formatNumber(networkStatisticByName['old segment weight'])} m</td>
         <td class="summary3 alignR compare" id=grid_length_old_2></td>
         <td class="summary4 alignR compare" id=grid_length_old_diff></td>
     </tr>
     <tr>
         <td class="summary1">Grid length proposed</td>
-        <td class="summary2 alignR" id=grid_length_new_1>${formatNumber(networkStatisticByName['new segment weight'])} m</td>
+        <td class="summary2 alignR" id=grid_length_old_1>${formatNumber(metricByOptionBySection['system (grid)']['system total proposed network length'])} m</td>
         <td class="summary3 alignR compare" id=grid_length_new_2></td>
         <td class="summary4 alignR compare" id=grid_length_new_diff></td>
     </tr>
     <tr>
-        <td class="summary1">Grid initial cost</td>
-        <td class="summary2 alignR" id=grid_initial_cost_1>$${formatFloat(metricByOptionBySection['system (grid)']['system total initial cost'])}</td>
-        <td class="summary3 alignR compare" id=grid_initial_cost_2></td>
-        <td class="summary4 alignR compare" id=grid_initial_cost_diff></td>
-    </tr>
-    <tr>
-        <td class="summary1">Grid recurring cost</td>
-        <td class="summary2 alignR" id=grid_recurring_cost_1>$${formatFloat(metricByOptionBySection['system (grid)']['system total recurring cost'])}</td>
-        <td class="summary3 alignR compare" id=grid_recurring_cost_2></td>
-        <td class="summary4 alignR compare" id=grid_recurring_cost_diff></td>
+        <td class="summary1">Grid length proposed</td>
+        <td class="summary2 alignR" id=grid_length_new_1>${formatNumber(networkStatisticByName['new segment weight'])} m</td>
+        <td class="summary3 alignR compare" id=grid_length_new_2></td>
+        <td class="summary4 alignR compare" id=grid_length_new_diff></td>
     </tr>
     <tr>
         <td class="summary1"></td>
