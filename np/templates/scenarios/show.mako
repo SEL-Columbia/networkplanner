@@ -718,20 +718,8 @@ personID = h.getPersonID()
         <td class="summary4 alignR compare" id=grid_length_old_diff></td>
     </tr>
     <tr>
-        <td class="summary1">Grid length existing</td>
-        <td class="summary2 alignR" id=grid_length_old_1>${formatNumber(networkStatisticByName['old segment weight'])} m</td>
-        <td class="summary3 alignR compare" id=grid_length_old_2></td>
-        <td class="summary4 alignR compare" id=grid_length_old_diff></td>
-    </tr>
-    <tr>
         <td class="summary1">Grid length proposed</td>
         <td class="summary2 alignR" id=grid_length_old_1>${formatNumber(metricByOptionBySection['system (grid)']['system total proposed network length'])} m</td>
-        <td class="summary3 alignR compare" id=grid_length_new_2></td>
-        <td class="summary4 alignR compare" id=grid_length_new_diff></td>
-    </tr>
-    <tr>
-        <td class="summary1">Grid length proposed</td>
-        <td class="summary2 alignR" id=grid_length_new_1>${formatNumber(networkStatisticByName['new segment weight'])} m</td>
         <td class="summary3 alignR compare" id=grid_length_new_2></td>
         <td class="summary4 alignR compare" id=grid_length_new_diff></td>
     </tr>
