@@ -578,10 +578,23 @@ class OffGridSystemNodalDiscountedCost(V):
         return self.get(OffGridSystemInitialCost) + self.get(OffGridSystemRecurringCostPerYear) * self.get(finance.DiscountedCashFlowFactor)
 
 
-class OffGridSystemNodalDieselDiscountedCost(V):
+class OffGridSystemNodalDiscountedDieselFuelCost(V):
 
     section = 'system (off-grid)'
-    option = 'system nodal diesel discounted cost'
+    option = 'system nodal discounted diesel fuel cost'
+    aliases = ['og_nod_ddfc']
+    dependencies = [
+        DieselFuelCostPerYear,
+    ]
+
+    def compute(self):
+        return self.get(DieselFuelCostPerYear) * self.get(finance.DiscountedCashFlowFactor)
+
+
+class OffGridSystemNodalDiscountedDieselCost(V):
+
+    section = 'system (off-grid)'
+    option = 'system nodal discounted diesel cost'
     aliases = ['og_nod_ddc']
     dependencies = [
         demand.ProjectedNodalDemandPerYear,

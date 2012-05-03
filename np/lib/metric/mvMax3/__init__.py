@@ -118,7 +118,22 @@ class OffGridSystemTotalDiscountedDieselCost(V):
         # If the system is off-grid,
         if childVS.get(System)[0] == 'o':
             # add up nodal diesel costs
-            self.value += childVS.get(costOffGrid.OffGridSystemNodalDieselDiscountedCost) 
+            self.value += childVS.get(costOffGrid.OffGridSystemNodalDiscountedDieselCost) 
+
+
+class OffGridSystemTotalDiscountedDieselFuelCost(V):
+
+    section = 'system (off-grid)'
+    option = 'system total discounted diesel fuel cost'
+    aliases = ['og_tot_ddfc']
+    default = 0
+    units = 'dollars'
+
+    def aggregate(self, childVS):
+        # If the system is off-grid,
+        if childVS.get(System)[0] == 'o':
+            # add up nodal diesel costs
+            self.value += childVS.get(costOffGrid.OffGridSystemNodalDiscountedDieselFuelCost) 
 
 
 class OffGridSystemTotalDiscountedCost(V):
@@ -198,6 +213,36 @@ class MiniGridSystemTotal(V):
         if childVS.get(System)[0] == 'm':
             # Update
             self.value += 1
+
+
+class MiniGridSystemTotalDiscountedDieselFuelCost(V):
+
+    section = 'system (mini-grid)'
+    option = 'system total discounted diesel fuel cost'
+    aliases = ['mg_tot_ddfc']
+    default = 0
+    units = 'dollars'
+
+    def aggregate(self, childVS):
+        # If the system is mini-grid,
+        if childVS.get(System)[0] == 'm':
+            # add up nodal diesel costs
+            self.value += childVS.get(costMiniGrid.MiniGridSystemNodalDiscountedDieselFuelCost) 
+
+
+class MiniGridSystemTotalDiscountedDieselCost(V):
+
+    section = 'system (mini-grid)'
+    option = 'system total discounted diesel cost'
+    aliases = ['mg_tot_ddc']
+    default = 0
+    units = 'dollars'
+
+    def aggregate(self, childVS):
+        # If the system is off-grid,
+        if childVS.get(System)[0] == 'm':
+            # add up nodal diesel costs
+            self.value += childVS.get(costMiniGrid.MiniGridSystemNodalDiscountedDieselCost) 
 
 
 class MiniGridSystemTotalDiscountedDemand(V):
@@ -329,8 +374,8 @@ class GridSystemTotalExternalInitialCost(V):
             # Get half the length of all new connections to the node
             newConnections = childDataset.cycleConnections(childNode, is_existing=False)
             newConnectionLengthHalved = sum(x.weight for x in newConnections) / 2.
-            # Get external cost
-            externalCostPerMeter = childVS.get(costGrid.GridExternalSystemNodalDiscountedCostPerMeter)
+            # Get initial external cost
+            externalCostPerMeter = childVS.get(costGrid.GridExternalSystemInitialCostPerMeter)
             externalCost = externalCostPerMeter * newConnectionLengthHalved
             # Add internal and external cost
             self.value += externalCost
@@ -353,12 +398,10 @@ class GridSystemTotalExternalDiscountedRecurringCost(V):
             # Get half the length of all new connections to the node
             newConnections = childDataset.cycleConnections(childNode, is_existing=False)
             newConnectionLengthHalved = sum(x.weight for x in newConnections) / 2.
-            # Get external cost
-            externalCostPerMeterPerYear = childVS.get(costGrid.GridExternalSystemRecurringCostPerMeterPerYear)
-            externalCostPerYear = externalCostPerMeterPerYear * newConnectionLengthHalved
-            dcff = self.get(finance.DiscountedCashFlowFactor)
-            # Apply discounted cash flow and add up external cost
-            self.value += (dcff * externalCostPerYear)
+            # Get discounted external cost
+            discountedExternalCostPerMeter = childVS.get(costGrid.GridExternalSystemNodalDiscountedRecurringCostPerMeter)
+            externalRecurringCost = discountedExternalCostPerMeter * newConnectionLengthHalved
+            self.value += externalRecurringCost
 
 
 class GridSystemTotalDiscountedCost(V):
@@ -531,11 +574,13 @@ class VariableStore(VS):
         OffGridSystemTotalDiscountedDieselCost,
         OffGridSystemTotalInitialCost,
         OffGridSystemTotalDiscountedRecurringCost,
+        OffGridSystemTotalDiscountedDieselFuelCost,
         MiniGridSystemTotal,
         MiniGridSystemTotalDiscountedDemand,
         MiniGridSystemTotalDiscountedCost,
         MiniGridSystemTotalInitialCost,
         MiniGridSystemTotalDiscountedRecurringCost,
+        MiniGridSystemTotalDiscountedDieselFuelCost,
         GridSystemTotal,
         GridSystemTotalDiscountedDemand,
         GridSystemTotalDiscountedCost,

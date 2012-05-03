@@ -616,13 +616,13 @@ personID = h.getPersonID()
         </td>
     </tr>
     <tr>
-        <td class="summary1">Unelectrified</td>
+        <td class="summary1">Unelectrified Nodes</td>
         <td class="summary2 alignR" id=unelectrified_count_1>${countBySystem.get('unelectrified', 0)}</td>
         <td class="summary3 alignR compare" id=unelectrified_count_2></td>
         <td class="summary4 alignR compare" id=unelectrified_count_diff></td>
     </tr>
     <tr>
-        <td class="summary1">Off-grid</td>
+        <td class="summary1">Off-grid nodes</td>
         <td class="summary2 alignR" id=off_grid_count_1>${formatNumber(metricByOptionBySection['system (off-grid)']['system total'])}</td>
         <td class="summary3 alignR compare" id=off_grid_count_2></td>
         <td class="summary4 alignR compare" id=off_grid_count_diff></td>
@@ -652,7 +652,13 @@ personID = h.getPersonID()
         <td class="summary4 alignR compare" id=off_grid_lcoe_diff></td>
     </tr>
     <tr>
-        <td class="summary1">Mini-grid</td>
+        <td class="summary1">Off-grid diesel fuel cost</td>
+        <td class="summary2 alignR" id=off_grid_ddc_1>$${formatFloat(metricByOptionBySection['system (off-grid)']['system total discounted diesel fuel cost'])}</td>
+        <td class="summary3 alignR compare" id=off_grid_ddfc_2></td>
+        <td class="summary4 alignR compare" id=off_grid_ddfc_diff></td>
+    </tr>
+    <tr>
+        <td class="summary1">Mini-grid nodes</td>
         <td class="summary2 alignR" id=mini_grid_count_1>${formatNumber(metricByOptionBySection['system (mini-grid)']['system total'])}</td>
         <td class="summary3 alignR compare" id=mini_grid_count_2></td>
         <td class="summary4 alignR compare" id=mini_grid_count_diff></td>
@@ -682,7 +688,13 @@ personID = h.getPersonID()
         <td class="summary4 alignR compare" id=mini_grid_lcoe_diff></td>
     </tr>
     <tr>
-        <td class="summary1">Grid</td>
+        <td class="summary1">Mini-grid diesel fuel cost</td>
+        <td class="summary2 alignR" id=mini_grid_ddc_1>$${formatFloat(metricByOptionBySection['system (mini-grid)']['system total discounted diesel fuel cost'])}</td>
+        <td class="summary3 alignR compare" id=mini_grid_ddfc_2></td>
+        <td class="summary4 alignR compare" id=mini_grid_ddfc_diff></td>
+    </tr>
+    <tr>
+        <td class="summary1">Grid nodes</td>
         <td class="summary2 alignR" id=grid_count_1>${formatNumber(metricByOptionBySection['system (grid)']['system total'])}</td>
         <td class="summary3 alignR compare" id=grid_count_2></td>
         <td class="summary4 alignR compare" id=grid_count_diff></td>
