@@ -14,15 +14,15 @@ whenIO = h.getWhenIO()
     <td>${model.statusDictionary[scenario.status]}</td>
     <td>${'Public' if scenario.scope == model.scopePublic else 'Private'}</td>
     <td>
-    % if personID == scenario.owner_id:
-        <a class='linkOFF delete' id=delete${scenario.id}>Delete</a>
-    % endif
         <a class=linkOFF href="${h.url('formatted_scenario', id=scenario.id, format='html')}">View</a>
         &nbsp;
         <a class=linkOFF href="${h.url('formatted_scenario', id=scenario.id, format='zip')}">Download</a>
         &nbsp;
         <a class=linkOFF href="${h.url('scenario_clone', scenarioID=scenario.id)}">Clone</a>
         &nbsp;
+    % if personID == scenario.owner_id:
+        <a class='linkOFF delete' id=delete${scenario.id}>Delete</a>
+    % endif
     </td>
 </tr>
 % endfor

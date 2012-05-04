@@ -413,18 +413,26 @@ $('#compare').change(function() {
     $.get('/scenarios/' + scenarioID + '.json', {complete: 0}, function(data) {
         $('#scenario2').html('<b>Scenario ' + scenarioID + '</b>');
         scenario2Data = eval('(' + data + ')');
-        showDiff(['variables', 'metric', 'system (off-grid)', 'system total discounted cost'], 'off_grid_cost', '$XXX');
-        showDiff(['variables', 'metric', 'system (mini-grid)', 'system total discounted cost'], 'mini_grid_cost', '$XXX');
-        showDiff(['variables', 'metric', 'system (grid)', 'system total discounted cost'], 'grid_cost', '$XXX');
-        showDiff(['variables', 'metric', 'system (off-grid)', 'system total levelized cost'], 'off_grid_lcoe', '$XXX / kWh', formatFloat);
-        showDiff(['variables', 'metric', 'system (mini-grid)', 'system total levelized cost'], 'mini_grid_lcoe', '$XXX / kWh', formatFloat);
-        showDiff(['variables', 'metric', 'system (grid)', 'system total levelized cost'], 'grid_lcoe', '$XXX / kWh', formatFloat);
         showDiff(['statistics', 'metric', 'count by system', 'unelectrified'], 'unelectrified_count', 'XXX');
-        showDiff(['statistics', 'metric', 'count by system', 'off-grid'], 'off_grid_count', 'XXX');
-        showDiff(['statistics', 'metric', 'count by system', 'mini-grid'], 'mini_grid_count', 'XXX');
-        showDiff(['statistics', 'metric', 'count by system', 'grid'], 'grid_count', 'XXX');
-        showDiff(['statistics', 'network', 'old segment weight'], 'grid_length_old', 'XXX m');
-        showDiff(['statistics', 'network', 'new segment weight'], 'grid_length_new', 'XXX m');
+        showDiff(['variables', 'metric', 'system (off-grid)', 'system total'], 'off_grid_count', 'XXX');
+        showDiff(['variables', 'metric', 'system (off-grid)', 'system total initial cost'], 'off_grid_initial_cost', '$XXX');
+        showDiff(['variables', 'metric', 'system (off-grid)', 'system total discounted recurring cost'], 'off_grid_recurring_cost', '$XXX');
+        showDiff(['variables', 'metric', 'system (off-grid)', 'system total discounted cost'], 'off_grid_cost', '$XXX');
+        showDiff(['variables', 'metric', 'system (off-grid)', 'system total levelized cost'], 'off_grid_lcoe', '$XXX / kWh', formatFloat);
+        showDiff(['variables', 'metric', 'system (off-grid)', 'system total discounted diesel fuel cost'], 'off_grid_ddfc', '$XXX', formatFloat);
+        showDiff(['variables', 'metric', 'system (mini-grid)', 'system total'], 'mini_grid_count', 'XXX');
+        showDiff(['variables', 'metric', 'system (mini-grid)', 'system total initial cost'], 'mini_grid_initial_cost', '$XXX');
+        showDiff(['variables', 'metric', 'system (mini-grid)', 'system total discounted recurring cost'], 'mini_grid_recurring_cost', '$XXX');
+        showDiff(['variables', 'metric', 'system (mini-grid)', 'system total discounted cost'], 'mini_grid_cost', '$XXX');
+        showDiff(['variables', 'metric', 'system (mini-grid)', 'system total levelized cost'], 'mini_grid_lcoe', '$XXX / kWh', formatFloat);
+        showDiff(['variables', 'metric', 'system (mini-grid)', 'system total discounted diesel fuel cost'], 'mini_grid_ddfc', '$XXX', formatFloat);
+        showDiff(['variables', 'metric', 'system (grid)', 'system total'], 'grid_count', 'XXX');
+        showDiff(['variables', 'metric', 'system (grid)', 'system total initial cost'], 'grid_initial_cost', '$XXX');
+        showDiff(['variables', 'metric', 'system (grid)', 'system total discounted recurring cost'], 'grid_recurring_cost', '$XXX');
+        showDiff(['variables', 'metric', 'system (grid)', 'system total discounted cost'], 'grid_cost', '$XXX');
+        showDiff(['variables', 'metric', 'system (grid)', 'system total levelized cost'], 'grid_lcoe', '$XXX / kWh', formatFloat);
+        showDiff(['variables', 'metric', 'system (grid)', 'system total existing network length'], 'grid_length_old', 'XXX m');
+        showDiff(['variables', 'metric', 'system (grid)', 'system total proposed network length'], 'grid_length_new', 'XXX m');
         $('#download2').html('<a class=linkOFF href="' + "${h.url('formatted_scenario', id='XXX', format='zip')}".replace('XXX', scenarioID) + '">Download</a>');
         $('#download2 a').hover(
             function () {this.className = this.className.replace('OFF', 'ON');}, 
