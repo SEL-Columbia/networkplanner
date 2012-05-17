@@ -35,21 +35,18 @@ This option disables debugging and is useful for production release testing.
 2. Prepare PostgreSQL database and access credentials.
 ::
 
-    su
-        service postgresql initdb
-        service postgresql start
-        passwd postgres
-        su - postgres
-            createdb np
-            createuser np
-            psql 
-                grant all on database np to np
-                alter role np set password='AyfNFioDbFJDNyjaQK3xHDtUZIcHdU0b'
-                flush privileges
-            vim data/pg_hba.conf            # Set METHOD to md5
-            exit
-        service postgresql restart
-        exit
+    sudo service postgresql start
+    sudo su postgres
+      createdb np
+      createuser np
+      psql
+        grant all on database np to np;
+        alter role np password 'AyfNFioDbFJDNyjaQK3xHDtUZIcHdU0b'
+      vim data/pg_hba.conf            # Set METHOD to md5
+      exit
+    sudo service postgresql restart
+    exit
+
 
 3. Create configuration file.
 ::
