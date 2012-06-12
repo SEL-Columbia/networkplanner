@@ -18,6 +18,18 @@ from np.config import parameter
 from np.lib.base import BaseController, render
 from np.lib import helpers as h, metric, network, variable_store, geometry_store, store, smtp
 
+class LandingController(BaseController):
+    
+    def index(self, format='html'):
+        'GET /: Show landing page if not logged in'
+        # Initialize
+        personID = h.getPersonID()
+        # If not logged in,
+        if not personID:
+            return render('/landing/index.mako')
+        # Take them to the scenarios,
+        else:
+            return redirect(url('scenario_index'))
 
 class ScenariosController(BaseController):
     'REST Controller styled on the Atom Publishing Protocol'
