@@ -1,20 +1,24 @@
 /* General */
-a {text-decoration: none}
+a {text-decoration: none} 
 
 /* Structure */
-#main {position: fixed; top: 2em; left: 0; right: 0; bottom: 0; z-index: 5; overflow: auto}
+/* #main {position: fixed; top: 2em; left: 0; right: 0; bottom: 0; z-index: 5; overflow: auto} */
 #header {position: fixed; top: 0; left: 0; right: 0; height: 2em}
 
 /* Elements */
-#toolbar {position: absolute; top: 0; left: 0}
-#navigation {position: absolute; top: 0; right: 0; text-align: right}
+/* #toolbar {position: absolute; top: 0; left: 0} */
+/* #toolbar {position: relative; left: 0} */
+
+/* #navigation {position: absolute; top: 0; right: 0; text-align: right} */
 
 /* Font */
-.normalFONT {font-family: Helvetica, Arial, sans-serif}
+.normalFONT {font-family: Helvetica, Arial, sans-serif} 
 
-/* Hover */ 
+
+/* Hover */
 .linkOFF {color: darkblue; background-color: white} 
 .linkON {color: white; background-color: darkblue}
+
 
 /* Tab */
 .tabOFF {color: maroon; background-color: white} 
@@ -22,4 +26,5 @@ a {text-decoration: none}
 .tab_ {display: none}
 
 /* Bits */
-.maximumWidth {width: 100%}
+.maximumWidth {width: 100%} 
+
