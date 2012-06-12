@@ -21,7 +21,6 @@ ${h.stylesheet_link('/files/reset.css')}
 <style>${self.css()}</style>\
 ${self.head()}\
 <script>
-<!-- TODO:  Fix THIS 
 $(document).ready(function() {
     function getID(obj) {return /\d+/.exec(obj.id)[0]}
     function getNumber(obj) {return /\d+/.exec(obj)[0]}
@@ -37,25 +36,25 @@ $(document).ready(function() {
         function () {this.className = this.className.replace('OFF', 'ON');}, 
         function () {this.className = this.className.replace('ON', 'OFF');}
     );
-});-->
+});
 </script>
 </head>
 <body class=normalFONT>
 <a name="top"></a><!-- TODO:  Is this needed? -->
 <div class="header">
 <div class="headcontainer">
-<span id="logo"><a href="${h.url('landing_index')}"><img src="files/images/np-logo-sm.png"></a></span>
+<span id="logo"><a href="${h.url('landing_index')}"><img src="/files/images/np-logo-sm.png"></a></span>
 <!-- <div id=navigation> -->
 <!-- ${self.navigation()} -->
 ${self.links()}
 <!-- </div> end navigation -->
 </div> <!-- end headcontainer -->
-<div id=toolbar>${self.toolbar()}</div> 
 </div> <!-- end header -->
 <a id="top"></a><!-- TODO:  Is this needed? -->
 <div class="content">
+<div id=toolbar>${self.toolbar()}</div> 
 ${next.body()}
-<div class="footer">${self.footer()}</div>
+${self.footer()}
 </div>
 </body>
 </html>\
@@ -92,9 +91,12 @@ linkPacks = [
 <%def name='toolbar()'></%def>\
 <%def name='navigation()'></%def>\
 <%def name='footer()'>
+<div class="footer">
 <div class="footercontainer">
 ${self.links()}
 <p>
 © Copyright 2012, <a href="http://modi.mech.columbia.edu/">Modi Research Group</a>  &nbsp;<span style="color: #666">|</span>&nbsp;  <a href="https://github.com/modilabs/networkplanner">Network Planner on Github</a>
 </p>
+</div>
+</div>
 </%def>\

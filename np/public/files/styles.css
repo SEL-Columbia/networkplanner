@@ -105,6 +105,11 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+input {
+  margin-left: 2px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
 a:link,
 a:visited {
   color: #4d8fa0;
@@ -216,6 +221,33 @@ a:focus {
 .footercontainer p a:hover {
   color: #777777;
   font: 13px/1 Helvetica, Arial, sans-serif;
+}
+
+.scenarios {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+th.scenarios {
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+td.scenarios {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+thead.scenarios {
+  font-size: 16px;
+  font-weight: 900;
+  margin-top: 3px;
+}
+
+tbody.scenarios {
+  font-size: 16px;
+  font-weight: 400;
+  margin-top: 3px;
 }
 
 #masthead {
