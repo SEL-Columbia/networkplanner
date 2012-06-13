@@ -12,7 +12,10 @@
 				<img src="files/images/np_logo.jpg">
 			</div>
 			<div class="textspan">
-				<p>A free and powerful online tool <br />for rural electrification planning.</p>
+                <p>An online tool for planning <br/>
+                Grid, Mini-grid and Off-grid electricity <br/>
+                from community to national scale.</p>
+				<!-- <p>A free and powerful online tool <br />for rural electrification planning.</p> -->
 			</div>
 			<div class="imgspan">
 				<a href="${h.url('scenario_index')}"><img class="press" src="files/images/launch-np.png""></a><a href="/docs">&nbsp;&nbsp;&nbsp;&nbsp;Learn More</a>

@@ -11,9 +11,9 @@ ${c.scenario.id} - ${c.scenario.name}
 
 <%def name="css()">
 table {border-spacing: 0}
-#legend {padding-top: 5px;}
+#legend {padding-top: 5px; padding-bottom: 5px;}
 #map {position: absolute; top: 85; left: 0; width: 50%; height: 50%}
-#information {position: absolute; top: 70; bottom: 0; right: 0; width: 49%; overflow: auto}
+#information {position: absolute; top: 70; right: 0; width: 49%; overflow: auto}
 #nodeSummary {position: absolute; bottom: 0; left: 0; width: 50%; height: 35%; overflow: auto}
 #node {display: none}
 #scenarioName {font-size: xx-large; margin-bottom: 10px}

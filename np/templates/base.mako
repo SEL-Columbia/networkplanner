@@ -1,4 +1,5 @@
 ## -*- coding: utf-8 -*-
+<!DOCTYPE html>
 <html>
 <head>
 <meta name="author" content="Roy Hyunjin Han" />
@@ -11,8 +12,6 @@
 <meta property="og:description" content="${h.SITE_DESCRIPTION}"/>
 <meta name="description" content="${h.SITE_DESCRIPTION}" /> 
 <meta name="keywords" content="${h.SITE_KEYWORDS}" /> 
-<!-- <link href="styles/reset.css" media="all" rel="stylesheet" type="text/css"/> -->
-<!-- <link href="styles/styles.css" media="all" rel="stylesheet" type="text/css"/> -->
 <link rel="shortcut icon" href="/files/favicon.ico">
 ${h.javascript_link('/files/jquery-1.4.2.min.js')}
 ${h.stylesheet_link('/files/style.css')} 
@@ -54,8 +53,8 @@ ${self.links()}
 <div class="content">
 <div id=toolbar>${self.toolbar()}</div> 
 ${next.body()}
-${self.footer()}
 </div>
+${self.footer()}
 </body>
 </html>\
 <%def name='title()'></%def>\
