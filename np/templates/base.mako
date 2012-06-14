@@ -76,7 +76,6 @@ linkPacks = [
 % endif
 % endfor
 <li><a href="/docs" class=link target="_blank">Learn More</a></li>
-<li><a href="/docs/tutorial.html" class=link target="_blank">Tutorial</a></li>
 % if not h.isPerson():
 % if not request.path.startswith('/people/login'):
 <li><a id=person_login href="${h.url('person_login', targetURL=h.encodeURL(request.path))}" class=link>Sign Up / Log In</a></li>
