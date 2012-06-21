@@ -38,19 +38,30 @@ if __name__ == '__main__':
         if not os.path.exists(scenarioBackupFolder):
             os.makedirs(scenarioBackupFolder)
 
-        #Move everything EXCEPT the demographics file
+        #Move everything EXCEPT the demographics file and input network
         demographicsFile = scenario.input['demographic file name']
+        networkFile = ""
+        if (scenario.input['network configuration']['network'].\
+                has_key('existing networks')):
+            networkFile = scenario.input['network configuration']['network']\
+                    ['existing networks']
+
         moveFiles = [ os.path.join(scenarioFolder, f) for f in 
-                os.listdir(scenarioFolder) if not (f == demographicsFile) ]
+                os.listdir(scenarioFolder) if not 
+                (f == demographicsFile or f == networkFile) ]
 
         for moveFile in moveFiles:
             newFile = moveFile.replace(storagePath, storageBackupPath)
             shutil.move(moveFile, newFile)
 
-        #Copy demographics file (just in case)
+        #Copy demographics file and network file (just in case)
         fullDemographicsFile = os.path.join(scenarioFolder, demographicsFile)
         copyDemographicsFile = fullDemographicsFile.replace(storagePath, storageBackupPath)
         shutil.copy(fullDemographicsFile, copyDemographicsFile)
+        if(networkFile):
+            fullNetworkFile = os.path.join(scenarioFolder, networkFile)
+            copyNetworkFile = fullNetworkFile.replace(storagePath, storagebackupPath)
+            shutil.copy(fullNetworkFile, copyNetworkFile)
 
         #run scenario
         print "running scenario id: %s" % scenario.id
