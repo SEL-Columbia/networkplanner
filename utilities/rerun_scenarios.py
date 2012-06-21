@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
         moveFiles = [ os.path.join(scenarioFolder, f) for f in 
                 os.listdir(scenarioFolder) if not 
-                (f == demographicsFile or f == networkFile) ]
+                (f == demographicsFile or f == "network") ]
 
         for moveFile in moveFiles:
             newFile = moveFile.replace(storagePath, storageBackupPath)
