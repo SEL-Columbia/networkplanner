@@ -60,7 +60,7 @@ if __name__ == '__main__':
         shutil.copy(fullDemographicsFile, copyDemographicsFile)
         if(networkFile):
             fullNetworkFile = os.path.join(scenarioFolder, networkFile)
-            copyNetworkFile = fullNetworkFile.replace(storagePath, storagebackupPath)
+            copyNetworkFile = fullNetworkFile.replace(storagePath, storageBackupPath)
             shutil.copy(fullNetworkFile, copyNetworkFile)
 
         #run scenario
