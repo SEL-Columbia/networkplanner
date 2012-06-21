@@ -58,7 +58,9 @@ if __name__ == '__main__':
     # Iterate through scenarios
     scenarios = Session.query(model.Scenario).\
             filter(and_(model.Scenario.id.in_(ids), 
-                   (model.Scenario.status == model.statusDone)))
+                   (model.Scenario.status == model.statusDone))).\
+            order_by(model.Scenario.id)
+
     for scenario in scenarios:
         # Backup existing demographics file
         scenarioFolder = scenario.getFolder()
