@@ -209,7 +209,9 @@ class Scenario(object):
         }
         # Commit
         Session.commit()
+ 
 
+    
     def __repr__(self):
         return '<Scenario(id=%s)>' % self.id
 

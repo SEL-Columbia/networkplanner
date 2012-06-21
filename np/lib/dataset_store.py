@@ -103,6 +103,28 @@ class Store(object):
         # Commit
         self.session.commit()
 
+    def addNodesFromNodeDict(self, nodeDict):
+        """
+        Add all nodes from a node dict of form:
+        {'id': id, {'input': inputNodes, 'output': outputNodes}}
+        """
+        
+        for key in nodeDict.keys():
+            node = nodeDict[key]
+            inputNodePack = node['input']
+            outputNodePack = node['input']
+            id = int(key)
+            x = float(inputNodePack['x'])
+            y = float(inputNodePack['y'])
+            newNode = Node((x, y), (x, y), inputNodePack)
+            #TODO:  Derive is_fake
+            newNode.id = id
+            newNode.output = outputNodePack
+            self.session.add(newNode)
+
+        self.session.commit()
+
+
     def countNodes(self):
         return self.session.query(Node).filter_by(is_fake=False).count()
 
