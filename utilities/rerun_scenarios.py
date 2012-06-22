@@ -2,11 +2,20 @@
 from pylons import config
 import shutil
 import sys
-import os
+import os, errno
 import script_process
 from np import model
 from np.model import Base, Session
 from sqlalchemy import and_
+
+def mkdir_p(path):
+    """create directory only if it exists AND don't fail if it does"""
+    try:
+        os.makedirs(path)
+    except OSError as exc: # Python >2.5
+        if exc.errno == errno.EEXIST:
+            pass
+        else: raise
 
 
 # If the user is running the script from the command-line,
@@ -62,7 +71,7 @@ if __name__ == '__main__':
             fullNetworkFile = os.path.join(scenarioFolder, networkFile)
             fullCopyNetworkFile = fullNetworkFile.replace(storagePath, storageBackupPath)
             copyNetworkDir, copyNetworkFile = os.path.split(fullCopyNetworkFile)
-            os.makedirs(copyNetworkDir)
+            mkdir_p(copyNetworkDir)
             shutil.copy(fullNetworkFile, copyNetworkFile)
 
         #run scenario
