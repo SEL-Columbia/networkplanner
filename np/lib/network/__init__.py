@@ -25,6 +25,8 @@ def getValueByOptionBySection(modelName):
 class Node(object):
     'A node'
 
+    __slots__ = ('ID', 'x', 'y', 'longitude', 'latitude', 'weight', 'point', '__weakref__')
+    
     def __init__(self, nodeID, (x, y), (longitude, latitude), weight):
         self.ID = nodeID
         self.x = x
@@ -88,6 +90,8 @@ class Node(object):
 
 class Segment(object):
     'An undirected segment'
+
+    __slots__ = ('node1', 'node2', 'weight', 'lineString', 'targetSegment', 'is_existing', '__weakref__')
 
     def __init__(self, node1, node2, weight, targetSegment=None, is_existing=False):
         self.node1 = node1
