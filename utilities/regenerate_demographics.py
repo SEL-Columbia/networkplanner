@@ -51,7 +51,7 @@ if __name__ == '__main__':
     id_proj = {}
     for line in sys.stdin:
         id = proj = ""
-        vals = line.split(",")
+        vals = line.rstrip().split(",")
         if(len(vals) > 1):
             proj = vals[1]
         if proj:
