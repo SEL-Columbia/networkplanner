@@ -11,6 +11,7 @@ import script_process
 from np import model
 from np.model import Base, Session
 from sqlalchemy import and_
+from osgeo import osr
 from np.lib import store, dataset_store, geometry_store
 
 def regenerate_demographic_file(scenario, proj4=geometry_store.proj4LL):
@@ -44,10 +45,26 @@ if __name__ == '__main__':
     # Connect (get config and setup model from appropriate DB)
     configuration = script_process.connect()
 
-    # get ids from stdin into a list
-    ids = []
-    for id in sys.stdin:
-        ids.append(int(id))
+    # get ids, projection from stdin into a list
+    # input format is:
+    # id,projection (defined by a proj4 projection string)
+    id_proj = {}
+    for line in sys.stdin:
+        id = proj = ""
+        vals = line.split(",")
+        if(len(vals) > 1):
+            proj = vals[1]
+        if proj:
+            sr = osr.SpatialReference()
+            if sr.ImportFromProj4(proj):
+                raise Error("Invalid Projection: %s" % proj)
+
+        id = int(vals[0])
+
+        # If no projection, set it to LatLon WGS84 by default
+        if not(proj):
+            proj = geometry_store.proj4LL
+        id_proj[id] = proj
 
     config['storage_path'] = configuration.get('app:main', 'storage_path')
     storagePath = config['storage_path']
@@ -57,7 +74,7 @@ if __name__ == '__main__':
 
     # Iterate through scenarios
     scenarios = Session.query(model.Scenario).\
-            filter(and_(model.Scenario.id.in_(ids), 
+            filter(and_(model.Scenario.id.in_(id_proj.keys()), 
                    (model.Scenario.status == model.statusDone))).\
             order_by(model.Scenario.id)
 
@@ -76,4 +93,4 @@ if __name__ == '__main__':
 
         #run scenario
         print "regenerating demographics for scenario id: %s" % scenario.id
-        regenerate_demographic_file(scenario)
+        regenerate_demographic_file(scenario, id_proj[scenario.id])
