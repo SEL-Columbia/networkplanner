@@ -1,0 +1,9 @@
+amqplib
+geojson
+psycopg2
+pylons
+python-cjson
+recaptcha-client
+shapely
+sqlalchemy
+
