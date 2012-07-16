@@ -3,7 +3,6 @@ geojson
 psycopg2
 pylons
 python-cjson
-pyyaml
 recaptcha-client
 shapely
 sphinx

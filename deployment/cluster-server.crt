@@ -1,5 +1,5 @@
 # Restart server every twenty minutes
-14,34,54 * * * * cd /var/www/np;/usr/bin/paster serve --daemon production.ini > /dev/null
+14,34,54 * * * * cd /var/www/np;paster serve --daemon production.ini > /dev/null
 # Run server-side publisher every minute
 * * * * * cd /var/www/np;/usr/bin/python utilities/publisher.py -c production.ini >> cluster.log 2>&1
 # Run server-side consumer every minute

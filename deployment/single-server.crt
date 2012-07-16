@@ -1,2 +1,2 @@
-14,34,54 * * * * cd /var/www/np;/usr/bin/paster serve --daemon production.ini > /dev/null
+14,34,54 * * * * cd /var/www/np;paster serve --daemon production.ini > /dev/null
 * * * * * cd /var/www/np;/usr/bin/env python utilities/harvest.py -c production.ini
