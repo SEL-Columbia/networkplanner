@@ -114,6 +114,10 @@ class ScenariosController(BaseController):
         callbackURL = request.POST.get('callbackURL')
         # Create scenario
         scenario = model.Scenario(personID, scenarioName, scenarioScope)
+        # Set scenario status to Initializing so that harvest or 
+        # processing tasks will NOT pick this scenario up until
+        # after it has had it's input attached
+        scenario.status = model.statusInitializing
         Session.add(scenario)
         Session.commit()
         scenarioFolder = scenario.getFolder()
@@ -148,6 +152,8 @@ class ScenariosController(BaseController):
             'callback url': callbackURL,
             'host url': request.host_url, 
         }
+        # at this point, we can set the scenario status to New
+        scenario.status = model.statusNew
         Session.commit()
         store.zipFolder(scenarioFolder + '.zip', scenarioFolder)
         # Redirect

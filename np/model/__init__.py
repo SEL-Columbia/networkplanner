@@ -27,13 +27,16 @@ def hashString(string):
 
 
 # Set constants
-
-statusNew, statusPending, statusDone, statusFailed = xrange(4)
+# Added statusInitializing for the state between constructed/commited scenario
+# when it's actually set up with input (in this state, it's NOT ready to be processed)
+# Added it to the end of the enum to preserve backward compatibility
+statusNew, statusPending, statusDone, statusFailed, statusInitializing = xrange(5)
 statusDictionary = {
     statusNew: 'New',
     statusPending: 'Pending',
     statusDone: 'Done',
     statusFailed: 'Failed',
+    statusInitializing: 'Initializing',
 }
 scopePrivate, scopePublic = xrange(2)
 
@@ -67,7 +70,11 @@ scenarios_table = sa.Table('scenarios', Base.metadata,
     sa.Column('owner_id', sa.ForeignKey('people.id')),
     sa.Column('name', sa.Unicode(parameter.SCENARIO_NAME_LENGTH_MAXIMUM)),
     sa.Column('scope', sa.Integer, default=scopePrivate),
-    sa.Column('status', sa.Integer, default=statusNew),
+    # NOTE:
+    # need to be careful that only scenarios with input are committed with statusNew
+    # otherwise they'll fail on processing.  
+    # See create method in np.controllers.scenarios for how to handle this
+    sa.Column('status', sa.Integer, default=statusNew), 
     sa.Column('when_created', sa.DateTime),
     # We can use mutable=False because we always assign new objects to these variables
     sa.Column('input', sa.PickleType(mutable=False)),
