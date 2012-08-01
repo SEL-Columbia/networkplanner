@@ -192,6 +192,7 @@ class Scenario(object):
         metricValueByOptionBySection = datasetStore.updateMetric(metricModel, metricValueByOptionBySection)
         # Save output
         print 'Saving output'
+        metric.saveMetricsConfigurationCSV(expandPath('metrics-job-input'), metricConfiguration)
         metric.saveMetricsCSV(expandPath('metrics-global'), metricModel, metricValueByOptionBySection)
         datasetStore.saveMetricsCSV(expandPath('metrics-local'), metricModel)
         datasetStore.saveSegmentsSHP(expandPath('networks-existing'), is_existing=True)

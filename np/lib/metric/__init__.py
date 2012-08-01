@@ -5,6 +5,7 @@ import copy
 import itertools
 # Import custom modules
 from np.lib import store
+from np import util
 
 
 # Define model wrappers
@@ -51,3 +52,15 @@ def saveMetricsCSV(targetPath, metricModel, valueByOptionBySection):
         value = valueByOptionBySection[section][option]
         csvWriter.writerow([section, option, value])
     csvFile.close()
+
+def saveMetricsConfigurationCSV(targetPath, valueByOptionBySection):
+    'Save scenario-level INPUT metrics as a CSV file'
+    csvFile = open(store.replaceFileExtension(targetPath, 'csv'), 'wt')
+    csvWriter = csv.writer(csvFile)
+    # Note, this assumes section, option, value tuples returned by flatten function
+    for section, option, value in sorted(util.flatten_to_tuples(valueByOptionBySection)):
+        csvWriter.writerow([section, option, value])
+
+    csvFile.close()
+    
+    
