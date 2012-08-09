@@ -63,4 +63,20 @@ def saveMetricsConfigurationCSV(targetPath, valueByOptionBySection):
 
     csvFile.close()
     
-    
+def saveMetricsConfigurationFullCSV(targetPath, metricModel, valueByOptionBySection):
+    'Save scenario-level INPUT metrics WITH DETAIL as a CSV file'
+    variableStore = metricModel.VariableStore(valueByOptionBySection)
+    csvFile = open(store.replaceFileExtension(targetPath, 'csv'), 'wt')
+    csvWriter = csv.writer(csvFile)
+    # Note, this assumes section, option, value tuples returned by flatten function
+    for section, option, value in sorted(util.flatten_to_tuples(valueByOptionBySection)):
+
+        find_var = lambda x, section=section, option=option: \
+                isinstance(x, type) and x.section == section and x.option == option
+        var = filter(find_var, variableStore.variableClasses)[0]
+        alias = ""
+        if var.aliases and len(var.aliases) > 0:
+            alias = var.aliases[0]
+        csvWriter.writerow([section, option, alias, value, var.units, var.__doc__])
+
+    csvFile.close()
