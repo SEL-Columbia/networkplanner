@@ -76,20 +76,6 @@ class System(V):
 
 # Aggregate
 
-class OffGridSystemTotal(V):
-
-    section = 'system (off-grid)'
-    option = 'system total'
-    aliases = ['og_ct']
-    default = 0
-    units = 'count'
-
-    def aggregate(self, childVS):
-        # If the system is off-grid,
-        if childVS.get(System)[0] == 'o':
-            # Update
-            self.value += 1
-
 
 class OffGridSystemTotalDiscountedDemand(V):
 
@@ -104,36 +90,6 @@ class OffGridSystemTotalDiscountedDemand(V):
         if childVS.get(System)[0] == 'o':
             # Update
             self.value += childVS.get(demand.ProjectedNodalDiscountedDemand)
-
-
-class OffGridSystemTotalDiscountedDieselCost(V):
-
-    section = 'system (off-grid)'
-    option = 'system total discounted diesel cost'
-    aliases = ['og_tot_ddc']
-    default = 0
-    units = 'dollars'
-
-    def aggregate(self, childVS):
-        # If the system is off-grid,
-        if childVS.get(System)[0] == 'o':
-            # add up nodal diesel costs
-            self.value += childVS.get(costOffGrid.OffGridSystemNodalDiscountedDieselCost) 
-
-
-class OffGridSystemTotalDiscountedDieselFuelCost(V):
-
-    section = 'system (off-grid)'
-    option = 'system total discounted diesel fuel cost'
-    aliases = ['og_tot_ddfc']
-    default = 0
-    units = 'dollars'
-
-    def aggregate(self, childVS):
-        # If the system is off-grid,
-        if childVS.get(System)[0] == 'o':
-            # add up nodal diesel costs
-            self.value += childVS.get(costOffGrid.OffGridSystemNodalDiscountedDieselFuelCost) 
 
 
 class OffGridSystemTotalDiscountedCost(V):
@@ -168,83 +124,6 @@ class OffGridSystemTotalLevelizedCost(V):
         return self.get(OffGridSystemTotalDiscountedCost) / float(self.get(OffGridSystemTotalDiscountedDemand))
 
 
-class OffGridSystemTotalInitialCost(V):
-
-    section = 'system (off-grid)'
-    option = 'system total initial cost'
-    aliases = ['og_tot_i']
-    default = 0
-    units = 'dollars'
-
-    def aggregate(self, childVS):
-        # If the system is off-grid,
-        if childVS.get(System)[0] == 'o':
-            # Update
-            self.value += childVS.get(costOffGrid.OffGridSystemInitialCost)
-
-
-class OffGridSystemTotalDiscountedRecurringCost(V):
-
-    section = 'system (off-grid)'
-    option = 'system total discounted recurring cost'
-    aliases = ['og_tot_drc']
-    default = 0
-    units = 'dollars'
-
-    def aggregate(self, childVS):
-        # If the system is off-grid,
-        if childVS.get(System)[0] == 'o':
-            # Update
-            self.value += ( \
-                    childVS.get(costOffGrid.OffGridSystemRecurringCostPerYear) * \
-                    childVS.get(finance.DiscountedCashFlowFactor))
-
-
-class MiniGridSystemTotal(V):
-
-    section = 'system (mini-grid)'
-    option = 'system total'
-    aliases = ['mg_ct']
-    default = 0
-    units = 'count'
-
-    def aggregate(self, childVS):
-        # If the system is mini-grid,
-        if childVS.get(System)[0] == 'm':
-            # Update
-            self.value += 1
-
-
-class MiniGridSystemTotalDiscountedDieselFuelCost(V):
-
-    section = 'system (mini-grid)'
-    option = 'system total discounted diesel fuel cost'
-    aliases = ['mg_tot_ddfc']
-    default = 0
-    units = 'dollars'
-
-    def aggregate(self, childVS):
-        # If the system is mini-grid,
-        if childVS.get(System)[0] == 'm':
-            # add up nodal diesel costs
-            self.value += childVS.get(costMiniGrid.MiniGridSystemNodalDiscountedDieselFuelCost) 
-
-
-class MiniGridSystemTotalDiscountedDieselCost(V):
-
-    section = 'system (mini-grid)'
-    option = 'system total discounted diesel cost'
-    aliases = ['mg_tot_ddc']
-    default = 0
-    units = 'dollars'
-
-    def aggregate(self, childVS):
-        # If the system is off-grid,
-        if childVS.get(System)[0] == 'm':
-            # add up nodal diesel costs
-            self.value += childVS.get(costMiniGrid.MiniGridSystemNodalDiscountedDieselCost) 
-
-
 class MiniGridSystemTotalDiscountedDemand(V):
 
     section = 'system (mini-grid)'
@@ -275,38 +154,6 @@ class MiniGridSystemTotalDiscountedCost(V):
             self.value += childVS.get(costMiniGrid.MiniGridSystemNodalDiscountedCost)
 
 
-class MiniGridSystemTotalInitialCost(V):
-
-    section = 'system (mini-grid)'
-    option = 'system total initial cost'
-    aliases = ['mg_tot_i']
-    default = 0
-    units = 'dollars'
-
-    def aggregate(self, childVS):
-        # If the system is mini-grid,
-        if childVS.get(System)[0] == 'm':
-            # Update
-            self.value += childVS.get(costMiniGrid.MiniGridSystemInitialCost)
-
-
-class MiniGridSystemTotalDiscountedRecurringCost(V):
-
-    section = 'system (mini-grid)'
-    option = 'system total discounted recurring cost'
-    aliases = ['mg_tot_drc']
-    default = 0
-    units = 'dollars'
-
-    def aggregate(self, childVS):
-        # If the system is mini-grid,
-        if childVS.get(System)[0] == 'm':
-            # Update
-            self.value += ( \
-                    childVS.get(costMiniGrid.MiniGridSystemRecurringCostPerYear) * \
-                    childVS.get(finance.DiscountedCashFlowFactor))
-
-
 class MiniGridSystemTotalLevelizedCost(V):
 
     section = 'system (mini-grid)'
@@ -322,21 +169,6 @@ class MiniGridSystemTotalLevelizedCost(V):
         if self.get(MiniGridSystemTotalDiscountedDemand) == 0:
             return 0
         return self.get(MiniGridSystemTotalDiscountedCost) / float(self.get(MiniGridSystemTotalDiscountedDemand))
-
-
-class GridSystemTotal(V):
-
-    section = 'system (grid)'
-    option = 'system total'
-    aliases = ['g_ct']
-    default = 0
-    units = 'count'
-
-    def aggregate(self, childVS):
-        # If the system is grid,
-        if childVS.get(System)[0] == 'g':
-            # Update
-            self.value += 1
 
 
 class GridSystemTotalDiscountedDemand(V):
@@ -355,53 +187,6 @@ class GridSystemTotalDiscountedDemand(V):
         if childVS.get(System)[0] == 'g' and not childDataset.wasNodeAlreadyConnected(childNode):
             # Update
             self.value += childVS.get(demand.ProjectedNodalDiscountedDemand)
-
-
-class GridSystemTotalExternalInitialCost(V):
-
-    section = 'system (grid)'
-    option = 'system total external initial cost'
-    aliases = ['gr_tot_ext_ic']
-    default = 0
-    units = 'dollars'
-
-    def aggregate(self, childVS):
-        # Get
-        childDataset = childVS.state[0]
-        childNode = childVS.state[1]
-        # If the system is grid and we are connecting a node that was not in the existing grid,
-        if childVS.get(System)[0] == 'g' and not childDataset.wasNodeAlreadyConnected(childNode):
-            # Get half the length of all new connections to the node
-            newConnections = childDataset.cycleConnections(childNode, is_existing=False)
-            newConnectionLengthHalved = sum(x.weight for x in newConnections) / 2.
-            # Get initial external cost
-            externalCostPerMeter = childVS.get(costGrid.GridExternalSystemInitialCostPerMeter)
-            externalCost = externalCostPerMeter * newConnectionLengthHalved
-            # Add internal and external cost
-            self.value += externalCost
-
-
-class GridSystemTotalExternalDiscountedRecurringCost(V):
-
-    section = 'system (grid)'
-    option = 'system total external discounted recurring cost'
-    aliases = ['gr_tot_ext_drc']
-    default = 0
-    units = 'dollars'
-
-    def aggregate(self, childVS):
-        # Get
-        childDataset = childVS.state[0]
-        childNode = childVS.state[1]
-        # If the system is grid and we are connecting a node that was not in the existing grid,
-        if childVS.get(System)[0] == 'g' and not childDataset.wasNodeAlreadyConnected(childNode):
-            # Get half the length of all new connections to the node
-            newConnections = childDataset.cycleConnections(childNode, is_existing=False)
-            newConnectionLengthHalved = sum(x.weight for x in newConnections) / 2.
-            # Get discounted external cost
-            discountedExternalCostPerMeter = childVS.get(costGrid.GridExternalSystemNodalDiscountedRecurringCostPerMeter)
-            externalRecurringCost = discountedExternalCostPerMeter * newConnectionLengthHalved
-            self.value += externalRecurringCost
 
 
 class GridSystemTotalDiscountedCost(V):
@@ -447,107 +232,22 @@ class GridSystemTotalLevelizedCost(V):
         return self.get(GridSystemTotalDiscountedCost) / float(self.get(GridSystemTotalDiscountedDemand))
 
 
-class GridSystemTotalInternalInitialCost(V):
-
-    section = 'system (grid)'
-    option = 'system total internal initial cost'
-    aliases = ['gr_tot_iic']
-    default = 0
-    units = 'dollars'
-
-    def aggregate(self, childVS):
-        # Get
-        childDataset = childVS.state[0]
-        childNode = childVS.state[1]
-        # If the system is grid and we are connecting a node that was not in the existing grid,
-        if childVS.get(System)[0] == 'g' and not childDataset.wasNodeAlreadyConnected(childNode):
-            # Get internal cost
-            internalCost = childVS.get(costGrid.GridInternalSystemInitialCost)
-            # Add up internal cost
-            self.value += internalCost
-
-
-class GridSystemTotalInternalDiscountedRecurringCost(V):
-
-    section = 'system (grid)'
-    option = 'system total internal discounted recurring cost'
-    aliases = ['gr_tot_idrc']
-    default = 0
-    units = 'dollars'
-
-    def aggregate(self, childVS):
-        # Get
-        childDataset = childVS.state[0]
-        childNode = childVS.state[1]
-        # If the system is grid and we are connecting a node that was not in the existing grid,
-        if childVS.get(System)[0] == 'g' and not childDataset.wasNodeAlreadyConnected(childNode):
-            # Get internal cost
-            internalAnnualCost = childVS.get(costGrid.GridInternalSystemRecurringCostPerYear)
-            dcff = self.get(finance.DiscountedCashFlowFactor)
-            # Apply cost factor and add up internal cost
-            self.value += (dcff * internalAnnualCost)
-
-
 class GridSystemTotalInitialCost(V):
 
     section = 'system (grid)'
     option = 'system total initial cost'
     aliases = ['gr_tot_init']
     dependencies = [
-        GridSystemTotalInternalInitialCost,
-        GridSystemTotalExternalInitialCost,
+        costGrid.GridInternalSystemInitialCost,
+        costGrid.GridExternalSystemInitialCostPerMeter,
     ]
     units = 'dollars'
 
     def compute(self):
-        return self.get(GridSystemTotalInternalInitialCost) + \
-               self.get(GridSystemTotalExternalInitialCost)
-
-
-class GridSystemTotalDiscountedRecurringCost(V):
-
-    section = 'system (grid)'
-    option = 'system total discounted recurring cost'
-    aliases = ['gr_tot_drc']
-    dependencies = [
-        GridSystemTotalExternalDiscountedRecurringCost,
-        GridSystemTotalInternalDiscountedRecurringCost,
-    ]
-    units = 'dollars'
-
-    def compute(self):
-        # Sum internal and external recurring costs and apply discounted cash flow factor
-        intlCostPerYear = self.get(GridSystemTotalExternalDiscountedRecurringCost)
-        extlCostPerYear = self.get(GridSystemTotalInternalDiscountedRecurringCost)
-        return (intlCostPerYear + extlCostPerYear)
-
-
-class GridSystemTotalExistingNetworkLength(V):
-
-    section = 'system (grid)'
-    option = 'system total existing network length'
-    aliases = ['gr_tot_enl']
-    units = 'meters'
-
-    # Don't understand why we need this
-    dependencies = [System]
-
-    def compute(self):
-        return self.state[0].sumNetworkWeight(is_existing=True)
-
-
-class GridSystemTotalProposedNetworkLength(V):
-
-    section = 'system (grid)'
-    option = 'system total proposed network length'
-    aliases = ['gr_tot_pnl']
-    units = 'meters'
-
-    # Don't understand why we need this
-    dependencies = [System]
-
-    def compute(self):
-        return self.state[0].sumNetworkWeight(is_existing=False)
+        totalSystemMeters = self.state[0].sumNetworkWeight(is_existing=False)
+        return self.get(costGrid.GridInternalSystemInitialCost) + \
+            (self.get(costGrid.GridExternalSystemInitialCostPerMeter) * \
+             totalSystemMeters)
 
 
 # VariableStore
@@ -568,35 +268,18 @@ class VariableStore(VS):
         System,
     ]
     aggregateClasses = [
-        OffGridSystemTotal,
         OffGridSystemTotalDiscountedDemand,
         OffGridSystemTotalDiscountedCost,
-        OffGridSystemTotalDiscountedDieselCost,
-        OffGridSystemTotalInitialCost,
-        OffGridSystemTotalDiscountedRecurringCost,
-        OffGridSystemTotalDiscountedDieselFuelCost,
-        MiniGridSystemTotal,
         MiniGridSystemTotalDiscountedDemand,
         MiniGridSystemTotalDiscountedCost,
-        MiniGridSystemTotalInitialCost,
-        MiniGridSystemTotalDiscountedRecurringCost,
-        MiniGridSystemTotalDiscountedDieselFuelCost,
-        GridSystemTotal,
         GridSystemTotalDiscountedDemand,
         GridSystemTotalDiscountedCost,
-        GridSystemTotalInternalInitialCost,
-        GridSystemTotalExternalInitialCost,
-        GridSystemTotalInternalDiscountedRecurringCost,
-        GridSystemTotalExternalDiscountedRecurringCost,
     ]
     summaryClasses = [
         OffGridSystemTotalLevelizedCost,
         MiniGridSystemTotalLevelizedCost,
         GridSystemTotalLevelizedCost,
         GridSystemTotalInitialCost,
-        GridSystemTotalDiscountedRecurringCost,
-        GridSystemTotalExistingNetworkLength,
-        GridSystemTotalProposedNetworkLength,
     ]
 
 
@@ -605,23 +288,14 @@ class VariableStore(VS):
 
 roots = [
     Metric, 
-    OffGridSystemTotal,
-    OffGridSystemTotalInitialCost,
-    OffGridSystemTotalDiscountedDieselCost,
-    OffGridSystemTotalDiscountedDieselFuelCost,
-    OffGridSystemTotalDiscountedRecurringCost,
+    System, 
+    OffGridSystemTotalDiscountedCost,
     OffGridSystemTotalLevelizedCost,
-    MiniGridSystemTotal,
-    MiniGridSystemTotalInitialCost,
-    MiniGridSystemTotalDiscountedDieselFuelCost,
-    MiniGridSystemTotalDiscountedRecurringCost,
+    MiniGridSystemTotalDiscountedCost, 
     MiniGridSystemTotalLevelizedCost,
-    GridSystemTotal,
-    GridSystemTotalInitialCost,
-    GridSystemTotalDiscountedRecurringCost,
+    GridSystemTotalDiscountedCost, 
     GridSystemTotalLevelizedCost,
-    GridSystemTotalExistingNetworkLength,
-    GridSystemTotalProposedNetworkLength,
+    GridSystemTotalInitialCost,
 ]
 sections = [
     'finance',

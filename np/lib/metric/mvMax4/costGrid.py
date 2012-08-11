@@ -439,6 +439,22 @@ class GridExternalSystemRecurringCostPerMeterPerYear(V):
         return self.get(GridMediumVoltageLineOperationsAndMaintenanceCostPerMeterPerYear) + self.get(GridMediumVoltageLineReplacementCostPerMeterPerYear)
 
 
+class GridExternalSystemNodalDiscountedRecurringCostPerMeter(V):
+
+    section = 'system (grid)'
+    option = 'external nodal discounted recurring cost per meter'
+    aliases = ['ge_nodm_drcpm']
+    c = dict(check=store.assertPositive)
+    dependencies = [
+        GridExternalSystemRecurringCostPerMeterPerYear,
+        finance.DiscountedCashFlowFactor,
+    ]
+    units = 'dollars per meter'
+
+    def compute(self):
+        return self.get(GridExternalSystemRecurringCostPerMeterPerYear) * self.get(finance.DiscountedCashFlowFactor)
+
+
 class GridExternalSystemNodalDiscountedCostPerMeter(V):
 
     section = 'system (grid)'
@@ -447,12 +463,11 @@ class GridExternalSystemNodalDiscountedCostPerMeter(V):
     c = dict(check=store.assertPositive)
     dependencies = [
         GridExternalSystemInitialCostPerMeter,
-        GridExternalSystemRecurringCostPerMeterPerYear,
-        finance.DiscountedCashFlowFactor,
+        GridExternalSystemNodalDiscountedRecurringCostPerMeter,
     ]
     units = 'dollars per meter'
 
     def compute(self):
-        return self.get(GridExternalSystemInitialCostPerMeter) + self.get(GridExternalSystemRecurringCostPerMeterPerYear) * self.get(finance.DiscountedCashFlowFactor)
+        return self.get(GridExternalSystemInitialCostPerMeter) + self.get(GridExternalSystemNodalDiscountedRecurringCostPerMeter)
 
 

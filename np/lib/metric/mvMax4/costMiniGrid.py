@@ -282,6 +282,73 @@ class DieselFuelCostPerYear(V):
         return self.get(DieselFuelCostPerLiter) * self.get(DieselFuelLitersConsumedPerKilowattHour) * self.get(DieselGeneratorActualSystemCapacity) * self.get(DieselGeneratorEffectiveHoursOfOperationPerYear)
 
 
+class MiniGridSystemNodalDiscountedDieselFuelCost(V):
+
+    section = 'system (mini-grid)'
+    option = 'system nodal discounted diesel fuel cost'
+    aliases = ['mg_nod_ddfc']
+    dependencies = [
+        DieselFuelCostPerYear,
+    ]
+
+    def compute(self):
+        return self.get(DieselFuelCostPerYear) * self.get(finance.DiscountedCashFlowFactor)
+
+
+class MiniGridSystemInitialDieselCost(V):
+
+    section = 'system (mini-grid)'
+    option = 'system initial diesel cost'
+    aliases = ['mg_inidc']
+    dependencies = [
+        DieselGeneratorCost,
+        DieselGeneratorInstallationCost,
+    ]
+    units = 'dollars'
+
+    def compute(self):
+        return sum([
+            self.get(DieselGeneratorCost),
+            self.get(DieselGeneratorInstallationCost),
+        ])
+
+
+class MiniGridSystemRecurringDieselCostPerYear(V):
+
+    section = 'system (mini-grid)'
+    option = 'system recurring diesel cost per year'
+    aliases = ['mg_recdc']
+    dependencies = [
+        DieselGeneratorOperationsAndMaintenanceCostPerYear,
+        DieselGeneratorReplacementCostPerYear,
+        DieselFuelCostPerYear,
+    ]
+    units = 'dollars per year'
+
+    def compute(self):
+        return sum([
+            self.get(DieselGeneratorOperationsAndMaintenanceCostPerYear),
+            self.get(DieselGeneratorReplacementCostPerYear),
+            self.get(DieselFuelCostPerYear),
+        ])
+
+
+class MiniGridSystemNodalDiscountedDieselCost(V):
+
+    section = 'system (mini-grid)'
+    option = 'system nodal discounted diesel cost'
+    aliases = ['mg_nod_ddc']
+    dependencies = [
+        MiniGridSystemInitialDieselCost,
+        MiniGridSystemRecurringDieselCostPerYear,
+        finance.DiscountedCashFlowFactor,
+    ]
+    units = 'dollars'
+
+    def compute(self):
+        return self.get(MiniGridSystemInitialDieselCost) + self.get(MiniGridSystemRecurringDieselCostPerYear) * self.get(finance.DiscountedCashFlowFactor)
+
+
 class MiniGridSystemInitialCost(V):
 
     section = 'system (mini-grid)'

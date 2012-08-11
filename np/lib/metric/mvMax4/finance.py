@@ -84,7 +84,7 @@ class DiscountedCashFlowFactor(V):
 
     section = 'finance'
     option = 'discounted cash flow factor'
-    aliases = ['dccf']
+    aliases = ['dcff']
     dependencies = [
         TimeHorizon,
         InterestRatePerYear,

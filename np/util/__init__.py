@@ -1,3 +1,5 @@
+import collections
+
 def flatten_to_tuples(d, accum_tuple=()):
     if(type(d)==dict):
         for key in d.keys(): 
@@ -14,4 +16,13 @@ def flatten(d, prefix):
     else:
         yield prefix
 
+
+def update(d, u):
+    for k, v in u.iteritems():
+        if isinstance(v, collections.Mapping):
+            r = update(d.get(k, {}), v)
+            d[k] = r
+        else:
+            d[k] = u[k]
+            return d
 
