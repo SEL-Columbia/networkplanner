@@ -451,19 +451,27 @@ function showDiff(keys, id, template, format) {
 
     var value1 = followKeys(keys, scenario1Data.outputs);
     var value2 = followKeys(keys, scenario2Data.outputs);
-    if (typeof value1 == 'undefined') value1 = 0;
-    if (typeof value2 == 'undefined') value2 = 0;
+         
+    //format 2nd scenario value
+    if (typeof value2 == 'undefined') {
+        $('#' + id + '_2').html(template.replace('XXX', 'N/A'));
+    } else {
+        $('#' + id + '_2').html(template.replace('XXX', format(value2)));
+    }
 
-    var difference = value2 - value1;
+    //output diff
     var differenceObj = $('#' + id + '_diff');
+    if (typeof value1 == 'undefined' || typeof value2 == 'undefined') {
+        differenceObj.html(template.replace('XXX', 'N/A')).removeClass('positive negative');
+    } else { //they both have legit vals
+        var difference = value2 - value1;
+        differenceObj.html(template.replace('XXX', format(difference))).removeClass('positive negative');
 
-    $('#' + id + '_2').html(template.replace('XXX', format(value2)));
-    differenceObj.html(template.replace('XXX', format(difference))).removeClass('positive negative');
-
-    if (difference > 0) {
-        differenceObj.addClass('positive');
-    } else if (difference < 0) {
-        differenceObj.addClass('negative');
+        if (difference > 0) {
+            differenceObj.addClass('positive');
+        } else if (difference < 0) {
+            differenceObj.addClass('negative');
+        }
     }
 }
 
@@ -540,8 +548,23 @@ Legend &nbsp;
 
 <%
 from np import model
-formatNumber = lambda x: h.format_number(int(round(float(x))))
-formatFloat = lambda x: h.format_number('%0.2f' % float(x))
+
+def safe_number_lookup(d, section, option):
+    """ 
+    Lookup section/option and if not there, return 0 
+    (assumes 0 is 'safe').  This is a stop-gap until a more
+    generic rendering solution is determined based on model def.
+    """
+    result = None
+    try:
+        result = d[section][option] 
+        return result
+    except KeyError:
+        return result
+
+
+formatNumber = lambda x: h.format_number(int(round(float(x)))) if x != None else "N/A"
+formatFloat = lambda x: h.format_number('%0.2f' % float(x)) if x != None else "N/A"
 %>
 
 % if not c.scenario:
@@ -631,115 +654,115 @@ personID = h.getPersonID()
     </tr>
     <tr>
         <td class="summary1">Off-grid nodes</td>
-        <td class="summary2 alignR" id=off_grid_count_1>${formatNumber(metricByOptionBySection['system (off-grid)']['system total'])}</td>
+        <td class="summary2 alignR" id=off_grid_count_1>${formatNumber(safe_number_lookup(metricByOptionBySection, 'system (off-grid)', 'system total'))}</td>
         <td class="summary3 alignR compare" id=off_grid_count_2></td>
         <td class="summary4 alignR compare" id=off_grid_count_diff></td>
     </tr>
     <tr>
         <td class="summary1">Off-grid initial cost</td>
-        <td class="summary2 alignR" id=off_grid_initial_cost_1>$${formatFloat(metricByOptionBySection['system (off-grid)']['system total initial cost'])}</td>
+        <td class="summary2 alignR" id=off_grid_initial_cost_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (off-grid)', 'system total initial cost'))}</td>
         <td class="summary3 alignR compare" id=off_grid_initial_cost_2></td>
         <td class="summary4 alignR compare" id=off_grid_initial_cost_diff></td>
     </tr>
     <tr>
         <td class="summary1">Off-grid recurring cost</td>
-        <td class="summary2 alignR" id=off_grid_recurring_cost_1>$${formatFloat(metricByOptionBySection['system (off-grid)']['system total discounted recurring cost'])}</td>
+        <td class="summary2 alignR" id=off_grid_recurring_cost_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (off-grid)', 'system total discounted recurring cost'))}</td>.
         <td class="summary3 alignR compare" id=off_grid_recurring_cost_2></td>
         <td class="summary4 alignR compare" id=off_grid_recurring_cost_diff></td>
     </tr>
     <tr>
         <td class="summary1">Off-grid cost</td>
-        <td class="summary2 alignR" id=off_grid_cost_1>$${formatNumber(float(metricByOptionBySection['system (off-grid)']['system total discounted cost']))}</td>
+        <td class="summary2 alignR" id=off_grid_cost_1>$${formatNumber(float(safe_number_lookup(metricByOptionBySection, 'system (off-grid)', 'system total discounted cost')))}</td>
         <td class="summary3 alignR compare" id=off_grid_cost_2></td>
         <td class="summary4 alignR compare" id=off_grid_cost_diff></td>
     </tr>
     <tr>
         <td class="summary1">Off-grid cost levelized</td>
-        <td class="summary2 alignR" id=off_grid_lcoe_1>$${formatFloat(metricByOptionBySection['system (off-grid)']['system total levelized cost'])} / kWh</td>
+        <td class="summary2 alignR" id=off_grid_lcoe_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (off-grid)', 'system total levelized cost'))} / kWh</td>
         <td class="summary3 alignR compare" id=off_grid_lcoe_2></td>
         <td class="summary4 alignR compare" id=off_grid_lcoe_diff></td>
     </tr>
     <tr>
         <td class="summary1">Off-grid diesel fuel cost</td>
-        <td class="summary2 alignR" id=off_grid_ddc_1>$${formatFloat(metricByOptionBySection['system (off-grid)']['system total discounted diesel fuel cost'])}</td>
+        <td class="summary2 alignR" id=off_grid_ddc_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (off-grid)', 'system total discounted diesel fuel cost'))}</td>
         <td class="summary3 alignR compare" id=off_grid_ddfc_2></td>
         <td class="summary4 alignR compare" id=off_grid_ddfc_diff></td>
     </tr>
     <tr>
         <td class="summary1">Mini-grid nodes</td>
-        <td class="summary2 alignR" id=mini_grid_count_1>${formatNumber(metricByOptionBySection['system (mini-grid)']['system total'])}</td>
+        <td class="summary2 alignR" id=mini_grid_count_1>${formatNumber(safe_number_lookup(metricByOptionBySection, 'system (mini-grid)', 'system total'))}</td>
         <td class="summary3 alignR compare" id=mini_grid_count_2></td>
         <td class="summary4 alignR compare" id=mini_grid_count_diff></td>
     </tr>
     <tr>
         <td class="summary1">Mini-grid initial cost</td>
-        <td class="summary2 alignR" id=mini_grid_initial_cost_1>$${formatFloat(metricByOptionBySection['system (mini-grid)']['system total initial cost'])}</td>
+        <td class="summary2 alignR" id=mini_grid_initial_cost_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (mini-grid)', 'system total initial cost'))}</td>
         <td class="summary3 alignR compare" id=mini_grid_initial_cost_2></td>
         <td class="summary4 alignR compare" id=mini_grid_initial_cost_diff></td>
     </tr>
     <tr>
         <td class="summary1">Mini-grid recurring cost</td>
-        <td class="summary2 alignR" id=mini_grid_recurring_cost_1>$${formatFloat(metricByOptionBySection['system (mini-grid)']['system total discounted recurring cost'])}</td>
+        <td class="summary2 alignR" id=mini_grid_recurring_cost_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (mini-grid)', 'system total discounted recurring cost'))}</td>
         <td class="summary3 alignR compare" id=mini_grid_recurring_cost_2></td>
         <td class="summary4 alignR compare" id=mini_grid_recurring_cost_diff></td>
     </tr>
     <tr>
         <td class="summary1">Mini-grid cost</td>
-        <td class="summary2 alignR" id=mini_grid_cost_1>$${formatNumber(float(metricByOptionBySection['system (mini-grid)']['system total discounted cost']))}</td>
+        <td class="summary2 alignR" id=mini_grid_cost_1>$${formatNumber(float(safe_number_lookup(metricByOptionBySection, 'system (mini-grid)', 'system total discounted cost')))}</td>
         <td class="summary3 alignR compare" id=mini_grid_cost_2></td>
         <td class="summary4 alignR compare" id=mini_grid_cost_diff></td>
     </tr>
     <tr>
         <td class="summary1">Mini-grid cost levelized</td>
-        <td class="summary2 alignR" id=mini_grid_lcoe_1>$${formatFloat(metricByOptionBySection['system (mini-grid)']['system total levelized cost'])} / kWh</td>
+        <td class="summary2 alignR" id=mini_grid_lcoe_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (mini-grid)', 'system total levelized cost'))} / kWh</td>
         <td class="summary3 alignR compare" id=mini_grid_lcoe_2></td>
         <td class="summary4 alignR compare" id=mini_grid_lcoe_diff></td>
     </tr>
     <tr>
         <td class="summary1">Mini-grid diesel fuel cost</td>
-        <td class="summary2 alignR" id=mini_grid_ddc_1>$${formatFloat(metricByOptionBySection['system (mini-grid)']['system total discounted diesel fuel cost'])}</td>
+        <td class="summary2 alignR" id=mini_grid_ddc_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (mini-grid)', 'system total discounted diesel fuel cost'))}</td>
         <td class="summary3 alignR compare" id=mini_grid_ddfc_2></td>
         <td class="summary4 alignR compare" id=mini_grid_ddfc_diff></td>
     </tr>
     <tr>
         <td class="summary1">Grid nodes</td>
-        <td class="summary2 alignR" id=grid_count_1>${formatNumber(metricByOptionBySection['system (grid)']['system total'])}</td>
+        <td class="summary2 alignR" id=grid_count_1>${formatNumber(safe_number_lookup(metricByOptionBySection, 'system (grid)', 'system total'))}</td>
         <td class="summary3 alignR compare" id=grid_count_2></td>
         <td class="summary4 alignR compare" id=grid_count_diff></td>
     </tr>
     <tr>
         <td class="summary1">Grid initial cost</td>
-        <td class="summary2 alignR" id=grid_initial_cost_1>$${formatFloat(metricByOptionBySection['system (grid)']['system total initial cost'])}</td>
+        <td class="summary2 alignR" id=grid_initial_cost_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (grid)', 'system total initial cost'))}</td>
         <td class="summary3 alignR compare" id=grid_initial_cost_2></td>
         <td class="summary4 alignR compare" id=grid_initial_cost_diff></td>
     </tr>
     <tr>
         <td class="summary1">Grid recurring cost</td>
-        <td class="summary2 alignR" id=grid_recurring_cost_1>$${formatFloat(metricByOptionBySection['system (grid)']['system total discounted recurring cost'])}</td>
+        <td class="summary2 alignR" id=grid_recurring_cost_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (grid)', 'system total discounted recurring cost'))}</td>
         <td class="summary3 alignR compare" id=grid_recurring_cost_2></td>
         <td class="summary4 alignR compare" id=grid_recurring_cost_diff></td>
     </tr>
     <tr>
         <td class="summary1">Grid cost</td>
-        <td class="summary2 alignR" id=grid_cost_1>$${formatNumber(float(metricByOptionBySection['system (grid)']['system total discounted cost']))}</td>
+        <td class="summary2 alignR" id=grid_cost_1>$${formatNumber(float(safe_number_lookup(metricByOptionBySection, 'system (grid)', 'system total discounted cost')))}</td>
         <td class="summary3 alignR compare" id=grid_cost_2></td>
         <td class="summary4 alignR compare" id=grid_cost_diff></td>
     </tr>
     <tr>
         <td class="summary1">Grid cost levelized</td>
-        <td class="summary2 alignR" id=grid_lcoe_1>$${formatFloat(metricByOptionBySection['system (grid)']['system total levelized cost'])} / kWh</td>
+        <td class="summary2 alignR" id=grid_lcoe_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (grid)', 'system total levelized cost'))} / kWh</td>
         <td class="summary3 alignR compare" id=grid_lcoe_2></td>
         <td class="summary4 alignR compare" id=grid_lcoe_diff></td>
     </tr>
     <tr>
         <td class="summary1">Grid length existing</td>
-        <td class="summary2 alignR" id=grid_length_old_1>${formatNumber(metricByOptionBySection['system (grid)']['system total existing network length'])} m</td>
+        <td class="summary2 alignR" id=grid_length_old_1>${formatNumber(safe_number_lookup(metricByOptionBySection, 'system (grid)', 'system total existing network length'))} m</td>
         <td class="summary3 alignR compare" id=grid_length_old_2></td>
         <td class="summary4 alignR compare" id=grid_length_old_diff></td>
     </tr>
     <tr>
         <td class="summary1">Grid length proposed</td>
-        <td class="summary2 alignR" id=grid_length_old_1>${formatNumber(metricByOptionBySection['system (grid)']['system total proposed network length'])} m</td>
+        <td class="summary2 alignR" id=grid_length_old_1>${formatNumber(safe_number_lookup(metricByOptionBySection, 'system (grid)', 'system total proposed network length'))} m</td>
         <td class="summary3 alignR compare" id=grid_length_new_2></td>
         <td class="summary4 alignR compare" id=grid_length_new_diff></td>
     </tr>
