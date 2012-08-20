@@ -14,6 +14,7 @@ The decision metric is used to decide between different electricity technology o
 .. toctree::
     :maxdepth: 1
 
+    metric-mvMax4
     metric-mvMax3
     metric-mvMax2
 
