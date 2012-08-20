@@ -648,7 +648,7 @@ personID = h.getPersonID()
     </tr>
     <tr>
         <td class="summary1">Unelectrified Nodes</td>
-        <td class="summary2 alignR" id=unelectrified_count_1>${countBySystem.get('unelectrified', 0)}</td>
+        <td class="summary2 alignR" id=unelectrified_count_1>${countBySystem.get('unelectrified', 'N/A')}</td>
         <td class="summary3 alignR compare" id=unelectrified_count_2></td>
         <td class="summary4 alignR compare" id=unelectrified_count_diff></td>
     </tr>
