@@ -14,9 +14,7 @@
 <meta name="keywords" content="${h.SITE_KEYWORDS}" /> 
 <link rel="shortcut icon" href="/files/favicon.ico">
 ${h.javascript_link('/files/jquery-1.4.2.min.js')}
-${h.stylesheet_link('/files/style.css')} 
 ${h.stylesheet_link('/files/styles.css')}
-${h.stylesheet_link('/files/reset.css')}
 <style>${self.css()}</style>\
 ${self.head()}\
 <script>
