@@ -1,6 +1,8 @@
 # Set site parameters
-SITE_NAME = 'NetworkPlanner'
-SITE_VERSION = '0.9.1'
+SITE_NAME = 'Network Planner'
+SITE_VERSION = '0.9.3'
+SITE_DESCRIPTION = 'Network Planning for Rural Electrification'
+SITE_KEYWORDS = 'Network planning, rural electrification'
 # Set person parameters
 EMAIL_LENGTH_MAXIMUM = 48
 NICKNAME_LENGTH_MINIMUM = 3

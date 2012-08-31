@@ -7,11 +7,14 @@ ${c.scenario.id} - ${c.scenario.name}
 % endif
 </%def>
 
+<%def name="footer()"></%def>
+
 <%def name="css()">
 table {border-spacing: 0}
-#map {position: absolute; top: 0; left: 0; width: 50%; height: 50%}
-#information {position: absolute; top: 0; right: 0; width: 50%; height: 100%; overflow: auto}
-#nodeSummary {position: absolute; bottom: 0; left: 0; width: 50%; height: 50%; overflow: auto}
+#legend {padding-top: 5px; padding-bottom: 5px;}
+#map {position: absolute; top: 85; left: 0; width: 50%; height: 50%}
+#information {position: absolute; top: 70; right: 0; width: 49%; overflow: auto}
+#nodeSummary {position: absolute; bottom: 0; left: 0; width: 50%; height: 35%; overflow: auto}
 #node {display: none}
 #scenarioName {font-size: xx-large; margin-bottom: 10px}
 #scenarioEdit {display: none; margin-bottom: 10px}
@@ -535,6 +538,8 @@ $('#nodeSummaryTable_filter input').focus();
 </%def>
 
 <%def name='toolbar()'>
+</%def>
+
 <div id=legend>
 Legend &nbsp; 
 <span class="normalFONT">
@@ -544,7 +549,6 @@ Legend &nbsp;
 <span style='background-color: #6633FF; opacity: 0.4'>&nbsp; &nbsp; </span> Grid &nbsp;
 </span>
 </div>
-</%def>
 
 <%
 from np import model
@@ -576,6 +580,7 @@ You do not have access to this scenario, either because it is private to its own
 % endif
 
 <div id=map></div>
+
 
 % if c.status == model.statusDone:
 <div class=normalFONT id=nodeSummary>
@@ -666,7 +671,7 @@ personID = h.getPersonID()
     </tr>
     <tr>
         <td class="summary1">Off-grid recurring cost</td>
-        <td class="summary2 alignR" id=off_grid_recurring_cost_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (off-grid)', 'system total discounted recurring cost'))}</td>.
+        <td class="summary2 alignR" id=off_grid_recurring_cost_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (off-grid)', 'system total discounted recurring cost'))}</td>
         <td class="summary3 alignR compare" id=off_grid_recurring_cost_2></td>
         <td class="summary4 alignR compare" id=off_grid_recurring_cost_diff></td>
     </tr>
@@ -770,7 +775,7 @@ personID = h.getPersonID()
         <td class="summary1"></td>
         <td class="summary2 alignR" id=download1><a class=linkOFF href="${h.url('formatted_scenario', id=c.scenario.id, format='zip')}">Download</a></td>
         <td class="summary3 alignR compare" id=download2></td>
-        <tdclass="summary4 alignR compare" ></td>
+        <td class="summary4 alignR compare" ></td>
     </tr>
 </table>
 <br>

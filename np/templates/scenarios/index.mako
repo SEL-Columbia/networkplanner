@@ -62,18 +62,20 @@ $('#create').click(function() {
     }
 });
 $('.delete').click(function() {
-    var scenarioID = getID(this);
-    $('#scenario' + scenarioID).hide();
-    $.ajax({
-        type: 'DELETE',
-        url: "${h.url('scenario', id='XXX')}".replace('XXX', scenarioID),
-        success: function(data) {
-            if (!data.isOk) {
-                $('#scenario' + scenarioID).show();
-                alert(data.message);
-            }
-        },
-        dataType: 'json'});
+    if(confirm('Are you sure you want to delete scenario ID ' + getID(this) + '?')) {
+        var scenarioID = getID(this);
+        $('#scenario' + scenarioID).hide();
+        $.ajax({
+            type: 'DELETE',
+            url: "${h.url('scenario', id='XXX')}".replace('XXX', scenarioID),
+            success: function(data) {
+                if (!data.isOk) {
+                    $('#scenario' + scenarioID).show();
+                    alert(data.message);
+                }
+            },
+            dataType: 'json'});
+    }
 });
 $('.scenario').hover(
     function() {
@@ -109,7 +111,7 @@ from np import model
 personID = h.getPersonID()
 %>
 <input type=button id=create value="Create new scenario" title="Run a scenario using your own datasets and parameters">
-<input type=button id=feedback value="Send feedback" title="Send comments or bug reports">
+<!-- <input type=button id=feedback value="Send feedback" title="Send comments or bug reports"> -->
 % if personID:
 <select id=scope>
     <option value=${model.scopePrivate}>Private</option>
@@ -122,16 +124,16 @@ personID = h.getPersonID()
 \
 % if c.scenarios:
 <table class=maximumWidth id=scenarios>
-<thead>
+<thead class=scenarios>
 <tr>
-    <th class=alignL><b>Owner</b></th>
-    <th class=alignL><b>Name</b></th>
-    <th class=alignL><b>Created</b></th>
-    <th class=alignL><b>Status</b></th>
-    <th class=alignL><b>Scope</b></th>
+    <th class="alignL scenarios"><b>Owner</b></th>
+    <th class="alignL scenarios"><b>Name</b></th>
+    <th class="alignL scenarios"><b>Created</b></th>
+    <th class="alignL scenarios"><b>Status</b></th>
+    <th class="alignL scenarios"><b>Scope</b></th>
 </tr>
 </thead>
-<tbody id=scenariosBody>
+<tbody class=scenarios>
 <%include file='scenarios.mako'/>\
 </tbody>
 </table>

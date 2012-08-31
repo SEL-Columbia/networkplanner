@@ -13,6 +13,8 @@ def make_map(config):
     # Map errors
     map.connect('/errors/{action}', controller='errors')
     map.connect('/errors/{action}/{id}', controller='errors')
+    # Map landing
+    map.connect('landing_index', '/', controller='landing', action='index')
     # Map people
     map.connect('person_index', '/people', controller='people', action='index')
     map.connect('person_register', '/people/register', controller='people', action='register')
@@ -27,7 +29,10 @@ def make_map(config):
     map.connect('person_logout', '/people/logout/{targetURL}', controller='people', action='logout')
     map.connect('person_reset', '/people/reset', controller='people', action='reset')
     # Map scenarios
-    map.connect('scenario_index', '/', controller='scenarios', action='index')
+    map.connect('scenario_index', '/scenarios', controller='scenarios', action='index', 
+            conditions=dict(method=['GET']))
+    map.connect('scenario_create', '/scenarios', controller='scenarios', action='create', 
+            conditions=dict(method=['POST']))
     map.connect('scenario_feedback', '/feedback', controller='scenarios', action='feedback')
     map.connect('scenario_check', '/scenarios/{scenarioID}/check', controller='scenarios', action='check')
     map.connect('scenario_clone', '/scenarios/{scenarioID}/clone', controller='scenarios', action='clone')

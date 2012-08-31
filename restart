@@ -12,13 +12,13 @@ function refreshDocumentation {
 if [ "$1" = "docs" ]; then
     refreshDocumentation
 elif [ "$1" = "ds" ]; then
-    rm -Rf data *.db
+    # rm -Rf data *.db
     paster setup-app development.ini
     paster serve --reload development.ini
 elif [ "$1" = "ss" ]; then
     kill `cat paster.pid`
     git pull
-    rm -Rf data *.db
+    # rm -Rf data *.db
     paster setup-app production.ini
     paster serve --daemon production.ini
     crontab deployment/single-server.crt
@@ -26,7 +26,7 @@ elif [ "$1" = "ss" ]; then
 elif [ "$1" = "cs" ]; then
     kill `cat paster.pid`
     git pull
-    rm -Rf data *.db
+    # rm -Rf data *.db
     paster setup-app production.ini
     su -c "service rabbitmq-server restart; crontab deployment/cluster-queue.crt"
     paster serve --daemon production.ini

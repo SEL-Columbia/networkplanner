@@ -232,23 +232,6 @@ class GridSystemTotalLevelizedCost(V):
         return self.get(GridSystemTotalDiscountedCost) / float(self.get(GridSystemTotalDiscountedDemand))
 
 
-class GridSystemTotalInitialCost(V):
-
-    section = 'system (grid)'
-    option = 'system total initial cost'
-    aliases = ['gr_tot_init']
-    dependencies = [
-        costGrid.GridInternalSystemInitialCost,
-        costGrid.GridExternalSystemInitialCostPerMeter,
-    ]
-    units = 'dollars'
-
-    def compute(self):
-        totalSystemMeters = self.state[0].sumNetworkWeight(is_existing=False)
-        return self.get(costGrid.GridInternalSystemInitialCost) + \
-            (self.get(costGrid.GridExternalSystemInitialCostPerMeter) * \
-             totalSystemMeters)
-
 
 # VariableStore
 
@@ -279,7 +262,6 @@ class VariableStore(VS):
         OffGridSystemTotalLevelizedCost,
         MiniGridSystemTotalLevelizedCost,
         GridSystemTotalLevelizedCost,
-        GridSystemTotalInitialCost,
     ]
 
 
@@ -295,7 +277,6 @@ roots = [
     MiniGridSystemTotalLevelizedCost,
     GridSystemTotalDiscountedCost, 
     GridSystemTotalLevelizedCost,
-    GridSystemTotalInitialCost,
 ]
 sections = [
     'finance',
