@@ -62,18 +62,20 @@ $('#create').click(function() {
     }
 });
 $('.delete').click(function() {
-    var scenarioID = getID(this);
-    $('#scenario' + scenarioID).hide();
-    $.ajax({
-        type: 'DELETE',
-        url: "${h.url('scenario', id='XXX')}".replace('XXX', scenarioID),
-        success: function(data) {
-            if (!data.isOk) {
-                $('#scenario' + scenarioID).show();
-                alert(data.message);
-            }
-        },
-        dataType: 'json'});
+    if(confirm('Are you sure you want to delete scenario ID ' + getID(this) + '?')) {
+        var scenarioID = getID(this);
+        $('#scenario' + scenarioID).hide();
+        $.ajax({
+            type: 'DELETE',
+            url: "${h.url('scenario', id='XXX')}".replace('XXX', scenarioID),
+            success: function(data) {
+                if (!data.isOk) {
+                    $('#scenario' + scenarioID).show();
+                    alert(data.message);
+                }
+            },
+            dataType: 'json'});
+    }
 });
 $('.scenario').hover(
     function() {

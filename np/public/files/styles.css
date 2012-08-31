@@ -65,24 +65,17 @@ thead,
 tr,
 th,
 td {
-  background: transparent;
   border: 0;
   margin: 0;
-  padding: 0;
-  vertical-align: baseline;
 }
 body {
   color: #2f4343;
-  font: 12pt/1 Helvetica, Arial, sans-serif;
+  font: Helvetica, Arial, sans-serif;
   margin: 0;
 }
 ol,
 ul {
   list-style: none;
-}
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
 }
 input {
   margin-left: 2px;
