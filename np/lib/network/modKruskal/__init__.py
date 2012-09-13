@@ -89,7 +89,10 @@ class VariableStore(variable_store.VariableStore):
         MAKE SURE THAT NODES WITH IDENTICAL COORDINATES CORRESPOND TO THE SAME OBJECT
         OTHERWISE WEIGHTS WILL NOT UPDATE
         """
-        print 'Building network from segments...'
+        
+        from time import localtime, strftime
+        time_format = "%Y-%m-%d %H:%M:%S"
+        print "%s Building network from segments" % strftime(time_format, localtime())
         # Cycle segments starting with the smallest first
         for segment in sorted(segments, key=lambda x: x.getWeight()):
             # Prepare

@@ -11,8 +11,6 @@ deployment/cluster-processor.crt
 deployment/cluster-queue-reset.sh
 deployment/cluster-queue.crt
 deployment/cluster-server.crt
-deployment/dependencies-setup-ubuntu.sh
-deployment/dependencies-setup.sh
 deployment/nginx.conf
 deployment/single-server.crt
 docs/Makefile
@@ -22,6 +20,7 @@ docs/credits.rst
 docs/index.rst
 docs/metric-mvMax2.rst
 docs/metric-mvMax3.rst
+docs/metric-mvMax4.rst
 docs/network-modKruskal.rst
 docs/reference.rst
 docs/tutorial.rst
@@ -32,6 +31,7 @@ docs/_build/doctrees/environment.pickle
 docs/_build/doctrees/index.doctree
 docs/_build/doctrees/metric-mvMax2.doctree
 docs/_build/doctrees/metric-mvMax3.doctree
+docs/_build/doctrees/metric-mvMax4.doctree
 docs/_build/doctrees/network-modKruskal.doctree
 docs/_build/doctrees/reference.doctree
 docs/_build/doctrees/tutorial.doctree
@@ -62,6 +62,7 @@ np/config/parameter.py
 np/config/routing.py
 np/controllers/__init__.py
 np/controllers/errors.py
+np/controllers/landing.py
 np/controllers/people.py
 np/controllers/processors.py
 np/controllers/scenarios.py
@@ -97,6 +98,14 @@ np/lib/metric/mvMax3/costOffGrid.py
 np/lib/metric/mvMax3/demand.py
 np/lib/metric/mvMax3/demographics.py
 np/lib/metric/mvMax3/finance.py
+np/lib/metric/mvMax4/__init__.py
+np/lib/metric/mvMax4/costDistribution.py
+np/lib/metric/mvMax4/costGrid.py
+np/lib/metric/mvMax4/costMiniGrid.py
+np/lib/metric/mvMax4/costOffGrid.py
+np/lib/metric/mvMax4/demand.py
+np/lib/metric/mvMax4/demographics.py
+np/lib/metric/mvMax4/finance.py
 np/lib/network/__init__.py
 np/lib/network/modKruskal/__init__.py
 np/model/__init__.py
@@ -107,6 +116,7 @@ np/public/docs/genindex.html
 np/public/docs/index.html
 np/public/docs/metric-mvMax2.html
 np/public/docs/metric-mvMax3.html
+np/public/docs/metric-mvMax4.html
 np/public/docs/network-modKruskal.html
 np/public/docs/objects.inv
 np/public/docs/reference.html
@@ -114,6 +124,7 @@ np/public/docs/search.html
 np/public/docs/searchindex.js
 np/public/docs/tutorial.html
 np/public/docs/_images/NPDemandCurve1.png
+np/public/docs/_images/NPDemandCurve2.png
 np/public/docs/_images/NPScenarioAdd.png
 np/public/docs/_images/NPScenarioMap.png
 np/public/docs/_images/NPScenarioView1.png
@@ -123,6 +134,7 @@ np/public/docs/_sources/credits.txt
 np/public/docs/_sources/index.txt
 np/public/docs/_sources/metric-mvMax2.txt
 np/public/docs/_sources/metric-mvMax3.txt
+np/public/docs/_sources/metric-mvMax4.txt
 np/public/docs/_sources/network-modKruskal.txt
 np/public/docs/_sources/reference.txt
 np/public/docs/_sources/tutorial.txt
@@ -145,7 +157,7 @@ np/public/files/favicon.ico
 np/public/files/jquery-1.4.2.min.js
 np/public/files/networksXY.zip
 np/public/files/recaptcha_ajax.js
-np/public/files/style.css
+np/public/files/styles.css
 np/public/files/dataTables/dataTablesPlus.min.js
 np/public/files/dataTables/css/dataTablesNP.css
 np/public/files/dataTables/images/Sorting icons.psd
@@ -167,6 +179,15 @@ np/public/files/demographicsXY/LeonaVillages.shp
 np/public/files/demographicsXY/LeonaVillages.shx
 np/public/files/flot/excanvas.min.js
 np/public/files/flot/jquery.flot.min.js
+np/public/files/images/bg-texture.jpg
+np/public/files/images/divider.png
+np/public/files/images/launch-np.png
+np/public/files/images/monitor.png
+np/public/files/images/np-logo-sm.png
+np/public/files/images/np_logo.jpg
+np/public/files/images/point01.jpg
+np/public/files/images/point02.jpg
+np/public/files/images/point03.jpg
 np/public/files/openlayers/OpenLayers.js
 np/public/files/openlayers/img/blank.gif
 np/public/files/openlayers/img/cloud-popup-relative.png
@@ -231,6 +252,7 @@ np/public/files/openlayers/theme/default/img/zoom-panel-NOALPHA.png
 np/public/files/openlayers/theme/default/img/zoom-panel.png
 np/templates/base.mako
 np/templates/form.mako
+np/templates/landing/index.mako
 np/templates/people/change.mako
 np/templates/people/confirm.mako
 np/templates/people/index.mako
@@ -245,7 +267,11 @@ np/tests/__init__.py
 np/tests/functional/__init__.py
 np/tests/functional/test_people.py
 np/tests/functional/test_processors.py
+np/tests/functional/test_scenario.py
 np/tests/functional/test_scenarios.py
+np/util/__init__.py
+utilities/__init__.py
+utilities/__init__.pyc
 utilities/consumer.py
 utilities/document.py
 utilities/harvest.py
@@ -253,8 +279,13 @@ utilities/listProcessors.py
 utilities/migrate.py
 utilities/processor.py
 utilities/publisher.py
+utilities/regenerate_demographics.py
+utilities/regenerate_demographics.pyc
 utilities/renameParameter.py
 utilities/requeue.py
+utilities/rerun_scenarios.py
 utilities/reset.py
+utilities/save_job_inputs.py
 utilities/script_process.py
 utilities/script_process.pyc
+utilities/update_scenario_input.py

@@ -169,8 +169,12 @@ class Scenario(object):
         scenarioInput = self.input
         scenarioFolder = self.getFolder()
         expandPath = lambda x: os.path.join(scenarioFolder, x)
+        # Setup status reporting
+        from time import localtime, strftime
+        time_format = "%Y-%m-%d %H:%M:%S"
+        
         # Register demographics
-        print 'Registering demographics'
+        print "%s Registering demographics" % strftime(time_format, localtime())
         nodesPath = expandPath('nodes')
         targetPath = self.getDatasetPath()
         sourcePath = expandPath(scenarioInput['demographic file name'])
@@ -178,20 +182,20 @@ class Scenario(object):
         datasetStore.saveNodesSHP(nodesPath)
         datasetStore.saveNodesCSV(nodesPath)
         # Apply metric
-        print 'Applying metric'
+        print "%s Applying metric" % strftime(time_format, localtime())
         metricModel = metric.getModel(scenarioInput['metric model name'])
         metricConfiguration = scenarioInput['metric configuration']
         metricValueByOptionBySection = datasetStore.applyMetric(metricModel, metricConfiguration)
         # Build network
-        print 'Building network'
+        print "%s Building network" % strftime(time_format, localtime())
         networkModel = network.getModel(scenarioInput['network model name'])
         networkConfiguration = scenarioInput['network configuration']
         networkValueByOptionBySection = datasetStore.buildNetwork(networkModel, networkConfiguration)
         # Update metric
-        print 'Updating metric'
+        print "%s Updating metric" % strftime(time_format, localtime())
         metricValueByOptionBySection = datasetStore.updateMetric(metricModel, metricValueByOptionBySection)
         # Save output
-        print 'Saving output'
+        print "%s Saving output" % strftime(time_format, localtime())
         metric.saveMetricsConfigurationCSV(expandPath('metrics-job-input'), metricConfiguration)
         metric.saveMetricsCSV(expandPath('metrics-global'), metricModel, metricValueByOptionBySection)
         datasetStore.saveMetricsCSV(expandPath('metrics-local'), metricModel)
@@ -217,7 +221,6 @@ class Scenario(object):
         }
         # Commit
         Session.commit()
- 
 
     
     def __repr__(self):
