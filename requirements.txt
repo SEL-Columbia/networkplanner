@@ -8,3 +8,4 @@ shapely
 sphinx
 sqlalchemy
 webob==1.1.1
+Rtree==0.7.0

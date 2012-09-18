@@ -4,6 +4,7 @@ import math
 import shapely.ops
 import shapely.geometry
 import shapely.topology
+from rtree import index
 # Import custom modules
 from np.lib import store, geometry_store
 
@@ -35,6 +36,17 @@ class Node(object):
         self.latitude = latitude
         self.weight = weight
         self.point = shapely.geometry.Point(x, y)
+
+    # Need to override the get/set state methods so that nodes
+    # can be pickled.  
+    # By default pickling is done via the objects dict, but here
+    # we're using slots to save space
+    def __getstate__(self):
+        return (self.ID, (self.x, self.y), (self.longitude, self.latitude), self.weight)
+
+    def __setstate__(self, state):
+        (self.ID, (self.x, self.y), (self.longitude, self.latitude), self.weight) = state
+        self.point = shapely.geometry.Point(self.x, self.y)
 
     def __hash__(self):
         return hash(self.getCoordinates())
@@ -101,6 +113,32 @@ class Segment(object):
         self.targetSegment = targetSegment
         self.is_existing = is_existing
 
+    # Need to override the get/set state methods so that segments
+    # can be pickled (for use in rtree).  
+    # By default pickling is done via the objects dict, but here
+    # we're using slots to save space
+    def __getstate__(self):
+        targetSegmentState = None
+        if self.targetSegment:
+            targetSegmentState = self.targetSegment.__getstate__()
+
+        return (self.node1.__getstate__(), self.node2.__getstate__(), \
+                targetSegmentState, self.weight, self.is_existing)
+
+    def __setstate__(self, state):
+        self.node1 = Node.__new__(Node)
+        self.node1.__setstate__(state[0])
+        self.node2 = Node.__new__(Node)
+        self.node2.__setstate__(state[1])
+        self.targetSegment = None
+        if not state[2] == None:
+            self.targetSegment = Segment.__new__(Segment)
+            self.targetSegment.__setstate__(state[2])
+
+        self.weight = state[3]
+        self.is_existing = state[4]
+        self.lineString = shapely.geometry.LineString([self.node1.point.coords[0], self.node2.point.coords[0]])
+
     def __hash__(self):
         return hash(self.getCoordinates())
     
@@ -157,21 +195,108 @@ class Segment(object):
 class Network(object):
     'An undirected network'
 
-    def __init__(self, segmentFactory):
+    def __init__(self, segmentFactory, useIndex=False):
         # We will need the segmentFactory to generate segments on demand
         self.segmentFactory = segmentFactory
         # Prepare network
-        self.subnets = []
+        self._subnets = []
+        self._useIndex = useIndex
 
-    def addSegmentViaCoordinates(self, node1Coordinates, node2Coordinates):
-        self.addSegment(self.segmentFactory.getSegment(node1Coordinates, node2Coordinates))
+        if(self._useIndex):
+            # keep index of segments so we don't need to marshal them in/out of rtree
+            self._segments = []
+            # lookup table for subnets by segment coordinates 
+            # needs to be maintained for each segment we add to the network
+            # and each time it's subnet changes
+            self._subnetLookupBySegment = {}
+            # rtree spatial index for intersection test speedup
+            # maintain all segments in network in here
+            self._spatialIndex = index.Index()
 
-    def addSegment(self, newSegment):
+    def _getIntersectingSegments(self, segment):
+        'Get the segments in the network that intersect with the segment'
+        resultsIter = self._spatialIndex.intersection(segment.lineString.bounds, objects=False)
+        initialIntersectingSegments = [self._segments[seg_id] for seg_id in resultsIter]
+        intersectTest = lambda newSegment: segment.lineString.intersects(newSegment.lineString)
+        intersectingSegments = filter(intersectTest, initialIntersectingSegments)
+        return intersectingSegments
+
+    def _getIntersectingSubnets(self, segment):
+        """
+        Get the subnets that intersect with the segment 
+        And the number of intersections as a pair
+        """
+        intersectingSegments = self._getIntersectingSegments(segment) 
+        intersectingSubnets = [self._subnetLookupBySegment[s.getCoordinates()]\
+                for s in intersectingSegments]
+
+        # add the targetSegments subnet to the list of subnets if it does NOT
+        # intersect it 
+        # NOTE:  targetSegment is a workaround, so this may be removed if the
+        # underlying problem is resolved.  See notes at bottom of file.
+        targetSegment = segment.getTargetSegment()
+        if targetSegment and not targetSegment.lineString.intersects(segment.lineString):
+            # if the targetSegment does NOT intersect the segment
+            # then it should NOT have been added to the list of intersecting segments
+            # Remove this assert if performance becomes an issue
+            assert targetSegment not in intersectingSegments
+            targetSubnet = self._subnetLookupBySegment[targetSegment.getCoordinates()]
+            intersectingSubnets.append(targetSubnet)
+
+        # create unique subnet,count tuples
+        subnetCounts = {}
+        for subnet in intersectingSubnets:
+            if subnetCounts.has_key(id(subnet)):
+                subnetCounts[id(subnet)] = (subnet, subnetCounts[id(subnet)][1]+1)
+            else:
+                subnetCounts[id(subnet)] = (subnet, 1)
+
+        return subnetCounts.values()
+
+
+    def _updateIndex(self, subnet):
+        'Update the Rtree and subnet lookup table with changes'
+        for segment in subnet.cycleSegments():
+            # If the segment is not in the subnetLookup table, then it has 
+            # NOT yet been added to the spatial index, in that case, Add it.  
+            if (not self._subnetLookupBySegment.has_key(segment.getCoordinates())):
+                self._spatialIndex.insert(len(self._segments), segment.lineString.bounds)
+                self._segments.append(segment)
+
+            self._subnetLookupBySegment[segment.getCoordinates()] = subnet
+
+    def _addSegmentIndexed(self, newSegment):
+        """
+        Add a new segment to the network using index to get intersections; 
+        return subnet if successful
+        """
+
+        subnetCounts = self._getIntersectingSubnets(newSegment)
+
+        mergingSubnets = []
+        for subnet, intersectionCount in subnetCounts:
+            if intersectionCount == 1:
+                mergingSubnets.append(subnet)
+            else:
+                # the new segment would introduce a cycle
+                # so simply return nothing
+                return
+
+        for subnet in mergingSubnets:
+            self._subnets.remove(subnet)
+
+        # Add the new subnet
+        subnet = Subnet(sum([x.segments for x in mergingSubnets], []) + [newSegment])
+        self.addSubnet(subnet)
+        # Return subnet
+        return subnet
+
+    def _addSegment(self, newSegment):
         'Add a new segment to the network; return subnet if successful'
         # Initialize
         mergingSubnets = []
         # For each subnet,
-        for subnet in self.subnets:
+        for subnet in self.cycleSubnets():
             # Compute intersection
             intersectionCategory = subnet.categorizeIntersection(newSegment)
             # If we have no intersection,
@@ -188,27 +313,44 @@ class Network(object):
                 return
         # Remove subnets that we will merge
         for subnet in mergingSubnets:
-            self.subnets.remove(subnet)
+            self._subnets.remove(subnet)
         # Add the new subnet
         subnet = Subnet(sum([x.segments for x in mergingSubnets], []) + [newSegment])
-        self.subnets.append(subnet)
+        self.addSubnet(subnet)
         # Return subnet
         return subnet
 
+    def addSubnet(self, subnet):
+        'Add subnet to list (update rtree if needed)'
+        self._subnets.append(subnet)
+        if(self._useIndex):
+            self._updateIndex(subnet)
+
+    def addSegmentViaCoordinates(self, node1Coordinates, node2Coordinates):
+        self.addSegment(self.segmentFactory.getSegment(node1Coordinates, node2Coordinates))
+
+    def addSegment(self, newSegment):
+        'Add segment either using index method or not'
+        if self._useIndex:
+            return self._addSegmentIndexed(newSegment)
+        else:
+            return self._addSegment(newSegment)
+
+
     def cycleSegments(self):
-        for subnet in self.subnets:
+        for subnet in self.cycleSubnets():
             for segment in subnet.cycleSegments():
                 yield segment
 
     def cycleSubnets(self):
-        for subnet in self.subnets:
+        for subnet in self._subnets:
             yield subnet
 
     def countSubnets(self):
-        return len(self.subnets)
+        return len(self._subnets)
 
     def countSegments(self):
-        return sum(x.countSegments() for x in self.subnets)
+        return sum(x.countSegments() for x in self.cycleSubnets())
 
     # def saveSHP(self, targetPath):
         # geometry_store.save(store.replaceFileExtension(targetPath, 'shp'), self.proj4, [x.multiLineString for x in self.cycleSubnets()])
@@ -231,7 +373,9 @@ class Network(object):
     def project(self, nodes):
         'Return segments that connect the nodes to the network'
         # Initialize
-        print 'Generating projected segment candidates...'
+        from time import localtime, strftime
+        time_format = "%Y-%m-%d %H:%M:%S"
+        print "%s Generating projected segment candidates" % strftime(time_format, localtime())
         projectedSegments = []
         # Convert existing network into a multiLineString
         multiLineString = shapely.geometry.MultiLineString([x.lineString.coords for x in self.cycleSegments()])

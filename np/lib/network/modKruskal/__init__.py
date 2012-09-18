@@ -47,7 +47,7 @@ class VariableStore(variable_store.VariableStore):
         for subnet in net.cycleSubnets():
             if subnet.countNodes() >= minimumNodeCountPerSubnetwork:
                 subnets.append(subnet)
-        net.subnets = subnets
+        net._subnets = subnets
         # Return
         return net
 
@@ -57,7 +57,7 @@ class VariableStore(variable_store.VariableStore):
         segments = []
         segmentFactory = network.SegmentFactory(nodes, computeDistance, proj4)
         networkNodes = segmentFactory.getNodes()
-        net = network.Network(segmentFactory)
+        net = network.Network(segmentFactory, useIndex=True)
         networkRelativePath = self.get(ExistingNetworks)
         # If we have existing networks,
         if networkRelativePath:
@@ -74,7 +74,7 @@ class VariableStore(variable_store.VariableStore):
             # Prepare
             transform_point = geometry_store.get_transform_point(networkProj4, proj4)
             # Load existing network as a single subnet and allow overlapping segments
-            net.subnets.append(network.Subnet([segmentFactory.getSegment(transform_point(c1[0], c1[1]), transform_point(c2[0], c2[1]), is_existing=True) for c1, c2 in networkCoordinatePairs]))
+            net.addSubnet(network.Subnet([segmentFactory.getSegment(transform_point(c1[0], c1[1]), transform_point(c2[0], c2[1]), is_existing=True) for c1, c2 in networkCoordinatePairs]))
             # Add candidate segments that connect each node to its projection on the existing network
             segments.extend(net.project(networkNodes))
         # Add candidate segments using combinations of real nodes
