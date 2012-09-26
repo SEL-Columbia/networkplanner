@@ -4,6 +4,9 @@ from np.model import meta
 from np.config import parameter
 from np.lib import store, helpers as h
 from np.tests import *
+from np.lib import variable_store
+from np.lib.metric.mvMax4 import demand
+from np.lib import dataset_store as ds
 
 # scenario needs to be associated with a person
 username = 'username'
@@ -12,7 +15,7 @@ email = 'username@example.com'
 email_sms = ''
 nickname = u'nickname'
 
-good_dataset_store_path = "test_data/dataset1/dataset.db"
+good_dataset_store_path = "test_data/dataset2/dataset.db"
 
 class TestScenariosController(TestController):
 
@@ -39,23 +42,20 @@ class TestScenariosController(TestController):
         # login to set the personID in the session
         resp = self.app.post(url('person_login_'), dict(username=username, password=password))
 
-        from np.lib import variable_store
-        from np.lib.metric.mvMax4 import demand
         householdDemandKey = variable_store.formatKey('metric', demand.HouseholdUnitDemandPerHouseholdPerYear)
         params = {
                 'scenarioName': 'scenario1',
-                householdDemandKey: 100,
+                householdDemandKey: 200,
                 'metricModelName': 'mvMax4',
                 'networkModelName': 'modKruskal'
         }
 
-        upload_file = ('demographicDatabase', u"test_data/demographicsXY.csv")
+        upload_file = ('demographicDatabase', u"test_data/demographics_dataset2.csv")
 
         response = self.app.post(url('scenarios'), params=params, upload_files=[upload_file])
         scenario = meta.Session.query(model.Scenario).filter(model.Scenario.name == 'scenario1').first()
         scenario.run() 
 
-        from np.lib import dataset_store as ds
         # compare the dataset from this scenario to a known "good" dataset
         this_dataset = scenario.getDataset()
         good_dataset = ds.load(good_dataset_store_path)
@@ -71,15 +71,15 @@ class TestScenariosController(TestController):
             good_node = good_nodes[i]
             assert this_node.metric == good_node.metric
 
-        # compare all segments (just the node ids and weight for now)
-        this_segments = list(this_dataset.cycleSegments())
-        good_segments = list(good_dataset.cycleSegments())
-        for i in range(0, len(this_segments)):
-            this_segment = this_segments[i]
-            good_segment = good_segments[i]
-            assert this_segment.weight == good_segment.weight
-            assert this_segment.node1_id == good_segment.node1_id
-            assert this_segment.node2_id == good_segment.node2_id
+        # ensure there are no diffs in sets of segments
+        this_segments = set(this_dataset.cycleSegments())
+        good_segments = set(good_dataset.cycleSegments())
+        assert len(good_segments ^ this_segments) == 0
+        
+        # compare subnets
+        assert this_dataset.countSubnets() == good_dataset.countSubnets()
+        this_subnet_counts = [len(sn.segments) for sn in this_dataset.cycleSubnets()]
+        good_subnet_counts = [len(sn.segments) for sn in good_dataset.cycleSubnets()]
 
 
     def test_index(self):

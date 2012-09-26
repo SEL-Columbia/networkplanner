@@ -577,6 +577,15 @@ class Segment(object):
     def __repr__(self):
         return '<Segment(%s-%s)>' % (self.node1_id, self.node2_id)
 
+    def __hash__(self):
+        return hash(self.getCoordinates())
+
+    def __eq__(self, other):
+        return self.getCoordinates() == other.getCoordinates()
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     def getCoordinates(self):
         return self.node1.getCoordinates(), self.node2.getCoordinates()
 

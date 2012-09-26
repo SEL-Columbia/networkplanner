@@ -5,6 +5,7 @@ import shapely.ops
 import shapely.geometry
 import shapely.topology
 from rtree import index
+from time import localtime, strftime
 # Import custom modules
 from np.lib import store, geometry_store
 
@@ -213,22 +214,51 @@ class Network(object):
             # maintain all segments in network in here
             self._spatialIndex = index.Index()
 
-    def _getIntersectingSegments(self, segment):
-        'Get the segments in the network that intersect with the segment'
+    def _getSegmentIntersections(self, segment):
+        """
+        Get the intersections within the network for the segment 
+        intersection may be a point or a collection of geoms (see Shapely for more)
+        """
         resultsIter = self._spatialIndex.intersection(segment.lineString.bounds, objects=False)
         initialIntersectingSegments = [self._segments[seg_id] for seg_id in resultsIter]
-        intersectTest = lambda newSegment: segment.lineString.intersects(newSegment.lineString)
-        intersectingSegments = filter(intersectTest, initialIntersectingSegments)
-        return intersectingSegments
+        intersects  = lambda newSegment: segment.lineString.intersects(newSegment.lineString)
+        intersectingSegments = filter(intersects, initialIntersectingSegments)
+        intersection = lambda newSegment: (newSegment, segment.lineString.intersection(newSegment.lineString))
+        segmentIntersections = map(intersection, intersectingSegments)
+        return segmentIntersections 
 
     def _getIntersectingSubnets(self, segment):
         """
         Get the subnets that intersect with the segment 
         And the number of intersections as a pair
         """
-        intersectingSegments = self._getIntersectingSegments(segment) 
-        intersectingSubnets = [self._subnetLookupBySegment[s.getCoordinates()]\
-                for s in intersectingSegments]
+        # import pdb;
+        # if segment.node1.ID == 59:
+        #    pdb.set_trace()
+        segmentIntersections = self._getSegmentIntersections(segment) 
+
+        # create unique subnet, intersection tuples
+        subnetIntersections = {}
+        for seg, intersection in segmentIntersections:
+            subnet = self._subnetLookupBySegment[seg.getCoordinates()]
+            if subnetIntersections.has_key(id(subnet)):
+                # union the previous intersection geom with
+                # this one (will reduce duplicate points)
+                subnetIntersections[id(subnet)] = (subnet,\
+                        subnetIntersections[id(subnet)][1].union(intersection))
+            else:
+                subnetIntersections[id(subnet)] = (subnet, intersection)
+
+        # create unique subnet, count tuples
+        subnetCounts = {}
+        for subnet, intersection in subnetIntersections.values():
+            if isinstance(intersection, shapely.geometry.Point):
+                # we have exactly one intersection
+                subnetCounts[id(subnet)] = (subnet, 1)
+            else:
+                # we have more than one intersection
+                assert len(intersection) > 1
+                subnetCounts[id(subnet)] = (subnet, 2)
 
         # add the targetSegments subnet to the list of subnets if it does NOT
         # intersect it 
@@ -238,18 +268,17 @@ class Network(object):
         if targetSegment and not targetSegment.lineString.intersects(segment.lineString):
             # if the targetSegment does NOT intersect the segment
             # then it should NOT have been added to the list of intersecting segments
-            # Remove this assert if performance becomes an issue
+            # Remove this assertion if performance becomes an issue
+            intersectingSegments = [segInts[0] for segInts in segmentIntersections]
+            # time_format = "%Y-%m-%d %H:%M:%S"
+            # print "%s testing targetSegment %s, %s" % (strftime(time_format, localtime()), targetSegment, segment)
             assert targetSegment not in intersectingSegments
             targetSubnet = self._subnetLookupBySegment[targetSegment.getCoordinates()]
-            intersectingSubnets.append(targetSubnet)
-
-        # create unique subnet,count tuples
-        subnetCounts = {}
-        for subnet in intersectingSubnets:
-            if subnetCounts.has_key(id(subnet)):
-                subnetCounts[id(subnet)] = (subnet, subnetCounts[id(subnet)][1]+1)
+            if subnetCounts.has_key(id(targetSubnet)):
+                subnetCounts[id(targetSubnet)] = (targetSubnet,\
+                        subnetCounts[id(targetSubnet)][1] + 1)
             else:
-                subnetCounts[id(subnet)] = (subnet, 1)
+                subnetCounts[id(targetSubnet)] = (targetSubnet, 1)
 
         return subnetCounts.values()
 
@@ -270,6 +299,10 @@ class Network(object):
         Add a new segment to the network using index to get intersections; 
         return subnet if successful
         """
+
+        #import pdb;
+        #if(newSegment.node1.ID == 50 or newSegment.node1.ID == 110):
+        #    pdb.set_trace()
 
         subnetCounts = self._getIntersectingSubnets(newSegment)
 
@@ -373,7 +406,6 @@ class Network(object):
     def project(self, nodes):
         'Return segments that connect the nodes to the network'
         # Initialize
-        from time import localtime, strftime
         time_format = "%Y-%m-%d %H:%M:%S"
         print "%s Generating projected segment candidates" % strftime(time_format, localtime())
         projectedSegments = []
