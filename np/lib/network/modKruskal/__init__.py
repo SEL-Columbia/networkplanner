@@ -43,11 +43,13 @@ class VariableStore(variable_store.VariableStore):
         net = self.buildNetworkFromSegments(*self.generateSegments(nodes, computeDistance, proj4))
         # Eliminate subnetworks that have too few real nodes
         minimumNodeCountPerSubnetwork = self.get(MinimumNodeCountPerSubnetwork)
-        subnets = []
-        for subnet in net.cycleSubnets():
-            if subnet.countNodes() >= minimumNodeCountPerSubnetwork:
-                subnets.append(subnet)
-        net._subnets = subnets
+        subnetFilter = lambda subnet: subnet.countNodes() >= minimumNodeCountPerSubnetwork
+        net.filterSubnets(subnetFilter)
+        # subnets = []
+        # for subnet in net.cycleSubnets():
+        #    if subnet.countNodes() >= minimumNodeCountPerSubnetwork:
+        #        subnets.append(subnet)
+        # net._subnets = subnets
         # Return
         return net
 

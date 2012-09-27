@@ -123,7 +123,7 @@ class Segment(object):
         if self.targetSegment:
             targetSegmentState = self.targetSegment.__getstate__()
 
-        return (self.node1.__getstate__(), self.node2.__getstate__(), \
+        return (self.node1.__getstate__(), self.node2.__getstate__(),
                 targetSegmentState, self.weight, self.is_existing)
 
     def __setstate__(self, state):
@@ -204,14 +204,18 @@ class Network(object):
         self._useIndex = useIndex
 
         if(self._useIndex):
-            # keep index of segments so we don't need to marshal them in/out of rtree
+            # These structures need to be updated for each 
+            # segment we add to network.
+
+            # Keep index of segments so we don't need to marshal them 
+            # in/out of rtree.
             self._segments = []
-            # lookup table for subnets by segment coordinates 
-            # needs to be maintained for each segment we add to the network
-            # and each time it's subnet changes
+            self._idsBySegment = {}
+
+            # Lookup table for subnets by segment coordinates. 
+            # (need to update subnet lookups as they merge)
             self._subnetLookupBySegment = {}
             # rtree spatial index for intersection test speedup
-            # maintain all segments in network in here
             self._spatialIndex = index.Index()
 
     def _getSegmentIntersections(self, segment):
@@ -219,11 +223,16 @@ class Network(object):
         Get the intersections within the network for the segment 
         intersection may be a point or a collection of geoms (see Shapely for more)
         """
-        resultsIter = self._spatialIndex.intersection(segment.lineString.bounds, objects=False)
-        initialIntersectingSegments = [self._segments[seg_id] for seg_id in resultsIter]
-        intersects  = lambda newSegment: segment.lineString.intersects(newSegment.lineString)
+        resultsIter = self._spatialIndex.intersection(
+                segment.lineString.bounds, 
+                objects=False)
+        initialIntersectingSegments = [self._segments[seg_id] 
+                for seg_id in resultsIter]
+        intersects  = (lambda newSegment: 
+                segment.lineString.intersects(newSegment.lineString))
         intersectingSegments = filter(intersects, initialIntersectingSegments)
-        intersection = lambda newSegment: (newSegment, segment.lineString.intersection(newSegment.lineString))
+        intersection = lambda newSegment: (newSegment, 
+                segment.lineString.intersection(newSegment.lineString))
         segmentIntersections = map(intersection, intersectingSegments)
         return segmentIntersections 
 
@@ -232,9 +241,6 @@ class Network(object):
         Get the subnets that intersect with the segment 
         And the number of intersections as a pair
         """
-        # import pdb;
-        # if segment.node1.ID == 59:
-        #    pdb.set_trace()
         segmentIntersections = self._getSegmentIntersections(segment) 
 
         # create unique subnet, intersection tuples
@@ -244,7 +250,7 @@ class Network(object):
             if subnetIntersections.has_key(id(subnet)):
                 # union the previous intersection geom with
                 # this one (will reduce duplicate points)
-                subnetIntersections[id(subnet)] = (subnet,\
+                subnetIntersections[id(subnet)] = (subnet,
                         subnetIntersections[id(subnet)][1].union(intersection))
             else:
                 subnetIntersections[id(subnet)] = (subnet, intersection)
@@ -270,8 +276,6 @@ class Network(object):
             # then it should NOT have been added to the list of intersecting segments
             # Remove this assertion if performance becomes an issue
             intersectingSegments = [segInts[0] for segInts in segmentIntersections]
-            # time_format = "%Y-%m-%d %H:%M:%S"
-            # print "%s testing targetSegment %s, %s" % (strftime(time_format, localtime()), targetSegment, segment)
             assert targetSegment not in intersectingSegments
             targetSubnet = self._subnetLookupBySegment[targetSegment.getCoordinates()]
             if subnetCounts.has_key(id(targetSubnet)):
@@ -282,14 +286,39 @@ class Network(object):
 
         return subnetCounts.values()
 
+    def filterSubnets(self, filterFunction):
+        'Eliminate subnets that do NOT pass the filter'
+        filteredSubnets = filter(filterFunction, self._subnets)
+        if self._useIndex:
+            for subnet in self.cycleSubnets():
+                if subnet not in filteredSubnets:
+                    self._deleteSubnetSegments(subnet)
+
+        self._subnets = filteredSubnets
+
+    def _deleteSubnetSegments(self, subnet):
+        'Delete a subnets segments from the network'
+        # Only Use Internally!!!
+        assert self._useIndex
+        for segment in subnet.cycleSegments():
+            if (self._subnetLookupBySegment.has_key(segment.getCoordinates())):
+                del(self._subnetLookupBySegment[segment.getCoordinates()])
+                segmentId = self._idsBySegment[segment.getCoordinates()]
+                del(self._segments[segmentId])
+                del(self._idsBySegment[segment.getCoordinates()])
+                self._spatialIndex.delete(segmentId, segment.lineString.bounds)
+
 
     def _updateIndex(self, subnet):
         'Update the Rtree and subnet lookup table with changes'
+        # works for add/update (but not if segments are deleted)
         for segment in subnet.cycleSegments():
             # If the segment is not in the subnetLookup table, then it has 
             # NOT yet been added to the spatial index, in that case, Add it.  
             if (not self._subnetLookupBySegment.has_key(segment.getCoordinates())):
-                self._spatialIndex.insert(len(self._segments), segment.lineString.bounds)
+                segmentId = len(self._segments)
+                self._spatialIndex.insert(segmentId, segment.lineString.bounds)
+                self._idsBySegment[segment.getCoordinates()] = segmentId
                 self._segments.append(segment)
 
             self._subnetLookupBySegment[segment.getCoordinates()] = subnet

@@ -34,16 +34,21 @@ class TestNetworkRtree(unittest.TestCase):
         for segment in slopeOfOneSegments:
             self.net.addSegment(segment)
 
+        segmentExtractor = lambda segmentIntersection: segmentIntersection[0]
+
         'Test that a segment intersecting the origin intersects 2 segments'
-        originSegments = self.net._getIntersectingSegments(self.segmentFactory.getSegment((-1, 0), (1, 0)))
+        results = self.net._getSegmentIntersections(self.segmentFactory.getSegment((-1, 0), (1, 0)))
+        originSegments = map(segmentExtractor, results)
         assert originSegments == [verticalSegments[0], slopeOfOneSegments[0]]
 
         'Test that a segment intersects the top most segments'
-        topMostSegments = self.net._getIntersectingSegments(self.segmentFactory.getSegment((0, 5), (5, 5)))
+        results = self.net._getSegmentIntersections(self.segmentFactory.getSegment((0, 5), (5, 5)))
+        topMostSegments = map(segmentExtractor, results)
         assert topMostSegments == [verticalSegments[4], slopeOfOneSegments[4]]
 
         'Test that a segment intersect a segment by crossing it in the middle'
-        topRightSegment = self.net._getIntersectingSegments(self.segmentFactory.getSegment((4, 5), (5, 4)))
+        results = self.net._getSegmentIntersections(self.segmentFactory.getSegment((4, 5), (5, 4)))
+        topRightSegment = map(segmentExtractor, results)
         assert topRightSegment == [slopeOfOneSegments[4]]
 
         
@@ -87,3 +92,31 @@ class TestNetworkRtree(unittest.TestCase):
         subnetCounts = self.net._getIntersectingSubnets(self.segmentFactory.getSegment((-1, 4.5), (5, 4.5)))
         assert len(subnetCounts) == 1
         assert subnetCounts[0][1] == 2
+
+    def testSubnetFilter(self):
+        """
+        Test that subnetFilter works
+        """
+      
+        subnetA = [self.segmentFactory.getSegment((0, y), (0, y + 1)) for y in xrange(0, 5)]
+        subnetA.extend([self.segmentFactory.getSegment((v, v), (v + 1, v + 1)) for v in xrange(0, 5)])
+        verticalSegments = [self.segmentFactory.getSegment((10, y), (10, y + 1)) for y in xrange(0, 5)]
+
+        # Add segments from all the above (should result in 2 subnets)
+        self.net.addSubnet(network.Subnet(subnetA))
+        for segment in verticalSegments:
+            self.net.addSegment(segment)
+
+        'Test that there are 2 subnets'
+        assert self.net.countSubnets() == 2
+
+        subnetFilter = lambda subnet: subnet.countSegments() >= 6
+        self.net.filterSubnets(subnetFilter)
+
+        'Ensure that there is only one subnet now'
+        assert self.net.countSubnets() == 1
+
+        'Ensure that nothing intersects the vertical subnet'
+        results = self.net._getSegmentIntersections(self.segmentFactory.getSegment((9, 1), (11, 1)))
+        assert len(results) == 0
+
