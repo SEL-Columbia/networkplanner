@@ -11,7 +11,7 @@ Project Manager
 - `Edwin Adkins <http://modi.mech.columbia.edu/about/staff/edwin-adkins/>`_
 
 
-Lead Software Engineer
+Lead Software Engineers
 
 - `Roy Hyunjin Han <http://modi.mech.columbia.edu/about/staff/roy-hyunjin-han/>`_
 
@@ -37,6 +37,7 @@ GIS Specialists
 
 Software Engineers
 
+- Chris Natali
 - `Po-Han Freeza Huang <http://modi.mech.columbia.edu/about/alumni/po-han-huang/>`_
 - `Andrew Doro <http://modi.mech.columbia.edu/about/alumni/andy-doro/>`_
 

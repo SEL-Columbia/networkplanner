@@ -209,14 +209,19 @@ class Network(object):
 
             # Keep index of segments so we don't need to marshal them 
             # in/out of rtree.
-            self._segments = []
+            self._segments = {}
             self._idsBySegment = {}
 
             # Lookup table for subnets by segment coordinates. 
             # (need to update subnet lookups as they merge)
             self._subnetLookupBySegment = {}
             # rtree spatial index for intersection test speedup
-            self._spatialIndex = index.Index()
+            # setup properties first
+            p = index.Property()
+            p.index_capacity = 10
+            p.leaf_capacity = 10
+            p.near_minimum_overlap_factor = 3
+            self._spatialIndex = index.Index(properties=p)
 
     def _getSegmentIntersections(self, segment):
         """
@@ -319,7 +324,7 @@ class Network(object):
                 segmentId = len(self._segments)
                 self._spatialIndex.insert(segmentId, segment.lineString.bounds)
                 self._idsBySegment[segment.getCoordinates()] = segmentId
-                self._segments.append(segment)
+                self._segments[segmentId] = segment
 
             self._subnetLookupBySegment[segment.getCoordinates()] = subnet
 

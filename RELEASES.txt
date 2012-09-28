@@ -1,6 +1,0 @@
-v0.9.3:
-- Address backward compatibility issues
-  - Backed out mvMax3 model changes and moved into new mvMax4
-    We must create new models when we make changes to preserve 
-    compatibility with existing scenarios. 
-- Merged in UI design changes from Roger into master 

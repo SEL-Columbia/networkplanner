@@ -2,6 +2,7 @@
 # Import system modules
 import itertools
 import os
+from time import localtime, strftime
 # Import custom modules
 from np.lib import network, store, geometry_store, variable_store
 
@@ -92,11 +93,23 @@ class VariableStore(variable_store.VariableStore):
         OTHERWISE WEIGHTS WILL NOT UPDATE
         """
         
-        from time import localtime, strftime
         time_format = "%Y-%m-%d %H:%M:%S"
         print "%s Building network from segments" % strftime(time_format, localtime())
+
+        # reporting variables
+        numSegments = len(segments)
+        completedSegments = 0
+        nextReportThreshold = 0.10
+        increment = 0.10
+
         # Cycle segments starting with the smallest first
         for segment in sorted(segments, key=lambda x: x.getWeight()):
+            completionPercentage = completedSegments / float(numSegments)
+            if completionPercentage > nextReportThreshold:
+                time_format = "%Y-%m-%d %H:%M:%S"
+                print "%s processed %s (of %s) segments" % (strftime(time_format, localtime()), completedSegments, numSegments)
+                nextReportThreshold += increment
+
             # Prepare
             node1, node2 = segment.getNodes()
             # Prepare
@@ -112,6 +125,12 @@ class VariableStore(variable_store.VariableStore):
                     weight = n1Weight + n2Weight - sWeight
                     for node in subnet.cycleNodes():
                         node.setWeight(weight)
+
+            completedSegments += 1
+
+
+        time_format = "%Y-%m-%d %H:%M:%S"
+        print "%s processed %s (of %s) segments" % (strftime(time_format, localtime()), completedSegments, numSegments)
         # Return
         return net
 
