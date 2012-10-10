@@ -1,6 +1,40 @@
 Releases
 =========
 
+v0.9.4M
+----------------
+
+Significant reduction in memory consumption
+
+- Represent the candidate segments as a numpy RecordArray of
+  node_id1, node_id2 and weight.
+
+- This reduces the memory required from 300 bytes to 8 bytes 
+  per candidate segment.  The candidate segments dominate 
+  the memory required when the number of nodes n grows large.
+  (there are (n*(n-1))/2 candidate segments).  
+
+- A comparison of memory consumption for a scenario with the 
+  5577 input nodes:
+
+======== ===================== ============================
+Version  Max NP Memory Used    Max Candidate Segment Memory
+======== ===================== ============================
+0.9.4    14.8G                 7.85 G
+0.9.4M   1.2G (1/12 reduction) 124.4 M (1/60 reduction)
+======== ===================== ============================
+
+.. note::
+   
+    If the demand is high and many of the candidate segments
+    pass the mvMax test, then more memory will be used.  This
+    is because we still instantiate segments to test whether 
+    they can be added to the network.  If this becomes an 
+    issue, we can extend the numpy based segment representation 
+    deeper into the network algorithm (which also makes sense 
+    from an architectural consistency perspective).  
+    
+
 v0.9.4
 ----------------
 

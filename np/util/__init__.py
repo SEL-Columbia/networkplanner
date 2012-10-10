@@ -26,3 +26,28 @@ def update(d, u):
             d[k] = u[k]
             return d
 
+def random_network_nodes(num, initId, weight_factor):
+    from np.lib import network as net
+    import numpy
+    import itertools as iter
+    ids = range(initId, initId + num)
+    xs = numpy.random.rand(num)
+    ys = numpy.random.rand(num)
+    ws = numpy.random.rand(num) * weight_factor
+    nodes = [net.Node(node_id, (x, y), (x, y), w) for node_id, x, y, w in iter.izip(ids, xs, ys, ws)]
+    return nodes
+
+def random_ds_nodes(num, metric_factor):
+    from np.lib import dataset_store as ds
+    import numpy
+    import itertools as iter
+    xs = numpy.random.rand(num)
+    ys = numpy.random.rand(num)
+    ms = numpy.random.rand(num) * metric_factor
+    nodes = [ds.Node((x, y), (x, y), {}) for x, y in iter.izip(xs, ys)]
+    for node, m in iter.izip(nodes, ms):
+        node.metric = m 
+    return nodes
+    
+
+

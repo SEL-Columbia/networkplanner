@@ -226,7 +226,7 @@ class Network(object):
     def _getSegmentIntersections(self, segment):
         """
         Get the intersections within the network for the segment 
-        intersection may be a point or a collection of geoms (see Shapely for more)
+        Intersection may be a point or a collection of geoms (see Shapely for more)
         """
         resultsIter = self._spatialIndex.intersection(
                 segment.lineString.bounds, 
@@ -244,7 +244,7 @@ class Network(object):
     def _getIntersectingSubnets(self, segment):
         """
         Get the subnets that intersect with the segment 
-        And the number of intersections as a pair
+        and the number of intersections as a pair
         """
         segmentIntersections = self._getSegmentIntersections(segment) 
 
@@ -436,6 +436,42 @@ class Network(object):
             for sourceSegment in self.cycleSegments():
                 if distance == targetGeometry.distance(sourceSegment.lineString):
                     return sourceSegment
+
+    def projectEfficient(self, nodes):
+        """
+        Return list of tuples of form:
+        (nodeIndex, connectingNode, targetSegment)
+        representing the segments that connect the nodes 
+        to the network. 
+        This is intended to allow for a more efficient
+        candidate segment representation.  
+        """
+        # Initialize
+        time_format = "%Y-%m-%d %H:%M:%S"
+        print "%s Generating projected segment candidates" % strftime(time_format, localtime())
+        projectedTuples = []
+        # Convert existing network into a multiLineString
+        multiLineString = shapely.geometry.MultiLineString([x.lineString.coords for x in self.cycleSegments()])
+        # For each node,
+        for nodeIndex in range(len(nodes)):
+            # Load point
+            node = nodes[nodeIndex]
+            point = node.point
+            # Find the closest distinct segment in the network
+            targetSegment = self.findClosestDistinctSegment(point, multiLineString)
+            # If there is a segment that is close enough,
+            if targetSegment:
+                # Prepare
+                lineString = targetSegment.lineString
+                # Compute the projection of the point onto the targetSegment
+                projectedPoint = lineString.interpolate(lineString.project(point))
+                # Append the index/projected node/target tuple
+                projectedTuples.append((nodeIndex, 
+                    self.segmentFactory.getNode(projectedPoint.coords[0]), 
+                        targetSegment))
+
+        # Return
+        return projectedTuples
 
     def project(self, nodes):
         'Return segments that connect the nodes to the network'
