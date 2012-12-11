@@ -1,6 +1,6 @@
 # Set site parameters
 SITE_NAME = 'Network Planner'
-SITE_VERSION = '0.9.4M'
+SITE_VERSION = '0.9.5'
 SITE_DESCRIPTION = 'Network Planning for Rural Electrification'
 SITE_KEYWORDS = 'Network planning, rural electrification'
 # Set person parameters

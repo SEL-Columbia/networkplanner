@@ -7,11 +7,11 @@ except ImportError:
 
 setup(
     name='np',
-    version='0.9.4M',
+    version='0.9.5',
     description='Electricity infrastructure prototyping system',
     author='Roy Hyunjin Han',
     author_email='support@invisibleroads.com',
-    url='http://october.mech.columbia.edu',
+    url='http://networkplanner.modilabs.org',
     install_requires=[
         "Pylons>=1.0",
         "recaptcha-client>=1.0.5",

@@ -1,6 +1,62 @@
 Releases
 =========
 
+v0.9.5
+----------------
+
+Performance improvement for scenarios with "large" existing grid.
+
+- Modified the R-Tree to allow "segment to bounding region" intersection
+  based searches, rather than "bounding region to bounding region" intersection
+  searches.  More specifically, the modification was made to libspatialindex 
+  library that exposes the R-Tree api to python.  
+
+- Within the network generation algorithm, the candidate segment is tested for
+  intersection with the proposed grid.  This is done via a 2-step process:
+
+  1.  Lookup potential results via the RTree
+  2.  Filter those potential results via a shapely intersection test
+  
+  The results returned in step 1 are now much fewer for large and detailed
+  (relative to the demand nodes) existing grid because of the segment-based
+  intersection test.  
+  
+  Consider the following existing network grid:
+
+  ::
+
+              _  _  
+             / \/ \ 
+            /       
+          _/        
+         
+  Now consider a segment that intersects it:
+
+  ::
+
+           _  _                 _____  _
+       \  / \/ \   and it's    |\  / \/ \  
+        \/         bounding    | \/  | 
+       _/\         box         |_/\  |
+          \                    |   \ |
+           \                   |____\|
+
+
+  A bounding box intersection returns more results than a segment-based 
+  intersection.  The difference is more dramatic when the intersecting
+  line is broader and the existing network is more detailed.  
+
+- Comparison of performance for scenarios run with the same 32k 
+  segment existing grid, but varying demand:
+
+===== =========== =============== ==========================
+Nodes Demand      0.9.4M Run-Time 0.9.5 Run-Time
+===== =========== =============== ==========================
+1496  Moderate    568 minutes     60 minutes (9.5x faster)
+1496  High        69.5 hours      5.1 hours (13.6x faster) 
+===== =========== =============== ==========================
+
+
 v0.9.4M
 ----------------
 

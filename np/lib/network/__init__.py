@@ -1,5 +1,6 @@
 'Framework for building networks using different mathematical models'
 # Import system modules
+import itertools
 import math
 import shapely.ops
 import shapely.geometry
@@ -229,8 +230,9 @@ class Network(object):
         Intersection may be a point or a collection of geoms (see Shapely for more)
         """
         resultsIter = self._spatialIndex.intersection(
-                segment.lineString.bounds, 
-                objects=False)
+                tuple(itertools.chain(*zip(*segment.lineString.xy))), 
+                objects=False, 
+                segment=True)
         initialIntersectingSegments = [self._segments[seg_id] 
                 for seg_id in resultsIter]
         intersects  = (lambda newSegment: 
@@ -353,10 +355,15 @@ class Network(object):
             self._subnets.remove(subnet)
 
         # Add the new subnet
-        subnet = Subnet(sum([x.segments for x in mergingSubnets], []) + [newSegment])
+        # subnet = Subnet(sum([x.segments for x in mergingSubnets], []) + [newSegment])
+        subnet = self._constructSubnet(newSegment, mergingSubnets)
         self.addSubnet(subnet)
         # Return subnet
         return subnet
+
+    # Placeholder for profiling
+    def _constructSubnet(self, newSegment, mergingSubnets):
+        return Subnet(sum([x.segments for x in mergingSubnets], []) + [newSegment])
 
     def _addSegment(self, newSegment):
         'Add a new segment to the network; return subnet if successful'

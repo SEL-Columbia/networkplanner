@@ -8,4 +8,4 @@ shapely
 sphinx
 sqlalchemy
 webob==1.1.1
-Rtree==0.7.0
+-e git://github.com/chrisnatali/rtree.git#egg=rtree
