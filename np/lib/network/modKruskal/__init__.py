@@ -6,6 +6,7 @@ from time import localtime, strftime
 import numpy
 # Import custom modules
 from np.lib import network, store, geometry_store, variable_store
+from np.model import Job
 
 
 class MinimumNodeCountPerSubnetwork(variable_store.Variable):
@@ -143,6 +144,7 @@ class VariableStore(variable_store.VariableStore):
         """
         
         time_format = "%Y-%m-%d %H:%M:%S"
+        Job.log("Building network from segments")
         print "%s Building network from segments" % strftime(time_format, localtime())
 
         # reporting variables
@@ -159,7 +161,8 @@ class VariableStore(variable_store.VariableStore):
             completionPercentage = completedSegments / float(numSegments)
             if completionPercentage > nextReportThreshold:
                 time_format = "%Y-%m-%d %H:%M:%S"
-                print "%s processed %s (of %s) segments" % (strftime(time_format, localtime()), completedSegments, numSegments)
+                Job.log("Processed %s (of %s) segments" % (completedSegments, numSegments))
+                print "%s Processed %s (of %s) segments" % (strftime(time_format, localtime()), completedSegments, numSegments)
                 nextReportThreshold += increment
 
             # Prepare
@@ -196,6 +199,7 @@ class VariableStore(variable_store.VariableStore):
 
 
         time_format = "%Y-%m-%d %H:%M:%S"
+        Job.log("processed %s (of %s) segments" % (completedSegments, numSegments))
         print "%s processed %s (of %s) segments" % (strftime(time_format, localtime()), completedSegments, numSegments)
         # Return
         return net

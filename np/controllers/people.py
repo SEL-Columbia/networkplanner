@@ -119,6 +119,7 @@ class PeopleController(BaseController):
         session['minutesOffset'] = minutesOffset
         session['personID'] = person.id
         session['nickname'] = person.nickname
+        session['role'] = person.role
         session.save()
         # Save person
         person.minutes_offset = minutesOffset

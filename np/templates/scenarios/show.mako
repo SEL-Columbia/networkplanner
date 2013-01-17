@@ -665,13 +665,13 @@ personID = h.getPersonID()
     </tr>
     <tr>
         <td class="summary1">Off-grid initial cost</td>
-        <td class="summary2 alignR" id=off_grid_initial_cost_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (off-grid)', 'system total initial cost'))}</td>
+        <td class="summary2 alignR" id=off_grid_initial_cost_1>$${formatNumber(safe_number_lookup(metricByOptionBySection, 'system (off-grid)', 'system total initial cost'))}</td>
         <td class="summary3 alignR compare" id=off_grid_initial_cost_2></td>
         <td class="summary4 alignR compare" id=off_grid_initial_cost_diff></td>
     </tr>
     <tr>
         <td class="summary1">Off-grid recurring cost</td>
-        <td class="summary2 alignR" id=off_grid_recurring_cost_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (off-grid)', 'system total discounted recurring cost'))}</td>
+        <td class="summary2 alignR" id=off_grid_recurring_cost_1>$${formatNumber(safe_number_lookup(metricByOptionBySection, 'system (off-grid)', 'system total discounted recurring cost'))}</td>
         <td class="summary3 alignR compare" id=off_grid_recurring_cost_2></td>
         <td class="summary4 alignR compare" id=off_grid_recurring_cost_diff></td>
     </tr>
@@ -701,13 +701,13 @@ personID = h.getPersonID()
     </tr>
     <tr>
         <td class="summary1">Mini-grid initial cost</td>
-        <td class="summary2 alignR" id=mini_grid_initial_cost_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (mini-grid)', 'system total initial cost'))}</td>
+        <td class="summary2 alignR" id=mini_grid_initial_cost_1>$${formatNumber(safe_number_lookup(metricByOptionBySection, 'system (mini-grid)', 'system total initial cost'))}</td>
         <td class="summary3 alignR compare" id=mini_grid_initial_cost_2></td>
         <td class="summary4 alignR compare" id=mini_grid_initial_cost_diff></td>
     </tr>
     <tr>
         <td class="summary1">Mini-grid recurring cost</td>
-        <td class="summary2 alignR" id=mini_grid_recurring_cost_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (mini-grid)', 'system total discounted recurring cost'))}</td>
+        <td class="summary2 alignR" id=mini_grid_recurring_cost_1>$${formatNumber(safe_number_lookup(metricByOptionBySection, 'system (mini-grid)', 'system total discounted recurring cost'))}</td>
         <td class="summary3 alignR compare" id=mini_grid_recurring_cost_2></td>
         <td class="summary4 alignR compare" id=mini_grid_recurring_cost_diff></td>
     </tr>
@@ -737,13 +737,13 @@ personID = h.getPersonID()
     </tr>
     <tr>
         <td class="summary1">Grid initial cost</td>
-        <td class="summary2 alignR" id=grid_initial_cost_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (grid)', 'system total initial cost'))}</td>
+        <td class="summary2 alignR" id=grid_initial_cost_1>$${formatNumber(safe_number_lookup(metricByOptionBySection, 'system (grid)', 'system total initial cost'))}</td>
         <td class="summary3 alignR compare" id=grid_initial_cost_2></td>
         <td class="summary4 alignR compare" id=grid_initial_cost_diff></td>
     </tr>
     <tr>
         <td class="summary1">Grid recurring cost</td>
-        <td class="summary2 alignR" id=grid_recurring_cost_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (grid)', 'system total discounted recurring cost'))}</td>
+        <td class="summary2 alignR" id=grid_recurring_cost_1>$${formatNumber(safe_number_lookup(metricByOptionBySection, 'system (grid)', 'system total discounted recurring cost'))}</td>
         <td class="summary3 alignR compare" id=grid_recurring_cost_2></td>
         <td class="summary4 alignR compare" id=grid_recurring_cost_diff></td>
     </tr>

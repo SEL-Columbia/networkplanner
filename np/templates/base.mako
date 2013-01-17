@@ -73,6 +73,9 @@ linkPacks = [
 <li><a href="${linkURL}" class=link>${linkName}</a></li>
 % endif
 % endfor
+% if h.isAdmin() and request.path != "/jobs": 
+<li><a href="/jobs" class=link>Admin</a></li>
+% endif
 <li><a href="/docs" class=link target="_blank">Learn More</a></li>
 % if not h.isPerson():
 % if not request.path.startswith('/people/login'):

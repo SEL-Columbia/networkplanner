@@ -7,7 +7,7 @@ except ImportError:
 
 setup(
     name='np',
-    version='0.9.5',
+    version='0.9.6',
     description='Electricity infrastructure prototyping system',
     author='Roy Hyunjin Han',
     author_email='support@invisibleroads.com',

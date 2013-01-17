@@ -40,5 +40,10 @@ def make_map(config):
     # Map processors
     map.connect('processor_index', '/processors', controller='processors', action='index')
     map.connect('processor_update', '/processors/update', controller='processors', action='update')
+    # Map jobs
+    map.connect('job_index', '/jobs', controller='jobs', action='index')
+    map.connect('job_log', '/jobs/{jobID}_{host}/log', controller='jobs', action='log')
+    map.connect('job_show', '/jobs/{jobID}_{host}', controller='jobs', action='show')
+    map.connect('job_kill', '/jobs/{jobID}_{host}/kill', controller='jobs', action='kill')
     # Return
     return map

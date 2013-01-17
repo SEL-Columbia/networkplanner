@@ -4,6 +4,17 @@ Releases
 v0.9.5
 ----------------
 
+Added basic admin functionality for managing jobs.
+
+- View list of current/past jobs
+- View running job progress log 
+- Kill running job
+- Added role attribute to people (role=="admin" required for job functions)
+
+
+v0.9.5
+----------------
+
 Performance improvement for scenarios with "large" existing grid.
 
 - Modified the R-Tree to allow "segment to bounding region" intersection

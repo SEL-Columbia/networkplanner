@@ -2,13 +2,14 @@
 # Import pylons modules
 from pylons import config
 # Import system modules
-import os
+import os, socket, signal
 import cjson
 import urllib
 import hashlib
 import datetime
 import sqlalchemy as sa
 import sqlalchemy.orm as orm
+import psutil #process info
 # Import custom modules
 from np.model.meta import Session, Base
 from np.config import parameter
@@ -42,7 +43,6 @@ scopePrivate, scopePublic = xrange(2)
 
 
 # Define tables
-
 people_table = sa.Table('people', Base.metadata,
     sa.Column('id', sa.Integer, primary_key=True),
     sa.Column('username', sa.String(parameter.USERNAME_LENGTH_MAXIMUM), unique=True, nullable=False),
@@ -50,6 +50,7 @@ people_table = sa.Table('people', Base.metadata,
     sa.Column('nickname', sa.Unicode(parameter.NICKNAME_LENGTH_MAXIMUM), unique=True, nullable=False),
     sa.Column('email', sa.String(parameter.EMAIL_LENGTH_MAXIMUM), unique=True, nullable=False),
     sa.Column('email_sms', sa.String(parameter.EMAIL_LENGTH_MAXIMUM)),
+    sa.Column('role', sa.String(parameter.ROLE_LENGTH_MAXIMUM)),
     sa.Column('minutes_offset', sa.Integer, default=0),
     sa.Column('rejection_count', sa.Integer, default=0),
     sa.Column('pickled', sa.LargeBinary),
@@ -86,8 +87,69 @@ processors_table = sa.Table('processors', Base.metadata,
     sa.Column('when_updated', sa.DateTime),
 )
 
+jobs_table = sa.Table('jobs', Base.metadata,
+    sa.Column('pid', sa.Integer, primary_key=True),
+    sa.Column('host', sa.String(parameter.HOST_LENGTH_MAXIMUM), primary_key=True),
+    sa.Column('start_time', sa.DateTime, nullable=False),
+    sa.Column('end_time', sa.DateTime, nullable=True),
+)
 
 # Define classes
+class Job(object):
+
+
+    @property
+    def log_filename(self):
+        #make sure the jobs directory exists
+        job_log_dir = os.path.join(config['storage_path'], 'jobs')
+        if not os.path.exists(job_log_dir):
+            os.makedirs(job_log_dir, mode=744)
+        return os.path.join(job_log_dir, "%s.log" % self.pid)
+
+    @staticmethod
+    def _current():
+        pid = os.getpid()
+        host = socket.gethostname()
+        job = Session.query(Job).filter(Job.pid == pid and Job.host == host).first()
+        return job
+
+    #write message to the log and append a newline
+    #meant to be called from the running process without a specific job instance
+    @staticmethod
+    def log(message):
+        job = Job._current()
+        if(not job):
+            job = Job()
+            Session.add(job)
+        job._pid_log(message)
+
+    @staticmethod
+    def end():
+        job = Job._current()
+        if(not job):
+            job = Job()
+            Session.add(job)
+        job.end_time = datetime.datetime.utcnow()
+        job._pid_log("End job")
+
+    #write to this pid's log
+    def _pid_log(self, message):
+        time_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        log_file = open(self.log_filename, 'a')
+        log_file.write("%s %s\n" % (time_str, message))
+        log_file.close()
+        
+    def __init__(self):
+        self.pid = os.getpid()
+        self.host = socket.gethostname()
+        proc = psutil.Process(self.pid)
+        self.start_time = datetime.datetime.utcfromtimestamp(proc.create_time)
+
+    def kill(self):
+        #TODO:  handle the remote host case
+        os.kill(self.pid, signal.SIGINT)
+        self._pid_log("Kill Job pid %s" % self.pid)
+
 
 class Person(object):
 
@@ -97,6 +159,7 @@ class Person(object):
         self.nickname = nickname
         self.email = email
         self.email_sms = email_sms
+        self.role = "user"
 
     def __repr__(self):
         return "<Person('%s')>" % self.username
@@ -174,6 +237,7 @@ class Scenario(object):
         time_format = "%Y-%m-%d %H:%M:%S"
         
         # Register demographics
+        Job.log("Registering demographics")
         print "%s Registering demographics" % strftime(time_format, localtime())
         nodesPath = expandPath('nodes')
         targetPath = self.getDatasetPath()
@@ -182,19 +246,23 @@ class Scenario(object):
         datasetStore.saveNodesSHP(nodesPath)
         datasetStore.saveNodesCSV(nodesPath)
         # Apply metric
+        Job.log("Applying metric")
         print "%s Applying metric" % strftime(time_format, localtime())
         metricModel = metric.getModel(scenarioInput['metric model name'])
         metricConfiguration = scenarioInput['metric configuration']
         metricValueByOptionBySection = datasetStore.applyMetric(metricModel, metricConfiguration)
         # Build network
+        Job.log("Building network")
         print "%s Building network" % strftime(time_format, localtime())
         networkModel = network.getModel(scenarioInput['network model name'])
         networkConfiguration = scenarioInput['network configuration']
         networkValueByOptionBySection = datasetStore.buildNetwork(networkModel, networkConfiguration)
         # Update metric
+        Job.log("Updating metric")
         print "%s Updating metric" % strftime(time_format, localtime())
         metricValueByOptionBySection = datasetStore.updateMetric(metricModel, metricValueByOptionBySection)
         # Save output
+        Job.log("Saving output")
         print "%s Saving output" % strftime(time_format, localtime())
         metric.saveMetricsConfigurationCSV(expandPath('metrics-job-input'), metricConfiguration)
         metric.saveMetricsCSV(expandPath('metrics-global'), metricModel, metricValueByOptionBySection)
@@ -300,6 +368,7 @@ orm.mapper(Scenario, scenarios_table, properties={
 })
 orm.mapper(Processor, processors_table)
 
+orm.mapper(Job, jobs_table)
 
 # Helpers
 
