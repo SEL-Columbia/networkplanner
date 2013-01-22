@@ -127,8 +127,10 @@ class Job(object):
     def end():
         job = Job._current()
         if(not job):
-            job = Job()
-            Session.add(job)
+            # if we're ending a job that hasn't been initialized
+            # don't bother
+            return 
+
         job.end_time = datetime.datetime.utcnow()
         job._pid_log("End job")
 
