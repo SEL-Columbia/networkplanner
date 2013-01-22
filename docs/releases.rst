@@ -1,7 +1,7 @@
 Releases
 =========
 
-v0.9.5
+v0.9.6
 ----------------
 
 Added basic admin functionality for managing jobs.
