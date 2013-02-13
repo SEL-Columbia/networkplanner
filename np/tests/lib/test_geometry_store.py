@@ -55,7 +55,11 @@ class TestGeometryStore(unittest.TestCase):
         path = self.getPath('.shp')
         geometry_store.save(path, geometry_store.proj4LL, shapelyGeometries)
         result = geometry_store.load(path)
-        self.assertEqual(result[0].strip(), geometry_store.proj4LL)
+        result_proj = result[0].strip()
+        # In some environments, proj seems to drop the ellps param which seems redundant anyway
+        # self.assertEqual(result[0].strip(), geometry_store.proj4LL)
+        self.assertTrue ( result_proj == geometry_store.proj4LL 
+                or result_proj == geometry_store.proj4LL.replace("+ellps=WGS84 ", "") )
         self.assertEqual(len(result[1]), len(shapelyGeometries))
 
         print 'Save and load a SHP file with attributes'
@@ -85,7 +89,9 @@ class TestGeometryStore(unittest.TestCase):
         path = self.getPath('.shp.zip')
         geometry_store.save(path, geometry_store.proj4LL, shapelyGeometries)
         result = geometry_store.load(path)
-        self.assertEqual(result[0].strip(), geometry_store.proj4LL)
+        result_proj = result[0].strip()
+        self.assertTrue ( result_proj == geometry_store.proj4LL 
+                or result_proj == geometry_store.proj4LL.replace("+ellps=WGS84 ", "") )
         self.assertEqual(len(result[1]), len(shapelyGeometries))
 
         print 'Save and load a ZIP file with attributes using save'

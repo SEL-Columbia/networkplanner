@@ -7,6 +7,7 @@ from np.tests import *
 from np.lib import variable_store
 from np.lib.metric.mvMax4 import demand
 from np.lib import dataset_store as ds
+import collections
 
 # scenario needs to be associated with a person
 username = 'username'
@@ -66,10 +67,14 @@ class TestScenariosController(TestController):
         # compare all nodes (just the metrics for now)
         this_nodes = list(this_dataset.cycleNodes())
         good_nodes = list(good_dataset.cycleNodes())
+        good_nodes_lookup = collections.defaultdict()
+        for good_node in good_nodes: good_nodes_lookup[good_node.x, good_node.y] = good_node
         for i in range(0, len(this_nodes)):
             this_node = this_nodes[i]
-            good_node = good_nodes[i]
-            assert this_node.metric == good_node.metric
+            good_node = good_nodes_lookup[this_node.x, this_node.y]
+            # Make sure the metric is within a nanometer of
+            # the known good metric
+            assert abs(this_node.metric - good_node.metric) < 1e-9
 
         # ensure there are no diffs in sets of segments
         this_segments = set(this_dataset.cycleSegments())

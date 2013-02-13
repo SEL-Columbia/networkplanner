@@ -1,4 +1,5 @@
 amqplib
+gdal
 geojson
 psycopg2
 pylons==1.0
@@ -6,7 +7,7 @@ python-cjson
 recaptcha-client
 shapely
 sphinx
-sqlalchemy
+sqlalchemy==0.6.6
 webob==1.1.1
 psutil
 -e git://github.com/chrisnatali/rtree.git#egg=rtree

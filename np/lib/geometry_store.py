@@ -66,7 +66,10 @@ def save(targetPath, sourceProj4, shapelyGeometries, fieldPacks=None, fieldDefin
         feature = ogr.Feature(featureDefinition)
         feature.SetGeometry(transform_geometry(ogr.CreateGeometryFromWkb(shapelyGeometry.wkb)))
         for fieldIndex, fieldValue in enumerate(fieldPack):
-            feature.SetField(fieldIndex, fieldValue)
+            if (hasattr(feature, 'SetField2')): 
+                feature.SetField2(fieldIndex, fieldValue)
+            else:
+                feature.SetField(fieldIndex, fieldValue)
         # Save feature
         layer.CreateFeature(feature)
         # Clean up
