@@ -1,4 +1,4 @@
-PATH=$PATH:/usr/local/bin #for paster
+PATH=$PATH:/usr/local/bin
 # Restart server every twenty minutes
 14,34,54 * * * * cd /var/www/np;paster serve --daemon production.ini > /dev/null
 # Run server-side publisher every minute
