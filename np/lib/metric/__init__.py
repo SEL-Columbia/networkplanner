@@ -11,7 +11,7 @@ from np import util
 # Define model wrappers
 
 def getModelNames():
-    return ['mvMax4', 'mvMax3', 'mvMax2']
+    return ['mvMax5', 'mvMax4', 'mvMax3', 'mvMax2']
 
 def getModel(modelName):
     return store.getModel(__file__, modelName, getModelNames())
