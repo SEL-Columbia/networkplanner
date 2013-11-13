@@ -14,16 +14,6 @@ import costDistribution
 
 # Mini-grid system cost parameters
 
-class TestNetVariable(V):
-
-    section = 'system (mini-grid)'
-    option = 'distribution loss'
-    aliases = ['mg_loss']
-    c = dict(check=store.assertLessThanOne)
-    default = 999
-    units = 'imagined'
-
-
 class DistributionLoss(V):
 
     section = 'system (mini-grid)'
