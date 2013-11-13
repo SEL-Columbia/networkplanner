@@ -1,4 +1,5 @@
 'Estimate the construction and maintenance cost of a system (mini-grid)'
+'Carbajal adjustments to MiniGrids to make them generic hybrids'
 # Import system modules
 import numpy
 # Import custom modules
@@ -12,6 +13,15 @@ import costDistribution
 
 
 # Mini-grid system cost parameters
+
+class TestNetVariable(V):
+
+    section = 'system (mini-grid)'
+    option = 'distribution loss'
+    aliases = ['mg_loss']
+    c = dict(check=store.assertLessThanOne)
+    default = 999
+    units = 'imagined'
 
 
 class DistributionLoss(V):
