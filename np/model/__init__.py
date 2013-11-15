@@ -103,7 +103,7 @@ class Job(object):
         #make sure the jobs directory exists
         job_log_dir = os.path.join(config['storage_path'], 'jobs')
         if not os.path.exists(job_log_dir):
-            os.makedirs(job_log_dir, mode=0o744)
+            os.makedirs(job_log_dir, mode=0o755)
         return os.path.join(job_log_dir, "%s.log" % self.pid)
 
     @staticmethod
