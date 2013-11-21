@@ -214,11 +214,11 @@ class MiniGridSystemTotal(V):
             # Update
             self.value += 1
 
-
-class MiniGridSystemTotalDiscountedDieselFuelCost(V):
+## variable would be affected by change in costMiniGrid.py
+class MiniGridSystemTotalDiscountedFuelBatteryCost(V):
 
     section = 'system (mini-grid)'
-    option = 'system total discounted diesel fuel cost'
+    option = 'system total discounted fuel and battery cost'
     aliases = ['mg_tot_ddfc']
     default = 0
     units = 'dollars'
@@ -226,14 +226,14 @@ class MiniGridSystemTotalDiscountedDieselFuelCost(V):
     def aggregate(self, childVS):
         # If the system is mini-grid,
         if childVS.get(System)[0] == 'm':
-            # add up nodal diesel costs
-            self.value += childVS.get(costMiniGrid.MiniGridSystemNodalDiscountedDieselFuelCost) 
+            # add up nodal battery/or costs
+            self.value += childVS.get(costMiniGrid.MiniGridSystemNodalDiscountedFuelBatteryCost) 
 
-
-class MiniGridSystemTotalDiscountedDieselCost(V):
+## variable would be affected by change in costMiniGrid.py
+class MiniGridSystemTotalDiscountedCost(V):
 
     section = 'system (mini-grid)'
-    option = 'system total discounted diesel cost'
+    option = 'system total discounted minigrid cost'
     aliases = ['mg_tot_ddc']
     default = 0
     units = 'dollars'
@@ -241,8 +241,8 @@ class MiniGridSystemTotalDiscountedDieselCost(V):
     def aggregate(self, childVS):
         # If the system is off-grid,
         if childVS.get(System)[0] == 'm':
-            # add up nodal diesel costs
-            self.value += childVS.get(costMiniGrid.MiniGridSystemNodalDiscountedDieselCost) 
+            # add up nodal minigrid costs
+            self.value += childVS.get(costMiniGrid.MiniGridSystemNodalDiscountedCost) 
 
 
 class MiniGridSystemTotalDiscountedDemand(V):
@@ -580,7 +580,7 @@ class VariableStore(VS):
         MiniGridSystemTotalDiscountedCost,
         MiniGridSystemTotalInitialCost,
         MiniGridSystemTotalDiscountedRecurringCost,
-        MiniGridSystemTotalDiscountedDieselFuelCost,
+        MiniGridSystemNodalDiscountedFuelBatteryCost,### varible changes if fuel name adjusted
         GridSystemTotal,
         GridSystemTotalDiscountedDemand,
         GridSystemTotalDiscountedCost,
@@ -613,7 +613,7 @@ roots = [
     OffGridSystemTotalLevelizedCost,
     MiniGridSystemTotal,
     MiniGridSystemTotalInitialCost,
-    MiniGridSystemTotalDiscountedDieselFuelCost,
+    MiniGridSystemNodalDiscountedFuelBatteryCost,#variable name changes with diesel adjustment
     MiniGridSystemTotalDiscountedRecurringCost,
     MiniGridSystemTotalLevelizedCost,
     GridSystemTotal,
