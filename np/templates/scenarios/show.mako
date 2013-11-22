@@ -558,6 +558,8 @@ def safe_number_lookup(d, section, option):
     Lookup section/option and if not there, return 0 
     (assumes 0 is 'safe').  This is a stop-gap until a more
     generic rendering solution is determined based on model def.
+    NOTE:  This helps ensure that model changes do NOT break
+           the view.
     """
     result = None
     try:

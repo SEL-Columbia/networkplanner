@@ -46,7 +46,9 @@ def saveMetricsCSV(targetPath, metricModel, valueByOptionBySection):
     csvFile = open(store.replaceFileExtension(targetPath, 'csv'), 'wt')
     csvWriter = csv.writer(csvFile)
     vs = metricModel.VariableStore
-    for variableClass in sorted(itertools.chain(vs.aggregateClasses, vs.summaryClasses), key=lambda x: (x.__module__, x.__name__)):
+    for variableClass in sorted(itertools.chain(vs.aggregateClasses, 
+                                                vs.summaryClasses), 
+                                key=lambda x: (x.__module__, x.__name__)):
         section = variableClass.section
         option = variableClass.option
         value = valueByOptionBySection[section][option]
