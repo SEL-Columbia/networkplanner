@@ -1,8 +1,18 @@
 import sys, csv, collections, json
 from np.lib import metric, dataset_store, geometry_store
 
+"""
+Utility to run only the metric model on a set of demand
+nodes given a set of model parameters.  
+This allows more rapid feedback on demand and model changes
+"""
 
 def getNodes(proj4, nodePacks):
+    """
+    Return the dataset_store.Node objects corresponding to
+    the nodePacks (transformed into our "universal" coordinate
+    system: longlat WGS84)
+    """
     nodes = []
     transform_point = geometry_store.get_transform_point(proj4)
     # Check for duplicates
@@ -81,4 +91,5 @@ if __name__ == '__main__':
         csvWriter.writerow([node.output.get(section, {}).get(option, '') if section else node.input.get(option, '') for section, option in headerPacks])
 
 
-    # TODO:  do anything with jobVS?  What's done with it when returned from applyMetric in scenario.run?
+    # TODO:  do anything with jobVS?  Output summary stats?  
+
