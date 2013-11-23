@@ -219,7 +219,7 @@ class MiniGridSystemTotalDiscountedFuelBatteryCost(V):
 
     section = 'system (mini-grid)'
     option = 'system total discounted fuel and battery cost'
-    aliases = ['mg_tot_ddfc']
+    aliases = ['mg_tot_dfbc']
     default = 0
     units = 'dollars'
 
@@ -227,14 +227,15 @@ class MiniGridSystemTotalDiscountedFuelBatteryCost(V):
         # If the system is mini-grid,
         if childVS.get(System)[0] == 'm':
             # add up nodal battery/or costs
-            self.value += childVS.get(costMiniGrid.MiniGridSystemNodalDiscountedFuelBatteryCost) 
+            self.value += childVS.get(
+              costMiniGrid.MiniGridSystemNodalDiscountedFuelBatteryCost) 
 
 ## variable would be affected by change in costMiniGrid.py
 class MiniGridSystemTotalDiscountedCost(V):
 
     section = 'system (mini-grid)'
     option = 'system total discounted minigrid cost'
-    aliases = ['mg_tot_ddc']
+    aliases = ['mg_tot_d']
     default = 0
     units = 'dollars'
 
@@ -259,7 +260,8 @@ class MiniGridSystemTotalDiscountedDemand(V):
             # Update
             self.value += childVS.get(demand.ProjectedNodalDiscountedDemand)
 
-
+"""
+TODO:  Remove Me, Duplicate of above
 class MiniGridSystemTotalDiscountedCost(V):
 
     section = 'system (mini-grid)'
@@ -273,7 +275,7 @@ class MiniGridSystemTotalDiscountedCost(V):
         if childVS.get(System)[0] == 'm':
             # Update
             self.value += childVS.get(costMiniGrid.MiniGridSystemNodalDiscountedCost)
-
+"""
 
 class MiniGridSystemTotalInitialCost(V):
 
