@@ -85,3 +85,11 @@ production server on a single computer.
 ::
 
     cluster-processor-setup.sh              # Change 134f to your desired username
+
+Troubleshooting
+---------------
+
+- Run the following script if RabbitMQ seems down 
+::
+
+    deployment/cluster-queue-reset.sh
