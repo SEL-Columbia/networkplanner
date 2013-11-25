@@ -195,8 +195,7 @@ class OffGridSystemTotalDiscountedRecurringCost(V):
         # If the system is off-grid,
         if childVS.get(System)[0] == 'o':
             # Update
-            self.value += ( \
-                    childVS.get(costOffGrid.OffGridSystemRecurringCostPerYear) * \
+            self.value += (childVS.get(costOffGrid.OffGridSystemRecurringCostPerYear) * 
                     childVS.get(finance.DiscountedCashFlowFactor))
 
 
@@ -234,7 +233,7 @@ class MiniGridSystemTotalDiscountedFuelBatteryCost(V):
 class MiniGridSystemTotalDiscountedCost(V):
 
     section = 'system (mini-grid)'
-    option = 'system total discounted minigrid cost'
+    option = 'system total discounted cost'
     aliases = ['mg_tot_d']
     default = 0
     units = 'dollars'
