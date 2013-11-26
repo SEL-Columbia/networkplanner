@@ -1,4 +1,7 @@
-import sys, csv, collections, json
+import sys, csv, collections, json, os
+# set basepath to parent dir for np imports
+basePath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(basePath)
 from np.lib import metric, dataset_store, geometry_store
 
 """

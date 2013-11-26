@@ -581,7 +581,7 @@ class VariableStore(VS):
         MiniGridSystemTotalDiscountedCost,
         MiniGridSystemTotalInitialCost,
         MiniGridSystemTotalDiscountedRecurringCost,
-        MiniGridSystemNodalDiscountedFuelBatteryCost,### varible changes if fuel name adjusted
+        MiniGridSystemTotalDiscountedFuelBatteryCost, ### variable changes if fuel name adjusted
         GridSystemTotal,
         GridSystemTotalDiscountedDemand,
         GridSystemTotalDiscountedCost,
@@ -614,7 +614,7 @@ roots = [
     OffGridSystemTotalLevelizedCost,
     MiniGridSystemTotal,
     MiniGridSystemTotalInitialCost,
-    MiniGridSystemNodalDiscountedFuelBatteryCost,#variable name changes with diesel adjustment
+    MiniGridSystemTotalDiscountedFuelBatteryCost,#variable name changes with diesel adjustment
     MiniGridSystemTotalDiscountedRecurringCost,
     MiniGridSystemTotalLevelizedCost,
     GridSystemTotal,

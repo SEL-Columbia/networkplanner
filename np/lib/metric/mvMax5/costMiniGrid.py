@@ -197,7 +197,7 @@ class GeneratorCost(V):
 
     def compute(self):
         return (self.get(GeneratorCostPerRatedKilowatt) * 
-                self.get(GeneratorActualSystemCapacity)
+                self.get(GeneratorActualSystemCapacity))
 
 #nomenclature - class name changed
 class GeneratorInstallationCost(V):
@@ -213,7 +213,7 @@ class GeneratorInstallationCost(V):
 
     def compute(self):
         return (self.get(InstallationCostAsFractionOfGenerationCost) * 
-                self.get(GeneratorCost)
+                self.get(GeneratorCost))
 
 #nomenclature - class name changed
 class GeneratorOperationsAndMaintenanceCostPerYear(V):
