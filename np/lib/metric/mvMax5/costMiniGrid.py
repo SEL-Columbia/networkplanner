@@ -118,7 +118,7 @@ class GeneratorDesiredSystemCapacity(V):
     ServiceHoursPerYear = float(365*24)
 
     def compute(self):
-        return (self.get(demand.ProjectedPeakNodalDemand) / 
+        return (self.get(demand.ProjectedNodalDemand) /
                 float(1 - self.get(DistributionLoss)) * 
                 float(self.get(CapacityFactor)) /
                 ServiceHoursPerYear)
