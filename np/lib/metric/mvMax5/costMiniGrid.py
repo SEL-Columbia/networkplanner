@@ -113,10 +113,15 @@ class GeneratorDesiredSystemCapacity(V):
     ]
     units = 'kilowatts'
 
+    #Initialize
+    #Compute service hours per year in which electricity is met
+    ServiceHoursPerYear = float(365*24)
+
     def compute(self):
-        return (self.get(demand.ProjectedPeakNodalDemand) / 
-                float(1 - self.get(DistributionLoss)) / 
-                float(self.get(CapacityFactor)))
+        return (self.get(demand.ProjectedNodalDemand) /
+                float(1 - self.get(DistributionLoss)) * 
+                float(self.get(CapacityFactor)) /
+                ServiceHoursPerYear)
 
 #nomenclature change, since now power generation system will conform to given list of standards - class name changed
 class GeneratorActualSystemCapacityCounts(V):
