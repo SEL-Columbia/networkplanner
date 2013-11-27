@@ -92,9 +92,17 @@ class CapacityFactor(V):
 class GeneratorOperationsAndMaintenanceCostPerYearAsFractionOfGeneratorCost(V):
 
     section = 'system (mini-grid)'
-    option = 'power geratation operations and maintenance cost per year as fraction of generator cost'
+    option = 'power generation operations and maintenance cost per year as fraction of generator cost'
     aliases = ['mg_dg_omf']
     default = 0.01
+
+class GeneratorHoursOfOperationPerYear(V):
+
+    section = 'system (mini-grid)'
+    option = 'power generation hours of operation per year'
+    aliases = ['mg_g_sh']
+    default = float(365*24)
+    units = 'hours'
 
 
 ## Mini-grid system cost derivatives ##
@@ -106,22 +114,20 @@ class GeneratorDesiredSystemCapacity(V):
     option = 'power generation desired system capacity'
     aliases = ['mg_dg_dcp']
     dependencies = [
-        demand.ProjectedPeakNodalDemand,
+        demand.ProjectedNodalDemandPerYear,
+        GeneratorHoursOfOperationPerYear,
         DistributionLoss,
         CapacityFactor,
         
     ]
     units = 'kilowatts'
 
-    #Initialize
-    #Compute service hours per year in which electricity is met
-    ServiceHoursPerYear = float(365*24)
-
     def compute(self):
-        return (self.get(demand.ProjectedNodalDemand) /
+        return (self.get(demand.ProjectedNodalDemandPerYear) /
                 float(1 - self.get(DistributionLoss)) * 
                 float(self.get(CapacityFactor)) /
-                ServiceHoursPerYear)
+                self.get(GeneratorHoursOfOperationPerYear))
+
 
 #nomenclature change, since now power generation system will conform to given list of standards - class name changed
 class GeneratorActualSystemCapacityCounts(V):

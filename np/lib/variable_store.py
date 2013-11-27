@@ -274,6 +274,7 @@ def validateVariableClasses(variableClasses):
                 raise Exception('Please fix duplicate variable alias: %s: %s %s' % (variableAlias, variableClassByAlias[variableAlias], variableClass))
             variableClassByAlias[variableAlias] = variableClass
 
+
 def extractVariableValue(valueByOptionBySection, variableClass, variableStore):
     'Extract value corresponding to variableClass'
     # For each alias,
@@ -293,6 +294,31 @@ def extractVariableValue(valueByOptionBySection, variableClass, variableStore):
     # If we cannot find a matching value, signal variableClass to use default value
     return True, None
 
+def getSectionOptionToAliasMap(variableClasses):
+    """
+    Return dict of (Section, Option) keys to alias string
+    (Picks the 1st one if multiple)
+    """
+
+    # Initialize
+    sectionOptionToAlias = {}
+    # For each variableClass,
+    for variableClass in variableClasses:
+        # If section and option are not defined,
+        if not variableClass.section or not variableClass.option:
+            raise Exception('Empty variable name for class: %s' % variableClass)
+
+        alias = defaultAlias(variableClass.section, variableClass.option)
+        if variableClass.aliases != None:
+            alias = variableClass.aliases[0]
+
+        sectionOptionToAlias[(variableClass.section, 
+                              variableClass.option)] = alias
+
+    return sectionOptionToAlias
+
+def defaultAlias(section, option):
+    return '%s_%s' % (section.lower().replace(' ', '_'), option.lower().replace(' ', '_'))
 
 # Key
 
@@ -305,6 +331,7 @@ def formatKey(modelType, variable):
 def parseKey(key):
     'Parse jQuery-compatible key'
     return [x.strip() for x in key.replace('11', ' ').replace('22', '(').replace('33', ')').split(separator)]
+
 
 
 # Label

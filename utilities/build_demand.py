@@ -2,7 +2,8 @@ import sys, csv, collections, json, os
 # set basepath to parent dir for np imports
 basePath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(basePath)
-from np.lib import metric, dataset_store, geometry_store
+from np.lib import metric, dataset_store, geometry_store, variable_store
+
 
 """
 Utility to run only the metric model on a set of demand
@@ -41,12 +42,13 @@ def getNodes(proj4, nodePacks):
 if __name__ == '__main__':
 
     if (len(sys.argv) < 3):
-        sys.stderr.write("example usage:  cat node.csv | python build_demand.py model_name model_params.json\n")
+        sys.stderr.write("example usage:  python build_demand.py node.csv model_name model_params.json\n")
         sys.exit()
 
     # setup model
-    model_name = sys.argv[1] 
-    model_params_file = sys.argv[2] 
+    demand_nodes = sys.argv[1]
+    model_name = sys.argv[2] 
+    model_params_file = sys.argv[3] 
     metricModel = metric.getModel(model_name)
 
     metricValueByOptionBySection = json.load(open(model_params_file, 'r'))
@@ -61,7 +63,8 @@ if __name__ == '__main__':
     jobVS = metricModel.VariableStore(metricValueByOptionBySection)
     
     # process input stream nodes
-    proj4, nodePacks = dataset_store.digestNodesFromCSVStream(sys.stdin)  
+    demand_stream = open(demand_nodes, 'r') 
+    proj4, nodePacks = dataset_store.digestNodesFromCSVStream(demand_stream)  
     nodes = getNodes(proj4, nodePacks)
 
     # run the model on each node
@@ -74,19 +77,28 @@ if __name__ == '__main__':
         # Save results
         node.metric = nodeVS.get(metricModel.Metric)
         node.output = nodeVS.getValueByOptionBySection()
- 
 
     # prep the csv output stream
     csvWriter = csv.writer(sys.stdout)
+
+    # output aliases for header so get the section, option to alias map
+    varClasses, roots = variable_store.gatherVariables(metricModel.VariableStore)
+    sectionOptionToAlias = variable_store.getSectionOptionToAliasMap(varClasses)
+
     # use last node as basis for header
     nodeInput = node.input
     nodeOutput = node.output
+    # get the section/option values in order from both input/output 
     headerPacks = [('', key) for key in sorted(nodeInput)] # handle the aliases?  
-    for section, valueByOption in sorted(nodeOutput.iteritems(), key=lambda x: metricModel.sections.index(x[0])):
+    for section, valueByOption in sorted(nodeOutput.iteritems(), 
+                                         key=lambda x: 
+                                         metricModel.sections.index(x[0])):
         for option in sorted(valueByOption):
             headerPacks.append((section, option))
 
-    csvWriter.writerow(['%s > %s' % (section.capitalize(), option.capitalize()) if section else option.capitalize() for section, option in headerPacks])
+    csvWriter.writerow([sectionOptionToAlias[(section, option)] if section 
+                        else option.capitalize() 
+                        for section, option in headerPacks])
 
     node_gen = (node for node in nodes if not node.is_fake)
     for node in node_gen:
