@@ -12,7 +12,7 @@ import costDistribution
 
 
 
-# Mini-grid system cost parameters
+## Mini-grid system cost parameters ##
 
 class DistributionLoss(V):
 
@@ -23,130 +23,146 @@ class DistributionLoss(V):
     default = 0.10
     units = 'fraction'
 
-
-class DieselGeneratorAvailableSystemCapacities(V):
+#Nomenclature Change - available capacities- class name changed
+class GeneratorAvailableSystemCapacities(V):
 
     section = 'system (mini-grid)'
-    option = 'available system capacities (diesel generator)'
+    option = 'available power generation system capacities(kW)'
     aliases = ['mg_dg_cps']
     c = dict(parse=store.unstringifyDescendingFloatList, format=store.flattenList, validate='validateNumberList')
     default = '1000 750 500 400 200 150 100 70 32 19 12 6'
     units = 'kilowatts list'
 
-
-class DieselGeneratorCostPerDieselSystemKilowatt(V):
+#Nomenclature change - capital costs - - class name changed
+class GeneratorCostPerRatedKilowatt(V):
 
     section = 'system (mini-grid)'
-    option = 'diesel generator cost per diesel system kilowatt'
+    option = 'power generatation cost per system kilowatt'
     aliases = ['mg_dg_ck']
     default = 150
     units = 'dollars per kilowatt'
 
-
-class DieselGeneratorInstallationCostAsFractionOfGeneratorCost(V):
-
-    section = 'system (mini-grid)'
-    aliases = ['mg_dg_if']
-    option = 'diesel generator installation cost as fraction of generator cost'
-    default = 0.25
-
-
-class DieselGeneratorLifetime(V):
+#Nomenclature Change - percent install cost- class name changed
+class InstallationCostAsFractionOfGenerationCost(V):
 
     section = 'system (mini-grid)'
-    option = 'diesel generator lifetime'
+    aliases = ['mg_ic_fgc']
+    option = 'power generatation installation cost as fraction of generation cost'
+    default = 0.50
+    units = 'fraction'
+
+#Nomenclature change - lifetime is still relevannt- class name changed
+class GeneratorLifetime(V):
+
+    section = 'system (mini-grid)'
+    option = 'power generation system lifetime'
     aliases = ['mg_dg_life']
     c = dict(check=store.assertPositive)
-    default = 5
+    default = 10
     units = 'years'
 
-
-class DieselFuelCostPerLiter(V):
+#!! big calculation change, fuel cost per L should be simplified to cost per kWh.  applies to any hybrid system now...- class name changed
+class FuelCostPerKilowattHour(V):
 
     section = 'system (mini-grid)'
-    option = 'diesel fuel cost per liter'
+    option = 'fuel or storage cost per kWh'
     aliases = ['mg_fl_cl']
-    default = 1.08
-    units = 'dollars per liter'
+    default = 0.50
+    units = 'dollars per kWh'
 
-
-class DieselFuelLitersConsumedPerKilowattHour(V):
+#!! big calculation change, consider effective load percent that requires storage or fuel, more generic expression- class name changed
+class PercentOfKilowattHourRequiringFuelOrStorage(V):
 
     section = 'system (mini-grid)'
-    option = 'diesel fuel liters consumed per kilowatt-hour'
+    option = 'percent of daily load that requires storage or fuel'
     aliases = ['mg_fl_lkwh']
-    default = 0.5
-    units = 'liters per kilowatt-hour'
+    default = 0.7
+    units = 'percent'
 
-
-class DieselGeneratorMinimumHoursOfOperationPerYear(V):
+#!! big change, generator will be modeled as a factor of its capacity factor- class name changed
+class CapacityFactor(V):
 
     section = 'system (mini-grid)'
-    option = 'diesel generator hours of operation per year (minimum)'
+    option = 'capacity factor of power generation as factor of nameplate output'
     aliases = ['mg_dg_mnhr']
-    default = 1460
-    units = 'hours per year'
+    default = 0.90
+    units = 'ratio'
 
-
-class DieselGeneratorOperationsAndMaintenanceCostPerYearAsFractionOfGeneratorCost(V):
+#nomenclature change, generalize diesel genset to power generation - class name changed
+class GeneratorOperationsAndMaintenanceCostPerYearAsFractionOfGeneratorCost(V):
 
     section = 'system (mini-grid)'
-    option = 'diesel generator operations and maintenance cost per year as fraction of generator cost'
+    option = 'power generation operations and maintenance cost per year as fraction of generator cost'
     aliases = ['mg_dg_omf']
     default = 0.01
 
-
-# Mini-grid system cost derivatives
-
-
-class DieselGeneratorDesiredSystemCapacity(V):
+class GeneratorHoursOfOperationPerYear(V):
 
     section = 'system (mini-grid)'
-    option = 'diesel generator desired system capacity'
+    option = 'power generation hours of operation per year'
+    aliases = ['mg_g_sh']
+    default = float(365*24)
+    units = 'hours'
+
+
+## Mini-grid system cost derivatives ##
+
+#! big change, since now power generation system will be dictated by capacity factor - class name changed
+class GeneratorDesiredSystemCapacity(V):
+
+    section = 'system (mini-grid)'
+    option = 'power generation desired system capacity'
     aliases = ['mg_dg_dcp']
     dependencies = [
-        demand.ProjectedPeakNodalDemand,
+        demand.ProjectedNodalDemandPerYear,
+        GeneratorHoursOfOperationPerYear,
         DistributionLoss,
+        CapacityFactor,
+        
     ]
     units = 'kilowatts'
 
     def compute(self):
-        return self.get(demand.ProjectedPeakNodalDemand) / float(1 - self.get(DistributionLoss))
+        return (self.get(demand.ProjectedNodalDemandPerYear) /
+                float(1 - self.get(DistributionLoss)) * 
+                float(self.get(CapacityFactor)) /
+                self.get(GeneratorHoursOfOperationPerYear))
 
 
-class DieselGeneratorActualSystemCapacityCounts(V):
+#nomenclature change, since now power generation system will conform to given list of standards - class name changed
+class GeneratorActualSystemCapacityCounts(V):
 
     section = 'system (mini-grid)'
-    option = 'diesel generator actual system capacity counts'
+    option = 'power generation system actual system capacity counts'
     aliases = ['mg_dg_acps']
     c = dict(parse=store.unstringifyIntegerList, format=store.flattenList, validate='validateNumberList')
     dependencies = [
-        DieselGeneratorDesiredSystemCapacity,
-        DieselGeneratorAvailableSystemCapacities,
+        GeneratorDesiredSystemCapacity,
+        GeneratorAvailableSystemCapacities,
     ]
     units = 'capacity count list'
 
     def compute(self):
         return metric.computeSystemCounts(
-            self.get(DieselGeneratorDesiredSystemCapacity), 
-            self.get(DieselGeneratorAvailableSystemCapacities))
+            self.get(GeneratorDesiredSystemCapacity), 
+            self.get(GeneratorAvailableSystemCapacities))
 
-
-class DieselGeneratorActualSystemCapacity(V):
+#nomenclature change - class name changed
+class GeneratorActualSystemCapacity(V):
 
     section = 'system (mini-grid)'
-    option = 'diesel generator actual system capacity'
+    option = 'power generation actual system capacity'
     aliases = ['mg_dg_acp']
     dependencies = [
-        DieselGeneratorAvailableSystemCapacities,
-        DieselGeneratorActualSystemCapacityCounts,
+        GeneratorAvailableSystemCapacities,
+        GeneratorActualSystemCapacityCounts,
     ]
     units = 'kilowatts'
 
     def compute(self):
         return numpy.dot(
-            self.get(DieselGeneratorAvailableSystemCapacities), 
-            self.get(DieselGeneratorActualSystemCapacityCounts))
+            self.get(GeneratorAvailableSystemCapacities), 
+            self.get(GeneratorActualSystemCapacityCounts))
 
 
 class LowVoltageLineEquipmentCost(V):
@@ -178,71 +194,76 @@ class LowVoltageLineEquipmentOperationsAndMaintenanceCostPerYear(V):
     def compute(self):
         return self.get(costDistribution.LowVoltageLineEquipmentOperationsAndMaintenanceCostPerYearAsFractionOfEquipmentCost) * self.get(LowVoltageLineEquipmentCost)
 
-
-class DieselGeneratorCost(V):
+#nomenclature change - class name changed
+class GeneratorCost(V):
 
     section = 'system (mini-grid)'
-    option = 'diesel generator cost'
+    option = 'power generation system cost'
     aliases = ['mg_dg_ini']
     dependencies = [
-        DieselGeneratorCostPerDieselSystemKilowatt,
-        DieselGeneratorActualSystemCapacity,
+        GeneratorCostPerRatedKilowatt,
+        GeneratorActualSystemCapacity,
     ]
     units = 'dollars'
 
     def compute(self):
-        return self.get(DieselGeneratorCostPerDieselSystemKilowatt) * self.get(DieselGeneratorActualSystemCapacity)
+        return (self.get(GeneratorCostPerRatedKilowatt) * 
+                self.get(GeneratorActualSystemCapacity))
 
-
-class DieselGeneratorInstallationCost(V):
+#nomenclature - class name changed
+class GeneratorInstallationCost(V):
 
     section = 'system (mini-grid)'
-    option = 'diesel generator installation cost'
+    option = 'power generatation installation cost'
     aliases = ['mg_dg_i']
     dependencies = [
-        DieselGeneratorInstallationCostAsFractionOfGeneratorCost,
-        DieselGeneratorCost,
+        InstallationCostAsFractionOfGenerationCost,
+        GeneratorCost,
     ]
     units = 'dollars'
 
     def compute(self):
-        return self.get(DieselGeneratorInstallationCostAsFractionOfGeneratorCost) * self.get(DieselGeneratorCost)
+        return (self.get(InstallationCostAsFractionOfGenerationCost) * 
+                self.get(GeneratorCost))
 
-
-class DieselGeneratorOperationsAndMaintenanceCostPerYear(V):
+#nomenclature - class name changed
+class GeneratorOperationsAndMaintenanceCostPerYear(V):
 
     section = 'system (mini-grid)'
-    option = 'diesel generator operations and maintenance cost per year'
+    option = 'power generation operations and maintenance cost per year'
     aliases = ['mg_dg_om']
     dependencies = [
-        DieselGeneratorOperationsAndMaintenanceCostPerYearAsFractionOfGeneratorCost,
-        DieselGeneratorCost,
+        GeneratorOperationsAndMaintenanceCostPerYearAsFractionOfGeneratorCost,
+        GeneratorCost,
     ]
     units = 'dollars per year'
 
     def compute(self):
-        return self.get(DieselGeneratorOperationsAndMaintenanceCostPerYearAsFractionOfGeneratorCost) * self.get(DieselGeneratorCost)
+        return (
+        self.get(
+        GeneratorOperationsAndMaintenanceCostPerYearAsFractionOfGeneratorCost) 
+        * self.get(GeneratorCost))
 
-
-class DieselGeneratorReplacementCostPerYear(V):
+#nomenclature - class name changed
+class GeneratorReplacementCostPerYear(V):
 
     section = 'system (mini-grid)'
-    option = 'diesel generator replacement cost per year'
+    option = 'power generatation lifetime replacement cost per year'
     aliases = ['mg_dg_rep']
     dependencies = [
-        DieselGeneratorCost,
-        DieselGeneratorLifetime,
+        GeneratorCost,
+        GeneratorLifetime,
     ]
     units = 'dollars per year'
 
     def compute(self):
-        return self.get(DieselGeneratorCost) / float(self.get(DieselGeneratorLifetime))
+        return self.get(GeneratorCost) / float(self.get(GeneratorLifetime))
 
-
+"""this variable is not needed anymore
 class DieselGeneratorEffectiveHoursOfOperationPerYear(V):
 
     section = 'system (mini-grid)'
-    option = 'diesel generator hours of operation per year (effective)'
+    option = 'power generation hours of operation per year (effective)'
     aliases = ['mg_dg_efhr']
     dependencies = [
         demand.ProjectedNodalDemandPerYear,
@@ -263,90 +284,108 @@ class DieselGeneratorEffectiveHoursOfOperationPerYear(V):
         effectiveDemandPerYear = self.get(demand.ProjectedNodalDemandPerYear) / float(1 - self.get(DistributionLoss))
         # Return
         return max(self.get(DieselGeneratorMinimumHoursOfOperationPerYear), effectiveDemandPerYear / float(dieselGeneratorActualSystemCapacity))
+"""
 
-
-class DieselFuelCostPerYear(V):
+#output generic fuel/battery cost per year based on ratio of nodal demand for which fuel/storage is needed - class name changed
+class FuelBatteryCostPerYear(V):
 
     section = 'system (mini-grid)'
-    option = 'diesel fuel cost per year'
+    option = 'fuel and/or storage costs per year'
     aliases = ['mg_fl']
     dependencies = [
-        DieselFuelCostPerLiter,
-        DieselFuelLitersConsumedPerKilowattHour,
-        DieselGeneratorActualSystemCapacity,
-        DieselGeneratorEffectiveHoursOfOperationPerYear,
+        FuelCostPerKilowattHour, #fuel or storage cost per kWh
+        PercentOfKilowattHourRequiringFuelOrStorage, #percent of daily load that requires storage or fuel'
+        #DieselGeneratorActualSystemCapacity, #Actual system capacity 
+        #DieselGeneratorEffectiveHoursOfOperationPerYear,
+        demand.ProjectedNodalDemandPerYear,
+        DistributionLoss,
     ]
     units = 'dollars per year'
 
+
     def compute(self):
-        return self.get(DieselFuelCostPerLiter) * self.get(DieselFuelLitersConsumedPerKilowattHour) * self.get(DieselGeneratorActualSystemCapacity) * self.get(DieselGeneratorEffectiveHoursOfOperationPerYear)
+        #Initialize
+        #Compute effectiveDemandPerYear and assume a mini-grid diesel generator has distribution loss
+        effectiveDemandPerYear = (self.get(demand.ProjectedNodalDemandPerYear) / 
+                                  float(1 - self.get(DistributionLoss)))
+        
+        return (self.get(FuelCostPerKilowattHour) * 
+                self.get(PercentOfKilowattHourRequiringFuelOrStorage) * 
+                effectiveDemandPerYear)
 
-
-class MiniGridSystemNodalDiscountedDieselFuelCost(V):
+#nomenclature change - class name changed
+class MiniGridSystemNodalDiscountedFuelBatteryCost(V):
 
     section = 'system (mini-grid)'
-    option = 'system nodal discounted diesel fuel cost'
+    option = 'system nodal discounted fuel and/or storage cost'
     aliases = ['mg_nod_ddfc']
     dependencies = [
-        DieselFuelCostPerYear,
+        FuelBatteryCostPerYear,
     ]
+    units = 'dollars'
 
     def compute(self):
-        return self.get(DieselFuelCostPerYear) * self.get(finance.DiscountedCashFlowFactor)
+        return (self.get(FuelBatteryCostPerYear) * 
+                self.get(finance.DiscountedCashFlowFactor))
 
-
-class MiniGridSystemInitialDieselCost(V):
+#nomenclature change - class name changed 
+class MiniGridSystemInitialGeneratorCost(V):
 
     section = 'system (mini-grid)'
-    option = 'system initial diesel cost'
+    option = 'system initial power generation system cost'
     aliases = ['mg_inidc']
     dependencies = [
-        DieselGeneratorCost,
-        DieselGeneratorInstallationCost,
+        GeneratorCost,
+        GeneratorInstallationCost,
     ]
     units = 'dollars'
 
     def compute(self):
         return sum([
-            self.get(DieselGeneratorCost),
-            self.get(DieselGeneratorInstallationCost),
+            self.get(GeneratorCost),
+            self.get(GeneratorInstallationCost),
         ])
 
-
-class MiniGridSystemRecurringDieselCostPerYear(V):
+#nomenclature change - class name changed 
+#CN:  This was in conflict with MiniGridSystemRecurringCostPerYear
+#     defined below, so I renamed it and rolled it into
+#     MiniGridSystemNodalDiscountedGenerationCost
+class MiniGridSystemRecurringGenerationCostPerYear(V):
 
     section = 'system (mini-grid)'
-    option = 'system recurring diesel cost per year'
+    option = 'system recurring power generation costs per year'
     aliases = ['mg_recdc']
     dependencies = [
-        DieselGeneratorOperationsAndMaintenanceCostPerYear,
-        DieselGeneratorReplacementCostPerYear,
-        DieselFuelCostPerYear,
+        GeneratorOperationsAndMaintenanceCostPerYear,
+        GeneratorReplacementCostPerYear,
+        FuelBatteryCostPerYear,
     ]
     units = 'dollars per year'
 
     def compute(self):
         return sum([
-            self.get(DieselGeneratorOperationsAndMaintenanceCostPerYear),
-            self.get(DieselGeneratorReplacementCostPerYear),
-            self.get(DieselFuelCostPerYear),
+            self.get(GeneratorOperationsAndMaintenanceCostPerYear),
+            self.get(GeneratorReplacementCostPerYear),
+            self.get(FuelBatteryCostPerYear),
         ])
 
-
-class MiniGridSystemNodalDiscountedDieselCost(V):
+#nomenclature change
+class MiniGridSystemNodalDiscountedGenerationCost(V):
 
     section = 'system (mini-grid)'
-    option = 'system nodal discounted diesel cost'
+    option = 'system nodal discounted power generation costs'
     aliases = ['mg_nod_ddc']
     dependencies = [
-        MiniGridSystemInitialDieselCost,
-        MiniGridSystemRecurringDieselCostPerYear,
+        MiniGridSystemInitialGeneratorCost,
+        MiniGridSystemRecurringGenerationCostPerYear,
         finance.DiscountedCashFlowFactor,
     ]
     units = 'dollars'
 
     def compute(self):
-        return self.get(MiniGridSystemInitialDieselCost) + self.get(MiniGridSystemRecurringDieselCostPerYear) * self.get(finance.DiscountedCashFlowFactor)
+        return (self.get(MiniGridSystemInitialGeneratorCost) + 
+                self.get(MiniGridSystemRecurringGenerationCostPerYear) * 
+                self.get(finance.DiscountedCashFlowFactor))
 
 
 class MiniGridSystemInitialCost(V):
@@ -355,8 +394,8 @@ class MiniGridSystemInitialCost(V):
     option = 'system initial cost'
     aliases = ['mg_ini']
     dependencies = [
-        DieselGeneratorCost,
-        DieselGeneratorInstallationCost,
+        GeneratorCost,
+        GeneratorInstallationCost,
         LowVoltageLineEquipmentCost,
         costDistribution.LowVoltageLineInitialCost,
     ]
@@ -364,8 +403,8 @@ class MiniGridSystemInitialCost(V):
 
     def compute(self):
         return sum([
-            self.get(DieselGeneratorCost),
-            self.get(DieselGeneratorInstallationCost),
+            self.get(GeneratorCost),
+            self.get(GeneratorInstallationCost),
             self.get(LowVoltageLineEquipmentCost),
             self.get(costDistribution.LowVoltageLineInitialCost),
         ])
@@ -377,9 +416,9 @@ class MiniGridSystemRecurringCostPerYear(V):
     option = 'system recurring cost per year'
     aliases = ['mg_rec']
     dependencies = [
-        DieselGeneratorOperationsAndMaintenanceCostPerYear,
-        DieselGeneratorReplacementCostPerYear,
-        DieselFuelCostPerYear,
+        GeneratorOperationsAndMaintenanceCostPerYear,
+        GeneratorReplacementCostPerYear,
+        FuelBatteryCostPerYear,
         LowVoltageLineEquipmentOperationsAndMaintenanceCostPerYear,
         costDistribution.LowVoltageLineRecurringCostPerYear,
     ]
@@ -387,9 +426,9 @@ class MiniGridSystemRecurringCostPerYear(V):
 
     def compute(self):
         return sum([
-            self.get(DieselGeneratorOperationsAndMaintenanceCostPerYear),
-            self.get(DieselGeneratorReplacementCostPerYear),
-            self.get(DieselFuelCostPerYear),
+            self.get(GeneratorOperationsAndMaintenanceCostPerYear),
+            self.get(GeneratorReplacementCostPerYear),
+            self.get(FuelBatteryCostPerYear),
             self.get(LowVoltageLineEquipmentOperationsAndMaintenanceCostPerYear),
             self.get(costDistribution.LowVoltageLineRecurringCostPerYear),
         ])
@@ -411,7 +450,9 @@ class MiniGridSystemNodalDiscountedCost(V):
     def compute(self):
         if self.get(demand.ProjectedNodalDemandPerYear) == 0:
             return 0
-        return self.get(MiniGridSystemInitialCost) + self.get(MiniGridSystemRecurringCostPerYear) * self.get(finance.DiscountedCashFlowFactor)
+        return (self.get(MiniGridSystemInitialCost) + 
+                self.get(MiniGridSystemRecurringCostPerYear) * 
+                self.get(finance.DiscountedCashFlowFactor))
 
 
 class MiniGridSystemNodalLevelizedCost(V):

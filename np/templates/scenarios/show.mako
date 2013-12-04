@@ -428,7 +428,7 @@ $('#compare').change(function() {
         showDiff(['variables', 'metric', 'system (mini-grid)', 'system total discounted recurring cost'], 'mini_grid_recurring_cost', '$XXX');
         showDiff(['variables', 'metric', 'system (mini-grid)', 'system total discounted cost'], 'mini_grid_cost', '$XXX');
         showDiff(['variables', 'metric', 'system (mini-grid)', 'system total levelized cost'], 'mini_grid_lcoe', '$XXX / kWh', formatFloat);
-        showDiff(['variables', 'metric', 'system (mini-grid)', 'system total discounted diesel fuel cost'], 'mini_grid_ddfc', '$XXX', formatFloat);
+        showDiff(['variables', 'metric', 'system (mini-grid)', 'system total discounted fuel and battery cost'], 'mini_grid_dfbc', '$XXX', formatFloat);
         showDiff(['variables', 'metric', 'system (grid)', 'system total'], 'grid_count', 'XXX');
         showDiff(['variables', 'metric', 'system (grid)', 'system total initial cost'], 'grid_initial_cost', '$XXX');
         showDiff(['variables', 'metric', 'system (grid)', 'system total discounted recurring cost'], 'grid_recurring_cost', '$XXX');
@@ -558,6 +558,8 @@ def safe_number_lookup(d, section, option):
     Lookup section/option and if not there, return 0 
     (assumes 0 is 'safe').  This is a stop-gap until a more
     generic rendering solution is determined based on model def.
+    NOTE:  This helps ensure that model changes do NOT break
+           the view.
     """
     result = None
     try:
@@ -724,10 +726,10 @@ personID = h.getPersonID()
         <td class="summary4 alignR compare" id=mini_grid_lcoe_diff></td>
     </tr>
     <tr>
-        <td class="summary1">Mini-grid diesel fuel cost</td>
-        <td class="summary2 alignR" id=mini_grid_ddc_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (mini-grid)', 'system total discounted diesel fuel cost'))}</td>
-        <td class="summary3 alignR compare" id=mini_grid_ddfc_2></td>
-        <td class="summary4 alignR compare" id=mini_grid_ddfc_diff></td>
+        <td class="summary1">Mini-grid fuel and battery cost</td>
+        <td class="summary2 alignR" id=mini_grid_dfbc_1>$${formatFloat(safe_number_lookup(metricByOptionBySection, 'system (mini-grid)', 'system total discounted fuel and battery cost'))}</td>
+        <td class="summary3 alignR compare" id=mini_grid_dfbc_2></td>
+        <td class="summary4 alignR compare" id=mini_grid_dfbc_diff></td>
     </tr>
     <tr>
         <td class="summary1">Grid nodes</td>

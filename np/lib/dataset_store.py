@@ -394,11 +394,18 @@ class Store(object):
 
 
 # Digest
-
 def digestNodesFromCSV(sourcePath):
     'Import nodes from a comma separated values file'
+    csvStream = open(sourcePath, 'rU')
+    proj4, nodePacks = digestNodesFromCSVStream(csvStream)
+    csvStream.close()
+    return proj4, nodePacks
+
+
+def digestNodesFromCSVStream(sourceStream):
+    'Import nodes from a comma separated values stream'
     # Initialize
-    rowGenerator = csv.reader(open(sourcePath, 'rU'))
+    rowGenerator = csv.reader(sourceStream)
     try:
         row = rowGenerator.next()
     except StopIteration:
