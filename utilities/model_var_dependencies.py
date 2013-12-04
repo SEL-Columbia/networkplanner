@@ -32,10 +32,19 @@ def getAlias(varClass):
     else:
         return varClass.option.capitalize()
 
-def getFriendlyClassname(varClass):
+def getClassname(varClass):
+    """
+    Outputs classname minus BASE_PATH
+    """
     moduleName = varClass.__module__.replace(BASE_PATH + ".", "")
     return "%s.%s" % (moduleName, varClass.__name__)
  
+def getClassnameForId(varClass):
+    """
+    Outputs classname minus BASE_PATH with underscores over dots
+    (since pydot does funky escaping of dots)
+    """
+    return getClassname(varClass).replace(".", "_") 
 
 def getOption(varClass):
     return "%s\n%s" % (varClass.section, varClass.option)
@@ -43,9 +52,10 @@ def getOption(varClass):
 def getName(varClass, nameType):
 
     nameFunctions = {
+        'id': getClassnameForId,
         'alias': getAlias,
         'option': getOption,
-        'class': getFriendlyClassname
+        'class': getClassname
         }
 
     return nameFunctions[nameType](varClass)
@@ -91,15 +101,17 @@ def buildPyDotGraph(variableGraph, nameType):
         if len(var[1]) == 0:
             fill_color = "#9999AA"
 
-        node = pydot.Node(getName(var[0], nameType), style='filled', 
+        node_var = var[0]
+        node = pydot.Node(getName(node_var, 'id'), style='filled', 
                           fillcolor=fill_color)
+        node.set_label(getName(node_var, nameType))
         graph.add_node(node)
 
     # Now add edges
     for var_to in variableGraph:
         for var_from in var_to[1]:
-            node_from = graph.get_node(getName(var_from, nameType))[0]
-            node_to = graph.get_node(getName(var_to[0], nameType))[0]
+            node_from = graph.get_node(getName(var_from, 'id'))[0]
+            node_to = graph.get_node(getName(var_to[0], 'id'))[0]
             graph.add_edge(pydot.Edge(node_from, node_to))
 
     return graph
