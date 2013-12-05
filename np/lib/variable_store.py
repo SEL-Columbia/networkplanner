@@ -350,17 +350,6 @@ def getClassnameForId(varClass):
 
 def getOption(varClass):
     return "%s\n%s" % (varClass.section, varClass.option)
-    
-def getName(varClass, nameType):
-
-    nameFunctions = {
-        'id': getClassnameForId,
-        'alias': getAlias,
-        'option': getOption,
-        'class': getClassname
-        }
-
-    return nameFunctions[nameType](varClass)
 
 def buildOrderedDependencies(varClass):
     """
@@ -388,7 +377,17 @@ def buildOrderedDependencies(varClass):
         classDependencies.append((vCls, depList))
     return classDependencies
 
+def getRelatedVariables(varClass):
+    """
+    Get unique set of classes related to varClass through the dependency graph
+    """
 
+    variableGraph = buildOrderedDependencies(varClass)
+    # use a list rep to maintain order
+    variableSet = [varTuple[0] for varTuple in variableGraph]
+    return variableSet
+
+    
 # Key
 
 separator = '00'
