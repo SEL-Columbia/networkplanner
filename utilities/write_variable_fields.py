@@ -24,10 +24,14 @@ if __name__ == '__main__':
     modelVar = util.getSubModuleFromString(mvModel, variable)
     variableSet = VS.getRelatedVariables(modelVar)
 
-    sys.stdout.write("class,alias,section,option,units,default\n")
+    sys.stdout.write("class,alias,section,option,units,default,dependencies\n")
     for var in variableSet:
         clazz = VS.getClassname(var)
         alias = VS.getAlias(var)
-        sys.stdout.write("%s,%s,%s,%s,%s,%s\n" % (clazz, alias, var.section, 
-                         var.option, var.units, var.default))
+        depClasses = []
+        if var.dependencies != None:
+            depClasses = [VS.getClassname(dep) for dep in var.dependencies]
+
+        sys.stdout.write("%s,%s,%s,%s,%s,%s,%s\n" % (clazz, alias, var.section, 
+                         var.option, var.units, var.default, ";".join(depClasses)))
         

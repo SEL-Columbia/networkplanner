@@ -17,7 +17,13 @@ def getName(varClass, nameType):
         'class': VS.getClassname
         }
 
-    return nameFunctions[nameType](varClass)
+
+    nameAndUnits = nameType.split(".")
+    name = nameAndUnits[0]
+    result = nameFunctions[name](varClass)
+    if (len(nameAndUnits) > 1) and varClass.units:
+        result = "%s\n(%s)" % (result, varClass.units)
+    return result
 
 
 

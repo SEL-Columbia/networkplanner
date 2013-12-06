@@ -260,7 +260,8 @@ class DieselGeneratorEffectiveHoursOfOperationPerYear(V):
             # Return zero hours of operation
             return 0
         # Compute effectiveDemandPerYear and assume a mini-grid diesel generator has distribution loss
-        effectiveDemandPerYear = self.get(demand.ProjectedNodalDemandPerYear) / float(1 - self.get(DistributionLoss))
+        effectiveDemandPerYear = (self.get(demand.ProjectedNodalDemandPerYear) / 
+                                  float(1 - self.get(DistributionLoss)))
         # Return
         return max(self.get(DieselGeneratorMinimumHoursOfOperationPerYear), effectiveDemandPerYear / float(dieselGeneratorActualSystemCapacity))
 
@@ -279,7 +280,10 @@ class DieselFuelCostPerYear(V):
     units = 'dollars per year'
 
     def compute(self):
-        return self.get(DieselFuelCostPerLiter) * self.get(DieselFuelLitersConsumedPerKilowattHour) * self.get(DieselGeneratorActualSystemCapacity) * self.get(DieselGeneratorEffectiveHoursOfOperationPerYear)
+        return (self.get(DieselFuelCostPerLiter) * 
+                self.get(DieselFuelLitersConsumedPerKilowattHour) * 
+                self.get(DieselGeneratorActualSystemCapacity) * 
+                self.get(DieselGeneratorEffectiveHoursOfOperationPerYear))
 
 
 class MiniGridSystemNodalDiscountedDieselFuelCost(V):
@@ -411,7 +415,9 @@ class MiniGridSystemNodalDiscountedCost(V):
     def compute(self):
         if self.get(demand.ProjectedNodalDemandPerYear) == 0:
             return 0
-        return self.get(MiniGridSystemInitialCost) + self.get(MiniGridSystemRecurringCostPerYear) * self.get(finance.DiscountedCashFlowFactor)
+        return (self.get(MiniGridSystemInitialCost) + 
+                self.get(MiniGridSystemRecurringCostPerYear) * 
+                self.get(finance.DiscountedCashFlowFactor)
 
 
 class MiniGridSystemNodalLevelizedCost(V):

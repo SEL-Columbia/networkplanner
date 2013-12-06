@@ -37,7 +37,7 @@ class GeneratorAvailableSystemCapacities(V):
 class GeneratorCostPerRatedKilowatt(V):
 
     section = 'system (mini-grid)'
-    option = 'power generatation cost per system kilowatt'
+    option = 'power generation cost per system kilowatt'
     aliases = ['mg_dg_ck']
     default = 150
     units = 'dollars per kilowatt'
@@ -47,7 +47,7 @@ class InstallationCostAsFractionOfGenerationCost(V):
 
     section = 'system (mini-grid)'
     aliases = ['mg_ic_fgc']
-    option = 'power generatation installation cost as fraction of generation cost'
+    option = 'power generation installation cost as fraction of generation cost'
     default = 0.50
     units = 'fraction'
 
@@ -306,6 +306,7 @@ class FuelBatteryCostPerYear(V):
     def compute(self):
         #Initialize
         #Compute effectiveDemandPerYear and assume a mini-grid diesel generator has distribution loss
+
         effectiveDemandPerYear = (self.get(demand.ProjectedNodalDemandPerYear) / 
                                   float(1 - self.get(DistributionLoss)))
         

@@ -41,9 +41,11 @@ class Metric(V):
             self.get(costOffGrid.OffGridSystemNodalDiscountedCost),
             self.get(costMiniGrid.MiniGridSystemNodalDiscountedCost))
         # Compute the (non-negative) amount of money we have left to spend on grid extension
-        gridExternalBudget = max(0, standaloneCost - self.get(costGrid.GridInternalSystemNodalDiscountedCost))
+        gridExternalBudget = max(0, (standaloneCost - 
+                                 self.get(costGrid.GridInternalSystemNodalDiscountedCost)))
         # Compute the length of line we are allowed for grid extension
-        return gridExternalBudget / float(self.get(costGrid.GridExternalSystemNodalDiscountedCostPerMeter))
+        return (gridExternalBudget / 
+                float(self.get(costGrid.GridExternalSystemNodalDiscountedCostPerMeter)))
 
 
 class System(V):
