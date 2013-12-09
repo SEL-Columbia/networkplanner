@@ -123,10 +123,14 @@ class GeneratorDesiredSystemCapacity(V):
     units = 'kilowatts'
 
     def compute(self):
-        return (self.get(demand.ProjectedNodalDemandPerYear) /
-                float(1 - self.get(DistributionLoss)) * 
-                float(self.get(CapacityFactor)) /
-                self.get(GeneratorHoursOfOperationPerYear))
+        #Compute effectiveDemandPerYear and assume a mini-grid generator has distribution loss
+        effectiveDemandPerYear = (self.get(demand.ProjectedNodalDemandPerYear) / 
+                                  float(1 - self.get(DistributionLoss)))
+        #Return
+        return (effectiveDemandPerYear / 
+                float(self.get(CapacityFactor)) / #reduce by factor of how much of installed power can be utilized on average
+                self.get(GeneratorHoursOfOperationPerYear) / #factor to convert energy usage to power sizing
+                float(self.get(CapacityFactor)) #derate by capacity factor so system is sized to meet annual consumption   
 
 
 #nomenclature change, since now power generation system will conform to given list of standards - class name changed
