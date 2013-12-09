@@ -67,7 +67,7 @@ class FuelCostPerKilowattHour(V):
     section = 'system (mini-grid)'
     option = 'fuel or storage cost per kWh'
     aliases = ['mg_fl_cl']
-    default = 0.50
+    default = 0.54 #matches old defaults of $1.08/L fuel @ 0.5L/kWh fuel consumption 
     units = 'dollars per kWh'
 
 #!! big calculation change, consider effective load percent that requires storage or fuel, more generic expression- class name changed
@@ -76,7 +76,7 @@ class PercentOfKilowattHourRequiringFuelOrStorage(V):
     section = 'system (mini-grid)'
     option = 'percent of daily load that requires storage or fuel'
     aliases = ['mg_fl_lkwh']
-    default = 0.7
+    default = 1.0 #diesel systems require 100% energy  to come via fuel, solar-batteries require near 100% storage too
     units = 'percent'
 
 #!! big change, generator will be modeled as a factor of its capacity factor- class name changed
