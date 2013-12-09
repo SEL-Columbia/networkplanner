@@ -306,7 +306,6 @@ class FuelBatteryCostPerYear(V):
     def compute(self):
         #Initialize
         #Compute effectiveDemandPerYear and assume a mini-grid diesel generator has distribution loss
-
         effectiveDemandPerYear = (self.get(demand.ProjectedNodalDemandPerYear) / 
                                   float(1 - self.get(DistributionLoss)))
         

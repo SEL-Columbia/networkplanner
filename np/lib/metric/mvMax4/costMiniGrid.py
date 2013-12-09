@@ -417,7 +417,7 @@ class MiniGridSystemNodalDiscountedCost(V):
             return 0
         return (self.get(MiniGridSystemInitialCost) + 
                 self.get(MiniGridSystemRecurringCostPerYear) * 
-                self.get(finance.DiscountedCashFlowFactor)
+                self.get(finance.DiscountedCashFlowFactor))
 
 
 class MiniGridSystemNodalLevelizedCost(V):
