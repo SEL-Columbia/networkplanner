@@ -130,7 +130,7 @@ class GeneratorDesiredSystemCapacity(V):
         return (effectiveDemandPerYear / 
                 float(self.get(CapacityFactor)) / #reduce by factor of how much of installed power can be utilized on average
                 self.get(GeneratorHoursOfOperationPerYear) / #factor to convert energy usage to power sizing
-                float(self.get(CapacityFactor)) #derate by capacity factor so system is sized to meet annual consumption   
+                float(self.get(CapacityFactor))) #derate by capacity factor so system is sized to meet annual consumption   
 
 
 #nomenclature change, since now power generation system will conform to given list of standards - class name changed
