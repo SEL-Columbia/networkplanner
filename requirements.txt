@@ -1,5 +1,7 @@
 amqplib
-gdal
+# install system-wide via python-gdal package --> gdal
+numpy
+scipy
 geojson
 psycopg2
 pylons==1.0
@@ -10,4 +12,4 @@ sphinx
 sqlalchemy==0.6.6
 webob==1.1.1
 psutil
--e git://github.com/chrisnatali/rtree.git#egg=rtree
+pydot # for generating dot files of models

@@ -1,0 +1,1 @@
+-e git://github.com/SEL-Columbia/rtree.git#egg=rtree
