@@ -10,6 +10,6 @@ recaptcha-client
 shapely
 sphinx
 sqlalchemy==0.6.6
-webob==1.1.1
+webob==1.2
 psutil
 pydot # for generating dot files of models
