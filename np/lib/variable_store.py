@@ -88,7 +88,11 @@ class VariableStore(object):
     def getVariableByOptionBySection(self):
         'Return variables arranged by section'
         # Initialize
-        variableByOptionBySection = self.variableStore.getVariableByOptionBySection() if self.variableStore else {}
+        variableByOptionBySection = {} 
+        if self.variableStore:
+            variableByOptionBySection = \
+                self.variableStore.getVariableByOptionBySection()
+
         # For each variable in the cache,
         for x in self.variableByClass.values():
             # Update
@@ -329,7 +333,7 @@ def getAlias(varClass):
     Get alias as first item in list of aliases if there
     else just use lower-case option
     """
-    if varClass.aliases != None or len(varClasses) > 0:
+    if varClass.aliases != None and len(varClass.aliases) > 0:
         return varClass.aliases[0]
     else:
         return varClass.option.capitalize()
