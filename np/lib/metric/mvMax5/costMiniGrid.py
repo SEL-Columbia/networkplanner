@@ -327,7 +327,7 @@ class FuelBatteryCostPerYear(V):
                                   float(1 - self.get(DistributionLoss)))
         
         return (self.get(FuelCostPerKilowattHour) * 
-                self.get(PercentOfKilowattHourRequiringFuelOrStorage) * 
+                float(self.get(PercentOfKilowattHourRequiringFuelOrStorage)) * 
                 effectiveDemandPerYear)
 
 #nomenclature change - class name changed
