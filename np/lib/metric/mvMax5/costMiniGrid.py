@@ -48,7 +48,7 @@ class InstallationCostAsFractionOfGenerationCost(V):
     section = 'system (mini-grid)'
     aliases = ['mg_ic_fgc']
     option = 'power generation installation cost as fraction of generation cost'
-    default = 0.50
+    default = 0.25
     units = 'fraction'
 
 #Nomenclature change - lifetime is still relevannt- class name changed
@@ -58,7 +58,7 @@ class GeneratorLifetime(V):
     option = 'power generation system lifetime'
     aliases = ['mg_dg_life']
     c = dict(check=store.assertPositive)
-    default = 10
+    default = 5
     units = 'years'
 
 #!! big calculation change, fuel cost per L should be simplified to cost per kWh.  applies to any hybrid system now...- class name changed
