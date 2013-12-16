@@ -1,9 +1,20 @@
 NP Electricity Infrastructure Prototyping Framework
 ===================================================
-NetworkPlanner is a framework for planning large-scale electricity infrastructure projects.  
-Included are an example technology pricing metric model and a network optimization algorithm.  
-The framework is easily extensible so that governments can adapt the example models to fit their country's needs.  
-NetworkPlanner is developed and maintained by the Sustainable Engineering Lab at the Earth Institute of Columbia University.
+
+NetworkPlanner is a framework for planning large-scale electricity 
+infrastructure projects.  Included are an example technology pricing metric 
+model and a network optimization algorithm.  The framework is easily 
+extensible so that governments can adapt the example models to fit their 
+country's needs.  NetworkPlanner is developed and maintained by the 
+Sustainable Engineering Lab at the Earth Institute of Columbia University.
+
+Overview
+--------
+
+The NetworkPlanner Web application exposes the concept of a Scenario as
+the main object by which users interact with the system.  Users submit
+Scenarios with an associated set of inputs to be processed. The user can 
+retrieve processed scenario data or view it via the web-site.  
 
 Dependencies
 ------------
@@ -12,24 +23,33 @@ NetworkPlanner depends on the following system and python tools
 
 - System Tools
 ::
+
     GDAL 
     Libspatialindex (only for network model)
-    PostgreSQL (only for website)
+    PostgreSQL (only for production website)
     RabbitMQ (only for distributed system)
 
 
 - Python Tools (not everything, see requirements.txt for all)
 ::
+
    numpy/scipy
    shapely
 
 Setup
 -----
 
-These are setup instructions for Debian based systems (including Ubuntu).  
-These have only been tested on Ubuntu 12.04, but should be similar for other Debian systems.
+The recommended setup procedure for NetworkPlanner depends on the mode of
+operation.  
 
-- Sample bash script for Debian/Ubuntu install and reference
+Development and CLI
+~~~~~~~~~~~~~~~~~~~
+
+For Development and "CLI" (command-line) mode, the following script can be 
+used as a guide to create a working environment on Debian based systems 
+(including Ubuntu).  
+
+- Sample bash script for basic Debian/Ubuntu setup
 ::
 
     # setup system level packages
@@ -76,18 +96,32 @@ These have only been tested on Ubuntu 12.04, but should be similar for other Deb
     pip install -r requirements_network.txt 
 
 
-Running "standalone" Commands
------------------------------
-There are several utilities that run independent of the web-site system.
-These reside in the utilities directory and can be run via python.
+Modes of Operation
+------------------
+
+NetworkPlanner consists of 2 main modules (the Metric "builder" and the Network
+"builder").  These are exposed through both command-line interfaces and a web
+interface that can be deployed as a "Standalone" server or as a set of distributed
+processing servers.  
+
+CLI (aka command-line)
+~~~~~~~~~~~~~~~~~~~~~
+
+CLI mode allows a user to run the various utility scripts provided as 
+part of NetworkPlanner without running a web/application server.  This is 
+useful for developing models and analyzing their output.  These scripts reside 
+in the utilities directory and can be run via python.
 
 - Sample Commands
 ::
+
     # Run metric model on a set of demand nodes (using mvMax5 model)
+    # The output can be loaded as an R or Pandas dataframe for analysis
     python utilities/build_demand.py test_data/sample_demand_nodes.csv mvMax5 sample_metric_params.json > sample_demand_out.csv
 
     # Create a dot graph for the dependencies of the MiniGrid RecurringCost 
     # variable of the mvMax4 model 
+    # The dot file can be passed to graphviz utilities to render the graphs as png, svg, pdf...
     python utilities/model_var_dependencies.py mvMax4 costMiniGrid.MiniGridSystemRecurringCostPerYear mv4_mg_rec.dot class
 
     # Create a flat list of class, option/section, alias name mappings of all 
@@ -95,88 +129,50 @@ These reside in the utilities directory and can be run via python.
     python utilities/write_variable_fields.py mvMax5 Metric > mapping_mvmax5.csv
 
 
-Run development server
-----------------------
-This option enables debugging and is useful for creating new models or changing the framework code.
+Development
+~~~~~~~~~~~
 
-1. Install dependencies.
+Development mode runs the NetworkPlanner web-site via the Paste_  server with 
+debugging enabled.  This mode is useful for developing and testing the 
+system and web interface.  SQLite is the default database for this mode.
+
+- Some useful commands:  
 ::
+    
+    # Run the development server via paster 
+    # 'ds' for development server
+    ./restart ds 
 
-    su -c "deployment/dependencies-setup.sh"
-
-2. Generate documentation.
-::
-
+    # Generate the docs
     ./restart docs
 
-3. Run development server.
-::
+    # start interactive python session for working with 
+    # web app in development mode
+    paster shell development.ini
 
-    ./restart ds
-
-
-Run production server on a single computer
-------------------------------------------
-This option disables debugging and is useful for production release testing.
-
-1. Install dependencies.
-::
-
-    su -c "deployment/dependencies-setup.sh"
-
-2. Prepare PostgreSQL database and access credentials.
-::
-
-    sudo service postgresql start
-    sudo su postgres
-      createdb np
-      createuser np
-      psql
-        grant all on database np to np;
-        alter role np password 'AyfNFioDbFJDNyjaQK3xHDtUZIcHdU0b'
-      vim data/pg_hba.conf            # Set METHOD to md5
-      exit
-    sudo service postgresql restart
-    exit
+    # Process scenarios submitted
 
 
-3. Create configuration file.
-::
+Production (Standalone and Distributed)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    cp default.cfg .production.cfg
-    vim .production.cfg
+The NetworkPlanner web application can be deployed as a standalone server or
+as a set of distributed processors:
 
-4. Configure nginx server.
-::
+- Standalone:  Single server handling all requests
 
-    su
-        yum remove -y httpd
-        yum install -y nginx
-        vim /etc/nginx/nginx.conf           # See deployment/nginx.conf
-        service nginx restart
-        exit
+- Distributed:  
 
-5. Run single production server.
-::
+  Master server handling main interface requests and then
+  distributing the processing of scenarios among processor nodes.  
+  Utilizes RabbitMQ to synchronize between Master and Processors.  
+   
+For Production deployment, we utilize a combination of Chef_ and Fabric_ to
+standardize and automate deployment.  Production deployments utilize 
+Postgresql as the main database.  
 
-    ./restart ss
-
-
-Run production server on a cluster of computers
------------------------------------------------
-This option disables debugging and is useful for production deployment.
-Run these commands after you have performed steps 1 - 4 for running a 
-production server on a single computer.
-
-1. Run cluster production server.
-::
-
-    ./restart cs
-
-2. Run the following script on each cluster machine.
-::
-
-    cluster-processor-setup.sh              # Change 134f to your desired username
+Please refer to the networkplanner-devops_ repository for details and 
+instructions.  
 
 Troubleshooting
 ---------------
@@ -185,3 +181,8 @@ Troubleshooting
 ::
 
     deployment/cluster-queue-reset.sh
+
+.. _Paste:  http://pythonpaste.org/
+.. _Chef:  docs.opscode.com
+.. _Fabric:  fabfile.org
+.. _networkplanner-devops:  https://github.com/SEL-Columbia/networkplanner-devops
