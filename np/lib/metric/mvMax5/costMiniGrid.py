@@ -108,12 +108,12 @@ class GeneratorOperationsAndMaintenanceCostPerYearAsFractionOfGeneratorCost(V):
     aliases = ['mg_dg_omf']
     default = 0.01
 
-class GeneratorHoursOfOperationPerYear(V):
+class GeneratorDaysOfOperationPerYear(V):
 
     section = 'system (mini-grid)'
     option = 'power generation hours of operation per year'
     aliases = ['mg_g_sh']
-    default = float(365*24)
+    default = float(365)
     units = 'hours'
 
 
@@ -127,7 +127,7 @@ class GeneratorDesiredSystemCapacity(V):
     aliases = ['mg_dg_dcp']
     dependencies = [
         demand.ProjectedNodalDemandPerYear,
-        GeneratorHoursOfOperationPerYear,
+        GeneratorDaysOfOperationPerYear,
         DistributionLoss,
         CapacityFactor,
         UtilizationFactor,
@@ -142,8 +142,7 @@ class GeneratorDesiredSystemCapacity(V):
         #Return
         return (effectiveDemandPerYear / 
                 float(self.get(CapacityFactor)) / #reduce by factor of how much of installed power can be utilized on average
-                self.get(GeneratorHoursOfOperationPerYear) / #factor to convert energy usage to power sizing
-                float(self.get(CapacityFactor))/ #derate by capacity factor so system is sized to meet annual consumption
+                self.get(GeneratorDaysOfOperationPerYear) * #factor to convert energy usage to power sizing
                 float(self.get(UtilizationFactor))) #derate by utilization factor such as diesel system presents
 
 
