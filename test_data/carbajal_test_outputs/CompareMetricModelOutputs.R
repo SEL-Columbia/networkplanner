@@ -14,11 +14,17 @@ mv4_index <- read.csv("mapping_mvmax4.csv")
 mv5_index <- read.csv("mapping_mvmax5.csv")
 
 #Identify parameters associated with MiniGrids
-MG_Params_mv4 <- subset(mv4_index, section == "system (mini-grid)") 
+MG_Params_mv4 <- subset(mv4_index, (section == "system (mini-grid)" |
+                                      alias == "p_pkdem" |
+                                      alias == "p_dem"
+                                    ))                                
+
 MG_Subset_mv4 <- mv4[, which(names(mv4) %in% MG_Params_mv4$alias)]
 
 #Identify parameters associated with MiniGrids
-MG_Params_mv5 <- subset(mv5_index, section == "system (mini-grid)")
+MG_Params_mv5 <- subset(mv5_index, (section == "system (mini-grid)" |
+                                      alias == "p_pkdem" |
+                                      alias == "p_dem"))
 MG_Subset_mv5 <- mv5[, which(names(mv5) %in% MG_Params_mv5$alias)]
 
 ##Change names so i can interpret them for 4
