@@ -85,9 +85,21 @@ class CapacityFactor(V):
     section = 'system (mini-grid)'
     option = 'capacity factor of power generation as factor of nameplate output'
     aliases = ['mg_dg_mnhr']
-    default = 0.90
+    default = 1.0 #diesel generator has a 100% capacity factor, solar ~17% per solar hours
     units = 'ratio'
 
+#!! big change, generator will be modeled as a factor of its utilization factor too 
+class UtilizationFactor(V):
+
+    section = 'system (mini-grid)'
+    option = 'utilization factor of power generation as factor of nameplate output'
+    aliases = ['mg_u_fctr']
+    default = 0.10 #diesel generator has a 10% capacity factor
+    #(40% of load)/(4 peak hours/day) =  0.10
+    #Solar-battery system would be 100% because it's all dispatched on demand via electronics and fully utilized
+    units = 'ratio'
+
+    
 #nomenclature change, generalize diesel genset to power generation - class name changed
 class GeneratorOperationsAndMaintenanceCostPerYearAsFractionOfGeneratorCost(V):
 
@@ -118,6 +130,7 @@ class GeneratorDesiredSystemCapacity(V):
         GeneratorHoursOfOperationPerYear,
         DistributionLoss,
         CapacityFactor,
+        UtilizationFactor,
         
     ]
     units = 'kilowatts'
@@ -130,7 +143,8 @@ class GeneratorDesiredSystemCapacity(V):
         return (effectiveDemandPerYear / 
                 float(self.get(CapacityFactor)) / #reduce by factor of how much of installed power can be utilized on average
                 self.get(GeneratorHoursOfOperationPerYear) / #factor to convert energy usage to power sizing
-                float(self.get(CapacityFactor))) #derate by capacity factor so system is sized to meet annual consumption   
+                float(self.get(CapacityFactor))/ #derate by capacity factor so system is sized to meet annual consumption
+                float(self.get(UtilizationFactor))) #derate by utilization factor such as diesel system presents
 
 
 #nomenclature change, since now power generation system will conform to given list of standards - class name changed
