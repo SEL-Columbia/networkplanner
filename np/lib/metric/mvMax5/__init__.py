@@ -203,7 +203,7 @@ class OffGridSystemTotalDiscountedRecurringCost(V):
 
 class MiniGridSystemTotal(V):
 
-    section = 'system (mini-grid)'
+    section = 'MG'
     option = 'system total'
     aliases = ['mg_ct']
     default = 0
@@ -218,7 +218,7 @@ class MiniGridSystemTotal(V):
 ## variable would be affected by change in costMiniGrid.py
 class MiniGridSystemTotalDiscountedFuelBatteryCost(V):
 
-    section = 'system (mini-grid)'
+    section = 'MG'
     option = 'system total discounted fuel and battery cost'
     aliases = ['mg_tot_dfbc']
     default = 0
@@ -234,7 +234,7 @@ class MiniGridSystemTotalDiscountedFuelBatteryCost(V):
 ## variable would be affected by change in costMiniGrid.py
 class MiniGridSystemTotalDiscountedCost(V):
 
-    section = 'system (mini-grid)'
+    section = 'MG'
     option = 'system total discounted cost'
     aliases = ['mg_tot_d']
     default = 0
@@ -249,7 +249,7 @@ class MiniGridSystemTotalDiscountedCost(V):
 
 class MiniGridSystemTotalDiscountedDemand(V):
 
-    section = 'system (mini-grid)'
+    section = 'MG'
     option = 'system total discounted demand'
     aliases = ['mg_dem_d']
     default = 0
@@ -265,7 +265,7 @@ class MiniGridSystemTotalDiscountedDemand(V):
 TODO:  Remove Me, Duplicate of above
 class MiniGridSystemTotalDiscountedCost(V):
 
-    section = 'system (mini-grid)'
+    section = 'MG'
     option = 'system total discounted cost'
     aliases = ['mg_tot_d']
     default = 0
@@ -280,7 +280,7 @@ class MiniGridSystemTotalDiscountedCost(V):
 
 class MiniGridSystemTotalInitialCost(V):
 
-    section = 'system (mini-grid)'
+    section = 'MG'
     option = 'system total initial cost'
     aliases = ['mg_tot_i']
     default = 0
@@ -295,7 +295,7 @@ class MiniGridSystemTotalInitialCost(V):
 
 class MiniGridSystemTotalDiscountedRecurringCost(V):
 
-    section = 'system (mini-grid)'
+    section = 'MG'
     option = 'system total discounted recurring cost'
     aliases = ['mg_tot_drc']
     default = 0
@@ -312,7 +312,7 @@ class MiniGridSystemTotalDiscountedRecurringCost(V):
 
 class MiniGridSystemTotalLevelizedCost(V):
 
-    section = 'system (mini-grid)'
+    section = 'MG'
     option = 'system total levelized cost'
     aliases = ['mg_tot_lev']
     dependencies = [
@@ -636,7 +636,7 @@ sections = [
     'demand (social infrastructure)',
     'distribution',
     'system (off-grid)',
-    'system (mini-grid)',
+    'MG',
     'system (grid)',
     'metric',
 ]
