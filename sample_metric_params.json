@@ -1,6 +1,4 @@
 { 
   "demand (household)": 
-    { "household unit demand per household per year": 50},
-  "system (mini-grid)":
-    { "fuel or storage cost per kWh": 2.00}
+    { "household unit demand per household per year": 50}
 }
