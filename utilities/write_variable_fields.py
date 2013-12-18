@@ -1,5 +1,7 @@
 import sys, os
 
+# Prevents this script from failing when output is piped
+# to another process
 from signal import signal, SIGPIPE, SIG_DFL
 signal(SIGPIPE,SIG_DFL)
 
