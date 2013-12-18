@@ -14,17 +14,24 @@ from np import util
 
 if __name__ == '__main__':
 
-    if (len(sys.argv) < 3):
-        sys.stderr.write("example usage:  python write_variable_fields.py model variable\n")
+    if (len(sys.argv) < 2):
+        sys.stderr.write("example usage:  python write_variable_fields.py model [variable]\n")
         sys.exit()
 
     # setup model
     model = sys.argv[1]
-    variable = sys.argv[2] 
+    variable = None
+    if len(sys.argv) > 2:
+        variable = sys.argv[2] 
 
     mvModel = metric.getModel(model)
-    modelVar = util.getSubModuleFromString(mvModel, variable)
-    variableSet = VS.getRelatedVariables(modelVar)
+    variableSet = []
+    if variable:
+        modelVar = util.getSubModuleFromString(mvModel, variable)
+        variableSet = VS.getRelatedVariables(modelVar)
+    else:
+        # no variable parameter, get all vars for the model
+        variableSet, roots = VS.gatherVariables(mvModel.VariableStore)
 
     sys.stdout.write("class,alias,section,option,units,default,dependencies\n")
     for var in variableSet:
