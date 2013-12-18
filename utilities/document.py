@@ -47,7 +47,8 @@ def generateDocumentation(modelModule):
     # Initialize
     lines, rows = [], []
     # Extract
-    sectionPacks, derivativesByVariable, roots = variable_store.buildSectionPacks(modelModule)
+    sectionPacks, derivativesByVariable, roots = \
+        variable_store.buildSectionPacks(modelModule)
     # For each section in order,
     for section, variables in sectionPacks:
         # Prepare header for module 

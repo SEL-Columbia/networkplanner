@@ -331,7 +331,7 @@ BASE_PATH = "np.lib.metric"
 def getAlias(varClass):
     """
     Get alias as first item in list of aliases if there
-    else just use lower-case option
+    else just use option
     """
     if varClass.aliases != None and len(varClass.aliases) > 0:
         return varClass.aliases[0]

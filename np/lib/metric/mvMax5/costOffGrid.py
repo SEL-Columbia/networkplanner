@@ -579,7 +579,7 @@ class DieselFuelCostPerYear(V):
 
 
 #TODO:  Remove inherits from MiniGridSystemInitialCost?
-class DieselComponentInitialCost(costMiniGrid.MiniGridSystemInitialCost):
+class DieselComponentInitialCost(V):
 
     section = 'system (off-grid)'
     option = 'diesel component initial cost'
@@ -598,7 +598,7 @@ class DieselComponentInitialCost(costMiniGrid.MiniGridSystemInitialCost):
 
 
 #TODO:  Remove inherits from MiniGridSystemRecurringCostPerYear?
-class DieselComponentRecurringCostPerYear(costMiniGrid.MiniGridSystemRecurringCostPerYear):
+class DieselComponentRecurringCostPerYear(V):
 
     section = 'system (off-grid)'
     option = 'diesel component recurring cost per year'
