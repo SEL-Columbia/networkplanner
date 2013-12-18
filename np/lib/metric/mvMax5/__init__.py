@@ -216,11 +216,11 @@ class MiniGridSystemTotal(V):
             self.value += 1
 
 ## variable would be affected by change in costMiniGrid.py
-class MiniGridSystemTotalDiscountedEnergyStorageCost(V):
+class MiniGridSystemTotalDiscountedFuelBatteryCost(V):
 
     section = 'MG'
-    option = 'system total discounted energy storage cost'
-    aliases = ['mg_tot_esc']
+    option = 'system total discounted fuel and battery cost'
+    aliases = ['mg_tot_dfbc']
     default = 0
     units = 'dollars'
 
@@ -229,7 +229,7 @@ class MiniGridSystemTotalDiscountedEnergyStorageCost(V):
         if childVS.get(System)[0] == 'm':
             # add up nodal battery/or costs
             self.value += childVS.get(
-              costMiniGrid.MiniGridSystemNodalDiscountedEnergyStorageCost) 
+              costMiniGrid.MiniGridSystemNodalDiscountedFuelBatteryCost) 
 
 ## variable would be affected by change in costMiniGrid.py
 class MiniGridSystemTotalDiscountedCost(V):
@@ -583,7 +583,7 @@ class VariableStore(VS):
         MiniGridSystemTotalDiscountedCost,
         MiniGridSystemTotalInitialCost,
         MiniGridSystemTotalDiscountedRecurringCost,
-        MiniGridSystemTotalDiscountedEnergyStorageCost, ### variable changes if fuel name adjusted
+        MiniGridSystemTotalDiscountedFuelBatteryCost, ### variable changes if fuel name adjusted
         GridSystemTotal,
         GridSystemTotalDiscountedDemand,
         GridSystemTotalDiscountedCost,
@@ -616,7 +616,7 @@ roots = [
     OffGridSystemTotalLevelizedCost,
     MiniGridSystemTotal,
     MiniGridSystemTotalInitialCost,
-    MiniGridSystemTotalDiscountedEnergyStorageCost,#variable name changes with diesel adjustment
+    MiniGridSystemTotalDiscountedFuelBatteryCost,#variable name changes with diesel adjustment
     MiniGridSystemTotalDiscountedRecurringCost,
     MiniGridSystemTotalLevelizedCost,
     GridSystemTotal,
