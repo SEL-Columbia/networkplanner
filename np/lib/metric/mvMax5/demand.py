@@ -651,22 +651,8 @@ class DemandToPeakDemandConversionFactor(V):
     ]
 
     def compute(self):
-        return self.get(PeakDemandAsFractionOfNodalDemandOccurringDuringPeakHours) / float(self.get(PeakElectricalHoursOfOperationPerYear))
-
-
-class ProjectedPeakHouseholdDemand(V):
-
-    section = 'demand (peak)'
-    option = 'projected peak household demand'
-    aliases = ['p_pkdem_ho']
-    dependencies = [
-        ProjectedHouseholdDemandPerYear,
-        DemandToPeakDemandConversionFactor,
-    ]
-    units = 'kilowatts'
-
-    def compute(self):
-        return self.get(ProjectedHouseholdDemandPerYear) * self.get(DemandToPeakDemandConversionFactor)
+        return (self.get(PeakDemandAsFractionOfNodalDemandOccurringDuringPeakHours) / 
+               float(self.get(PeakElectricalHoursOfOperationPerYear)))
 
 
 class ProjectedPeakProductiveDemand(V):
@@ -684,36 +670,6 @@ class ProjectedPeakProductiveDemand(V):
         return self.get(ProjectedProductiveDemandPerYear) * self.get(DemandToPeakDemandConversionFactor)
 
 
-class ProjectedPeakHealthFacilityDemand(V):
-
-    section = 'demand (peak)'
-    option = 'projected peak health facility demand'
-    aliases = ['p_pkdem_he']
-    dependencies = [
-        ProjectedHealthFacilityDemandPerYear,
-        DemandToPeakDemandConversionFactor,
-    ]
-    units = 'kilowatts'
-
-    def compute(self):
-        return self.get(ProjectedHealthFacilityDemandPerYear) * self.get(DemandToPeakDemandConversionFactor)
-
-
-class ProjectedPeakEducationFacilityDemand(V):
-
-    section = 'demand (peak)'
-    option = 'projected peak education facility demand'
-    aliases = ['p_pkdem_ed']
-    dependencies = [
-        ProjectedEducationFacilityDemandPerYear,
-        DemandToPeakDemandConversionFactor,
-    ]
-    units = 'kilowatts'
-
-    def compute(self):
-        return self.get(ProjectedEducationFacilityDemandPerYear) * self.get(DemandToPeakDemandConversionFactor)
-
-
 class ProjectedPeakCommercialFacilityDemand(V):
 
     section = 'demand (peak)'
@@ -727,21 +683,6 @@ class ProjectedPeakCommercialFacilityDemand(V):
 
     def compute(self):
         return self.get(ProjectedCommercialFacilityDemandPerYear) * self.get(DemandToPeakDemandConversionFactor)
-
-
-class ProjectedPeakPublicLightingFacilityDemand(V):
-
-    section = 'demand (peak)'
-    option = 'projected peak public lighting facility demand'
-    aliases = ['p_pkdem_li']
-    dependencies = [
-        ProjectedPublicLightingFacilityDemandPerYear,
-        DemandToPeakDemandConversionFactor,
-    ]
-    units = 'kilowatts'
-
-    def compute(self):
-        return self.get(ProjectedPublicLightingFacilityDemandPerYear) * self.get(DemandToPeakDemandConversionFactor)
 
 
 class ProjectedPeakNodalDemand(V):

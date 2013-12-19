@@ -231,6 +231,20 @@ class MiniGridSystemTotalDiscountedFuelBatteryCost(V):
             self.value += childVS.get(
               costMiniGrid.MiniGridSystemNodalDiscountedFuelBatteryCost) 
 
+class MiniGridSystemTotalDiscountedGenerationCost(V):
+
+    section = 'system (mini-grid)'
+    option = 'system total discounted generation cost'
+    aliases = ['mg_tot_dgc']
+    default = 0
+    units = 'dollars'
+
+    def aggregate(self, childVS):
+        # If the system is off-grid,
+        if childVS.get(System)[0] == 'm':
+            # add up nodal diesel costs
+            self.value += childVS.get(costMiniGrid.MiniGridSystemNodalDiscountedGenerationCost)
+
 ## variable would be affected by change in costMiniGrid.py
 class MiniGridSystemTotalDiscountedCost(V):
 
@@ -583,6 +597,7 @@ class VariableStore(VS):
         MiniGridSystemTotalDiscountedCost,
         MiniGridSystemTotalInitialCost,
         MiniGridSystemTotalDiscountedRecurringCost,
+        MiniGridSystemTotalDiscountedGenerationCost,
         MiniGridSystemTotalDiscountedFuelBatteryCost, ### variable changes if fuel name adjusted
         GridSystemTotal,
         GridSystemTotalDiscountedDemand,
@@ -616,7 +631,8 @@ roots = [
     OffGridSystemTotalLevelizedCost,
     MiniGridSystemTotal,
     MiniGridSystemTotalInitialCost,
-    MiniGridSystemTotalDiscountedFuelBatteryCost,#variable name changes with diesel adjustment
+    MiniGridSystemTotalDiscountedGenerationCost,
+    MiniGridSystemTotalDiscountedFuelBatteryCost, # variable name changes with diesel adjustment
     MiniGridSystemTotalDiscountedRecurringCost,
     MiniGridSystemTotalLevelizedCost,
     GridSystemTotal,
