@@ -69,7 +69,8 @@ class VariableStore(object):
         if variableClass in self.variableByClass:
             # Return the variable from the cache
             return self.variableByClass[variableClass]
-        # If the variable has dependencies and any of the variable's dependencies are in the cache,
+        # If the variable has dependencies and any of the variable's 
+        # dependencies are in the cache,
         if variableClass.dependencies and self.has(variableClass.dependencies):
             # Recompute the variable
             variable = variableClass(self)
@@ -186,7 +187,11 @@ class Variable(object):
         # If we do not have a value,
         if value == None or value == '':
             # Compute the value if we do not have a default
-            self.value = self.compute() if self.default == None else self.c['parse'](self.default)
+            if self.default == None:
+                self.value = self.compute()
+            else:
+                self.value = self.c['parse'](self.default)
+
         # If we have a value,
         else:
             # Parse the value
