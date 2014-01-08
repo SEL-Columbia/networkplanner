@@ -2,7 +2,8 @@ import sys, csv, collections, json, os
 # set basepath to parent dir for np imports
 basePath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(basePath)
-from np.lib import metric, dataset_store, geometry_store, variable_store
+from np.lib import metric, dataset_store, geometry_store, variable_store as VS
+import argparse
 
 
 """
@@ -41,19 +42,33 @@ def getNodes(proj4, nodePacks):
 # Run DemandBuilder
 if __name__ == '__main__':
 
-    if (len(sys.argv) < 3):
-        sys.stderr.write("example usage:  python build_demand.py node.csv model_name model_params.json\n")
-        sys.exit()
+    parser = argparse.ArgumentParser(description="Run metric model on demand nodes")
+    parser.add_argument('model_name', choices=metric.getModelNames(),
+                        help="model definition to run")
+    parser.add_argument('model_params', type=argparse.FileType('r'),
+                        help="model parameters json file")
+    parser.add_argument('input_nodes', nargs='?', type=argparse.FileType('r'),
+                        default=sys.stdin,
+                        help="csv file of nodes (lat,lon,population,...)")
+    parser.add_argument('outfile', nargs='?', type=argparse.FileType('w'),
+                        default=sys.stdout, 
+                        help="csv output of model run")
+    parser.add_argument("-t", "--header-type", 
+                        choices=[VS.HEADER_TYPE_SECTION_OPTION, 
+                                 VS.HEADER_TYPE_ALIAS,
+                                 VS.HEADER_TYPE_SHORT_NAME], 
+                        default=VS.HEADER_TYPE_ALIAS,
+                        help="the output file header field name type")                       
+                        
+    args = parser.parse_args()
 
     # setup model
-    demand_nodes = sys.argv[1]
-    model_name = sys.argv[2] 
-    model_params_file = sys.argv[3] 
-    metricModel = metric.getModel(model_name)
+    metricModel = metric.getModel(args.model_name)
 
-    metricValueByOptionBySection = json.load(open(model_params_file, 'r'))
+    metricValueByOptionBySection = json.load(args.model_params)
 
     """
+    // Sample Model Parameter JSON
     metricValueByOptionBySection = {
         'demand (household)': 
             {'household unit demand per household per year': 50}
@@ -63,8 +78,7 @@ if __name__ == '__main__':
     jobVS = metricModel.VariableStore(metricValueByOptionBySection)
     
     # process input stream nodes
-    demand_stream = open(demand_nodes, 'r') 
-    proj4, nodePacks = dataset_store.digestNodesFromCSVStream(demand_stream)  
+    proj4, nodePacks = dataset_store.digestNodesFromCSVStream(args.input_nodes)  
     nodes = getNodes(proj4, nodePacks)
 
     # run the model on each node
@@ -79,11 +93,11 @@ if __name__ == '__main__':
         node.output = nodeVS.getValueByOptionBySection()
 
     # prep the csv output stream
-    csvWriter = csv.writer(sys.stdout)
+    csvWriter = csv.writer(args.outfile)
 
     # output aliases for header so get the section, option to alias map
-    varClasses, roots = variable_store.gatherVariables(metricModel.VariableStore)
-    sectionOptionToAlias = variable_store.getSectionOptionToAliasMap(varClasses)
+    varClasses, roots = VS.gatherVariables(metricModel.VariableStore)
+    sectionOptionToAlias = VS.getSectionOptionToAliasMap(varClasses)
 
     # use last node as basis for header
     nodeInput = node.input
@@ -96,9 +110,16 @@ if __name__ == '__main__':
         for option in sorted(valueByOption):
             headerPacks.append((section, option))
 
+    headerPacksToNames = VS.getFieldNamesForHeaderPacks(metricModel, 
+                            headerPacks, args.header_type)
+
+    csvWriter.writerow([headerPacksToNames[(section, option)] for 
+                        section, option in headerPacks])
+    """
     csvWriter.writerow([sectionOptionToAlias[(section, option)] if section 
                         else option.capitalize() 
                         for section, option in headerPacks])
+    """
 
     node_gen = (node for node in nodes if not node.is_fake)
     for node in node_gen:

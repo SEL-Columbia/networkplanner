@@ -303,33 +303,6 @@ def extractVariableValue(valueByOptionBySection, variableClass, variableStore):
     # If we cannot find a matching value, signal variableClass to use default value
     return True, None
 
-def getSectionOptionToAliasMap(variableClasses):
-    """
-    Return dict of (Section, Option) keys to alias string
-    (Picks the 1st one if multiple)
-    """
-
-    # Initialize
-    sectionOptionToAlias = {}
-    # For each variableClass,
-    for variableClass in variableClasses:
-        # If section and option are not defined,
-        if not variableClass.section or not variableClass.option:
-            raise Exception('Empty variable name for class: %s' % variableClass)
-
-        alias = defaultAlias(variableClass.section, variableClass.option)
-        if variableClass.aliases != None:
-            alias = variableClass.aliases[0]
-
-        sectionOptionToAlias[(variableClass.section, 
-                              variableClass.option)] = alias
-
-    return sectionOptionToAlias
-
-
-def defaultAlias(section, option):
-    return '%s_%s' % (section.lower().replace(' ', '_'), option.lower().replace(' ', '_'))
-
 #TODO:  Put this in a better spot?  
 BASE_PATH = "np.lib.metric"
 
@@ -396,7 +369,59 @@ def getRelatedVariables(varClass):
     variableSet = [varTuple[0] for varTuple in variableGraph]
     return variableSet
 
+
+HEADER_TYPE_SECTION_OPTION = 'section_option' # i.e. 'Finance > Time Horizon'
+HEADER_TYPE_ALIAS          = 'alias' # or slug, i.e.  'time'
+HEADER_TYPE_SHORT_NAME     = 'short_name' # i.e. 'Fin_TimeHrzn'
+
+def getFieldNamesForHeaderPacks(modelClass, headerPacks, headerFieldNameType=HEADER_TYPE_SECTION_OPTION):
+    """
+    Given a list of section, option tuples (headerPacks), return a map of 
+    section, option to corresponding name in the format specified by 
+    headerFieldNameType.
+
+    NOTE:  "headerPacks" (i.e. a list of section, option tuples) seem to be 
+    the standard identification mechanism for metric model variables at this point.  
+    This is why we use the section, option tuple to look up the variable class 
+    definition in order to display via it's member variables.
+
+    This function is not really required for HEADER_TYPE_SECTION_OPTION
+    but, it keeps the header creation def in a single place.  
+    """
     
+    variableSet, roots = gatherVariables(modelClass.VariableStore)
+    section_option_to_var = {(var.section, var.option): var for var in variableSet}
+
+
+    # inner function for naming
+    def get_field_name(section, option, headerFieldNameType):
+        if section_option_to_var.get((section, option)):
+            var = section_option_to_var[(section, option)]
+            # handle short_name and alias options
+            if (headerFieldNameType==HEADER_TYPE_SHORT_NAME and 
+               hasattr(var, 'short_section') and 
+               hasattr(var, 'short_option')):
+                return "%s_%s" % (var.short_section, var.short_option)
+            elif (headerFieldNameType==HEADER_TYPE_ALIAS and 
+                 hasattr(var, 'aliases') and len(var.aliases) > 0):
+                return var.aliases[0] # simply the first alias of the variable
+
+        # Handle the HEADER_TYPE_SECTION_OPTION case
+        # This is the fallback case for any fieldName type
+        if section: 
+            return "%s > %s" % (section.capitalize(), option.capitalize())
+        else:
+            return option.capitalize()
+
+    section_option_to_name = {}
+
+    for section, option in headerPacks:
+        section_option_to_name[(section, option)] = \
+          get_field_name(section, option, headerFieldNameType)
+            
+    return section_option_to_name
+
+
 # Key
 
 separator = '00'

@@ -20,6 +20,10 @@ class Metric(V):
     section = 'metric'
     option = 'maximum length of medium voltage line extension'
     aliases = ['mvmax']
+
+    short_section = 'Metric'
+    short_option = 'MVMax'
+
     dependencies = [
         costOffGrid.OffGridSystemNodalDiscountedCost,
         costOffGrid.OffGridSystemNodalLevelizedCost,
@@ -53,6 +57,10 @@ class System(V):
     section = 'metric'
     option = 'system'
     aliases = ['system']
+
+    short_section = 'Metric'
+    short_option = 'Sys'
+
     c = dict(parse=str)
     dependencies = [
         demand.ProjectedNodalDemandPerYear,
@@ -83,6 +91,10 @@ class OffGridSystemTotal(V):
     section = 'system (off-grid)'
     option = 'system total'
     aliases = ['og_ct']
+
+    short_section = 'OG'
+    short_option = 'SysTot'
+
     default = 0
     units = 'count'
 
@@ -98,6 +110,10 @@ class OffGridSystemTotalDiscountedDemand(V):
     section = 'system (off-grid)'
     option = 'system total discounted demand'
     aliases = ['og_dem_d']
+
+    short_section = 'OG'
+    short_option = 'SysTotDsctDmd'
+
     default = 0
     units = 'kilowatt-hours'
 
@@ -113,6 +129,10 @@ class OffGridSystemTotalDiscountedDieselCost(V):
     section = 'system (off-grid)'
     option = 'system total discounted diesel cost'
     aliases = ['og_tot_ddc']
+
+    short_section = 'OG'
+    short_option = 'SysTotDiscDslCst'
+
     default = 0
     units = 'dollars'
 
@@ -128,6 +148,10 @@ class OffGridSystemTotalDiscountedDieselFuelCost(V):
     section = 'system (off-grid)'
     option = 'system total discounted diesel fuel cost'
     aliases = ['og_tot_ddfc']
+
+    short_section = 'OG'
+    short_option = 'SysTotDiscDslFuelCst'
+
     default = 0
     units = 'dollars'
 
@@ -143,6 +167,10 @@ class OffGridSystemTotalDiscountedCost(V):
     section = 'system (off-grid)'
     option = 'system total discounted cost'
     aliases = ['og_tot_d']
+
+    short_section = 'OG'
+    short_option = 'SysTotDsctCst'
+
     default = 0
     units = 'dollars'
 
@@ -157,6 +185,10 @@ class OffGridSystemTotalLevelizedCost(V):
 
     section = 'system (off-grid)'
     option = 'system total levelized cost'
+
+    short_section = 'OG'
+    short_option = 'SysTotLvlzdCst'
+
     aliases = ['og_tot_lev']
     dependencies = [
         OffGridSystemTotalDiscountedDemand,
@@ -175,6 +207,10 @@ class OffGridSystemTotalInitialCost(V):
     section = 'system (off-grid)'
     option = 'system total initial cost'
     aliases = ['og_tot_i']
+
+    short_section = 'GR'
+    short_option = 'SysTotInitCst'
+
     default = 0
     units = 'dollars'
 
@@ -190,6 +226,10 @@ class OffGridSystemTotalDiscountedRecurringCost(V):
     section = 'system (off-grid)'
     option = 'system total discounted recurring cost'
     aliases = ['og_tot_drc']
+
+    short_section = 'GR'
+    short_option = 'SysTotIntDiscRcrgCst'
+
     default = 0
     units = 'dollars'
 
@@ -206,6 +246,10 @@ class MiniGridSystemTotal(V):
     section = 'system (mini-grid)'
     option = 'system total'
     aliases = ['mg_ct']
+
+    short_section = 'MG'
+    short_option = 'SysTot'
+
     default = 0
     units = 'count'
 

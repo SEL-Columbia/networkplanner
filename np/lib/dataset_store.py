@@ -15,6 +15,7 @@ import collections
 import shapely.geometry
 # Import custom modules
 from np.lib import store, geometry_store
+from np.lib import variable_store as VS
 
 
 def create(targetPath, sourcePath):
@@ -219,17 +220,24 @@ class Store(object):
         for section, valueByOption in sorted(nodeOutput.iteritems(), key=lambda x: metricModel.sections.index(x[0])):
             for option in sorted(valueByOption):
                 headerPacks.append((section, option))
-        # Prepare
+        
         csvWriter = csv.writer(open(store.replaceFileExtension(targetPath, 'csv'), 'wb'))
         csvWriter.writerow(['PROJ.4 ' + self.getProj4()])
-        csvWriter.writerow(['%s > %s' % (section.capitalize(), option.capitalize()) if section else option.capitalize() for section, option in headerPacks])
+
+        # write the appropriate header
+        # TODO:  Make the header_type choice config driven?  
+        headerPacksToNames = VS.getFieldNamesForHeaderPacks(metricModel, 
+                            headerPacks, VS.HEADER_TYPE_SHORT_NAME)
+        csvWriter.writerow([headerPacksToNames[(section, option)] for 
+                            section, option in headerPacks])
+     
+        # csvWriter.writerow(['%s > %s' % (section.capitalize(), option.capitalize()) if section else option.capitalize() for section, option in headerPacks])
         # For each node,
         for node in self.cycleNodes():
             # Write row
             csvWriter.writerow([node.output.get(section, {}).get(option, '') if section else node.input.get(option, '') for section, option in headerPacks])
 
     # Network
-
     def buildNetwork(self, networkModel, networkValueByOptionBySection):
         'Build a network using the nodes and network building algorithm'
         # Load job-level configuration
