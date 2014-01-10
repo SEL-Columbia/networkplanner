@@ -17,6 +17,10 @@ class HealthFacilityCountCurvePoints(V):
     section = 'demand (social infrastructure)'
     option = 'health facility count curve points (population and facility count)'
     aliases = ['he_cc_pts']
+
+    short_section = 'DmdSocInf'
+    short_option = 'HlthFctyCtCrvPtsPopAndFctyCt'
+
     c = dict(parse=store.unstringifyCoordinatesList, format=store.flattenCoordinatesList, validate='validateCoordinatesList')
     default = '50 0.16; 500 1.6; 5000 5; 10000 20'
     units = 'population and facility count list'
@@ -27,6 +31,10 @@ class HealthFacilityCountCurveType(V):
     section = 'demand (social infrastructure)'
     option = 'health facility count curve type'
     aliases = ['he_cc_t']
+
+    short_section = 'DmdSocInf'
+    short_option = 'HlthFctyCtCrvTyp'
+
     c = dict(parse=str, input=curve.inputCurveType)
     default = 'ZeroLogisticLinear'
 
@@ -36,6 +44,10 @@ class EducationFacilityCountCurvePoints(V):
     section = 'demand (social infrastructure)'
     option = 'education facility count curve points (population and facility count)'
     aliases = ['ed_cc_pts']
+
+    short_section = 'DmdSocInf'
+    short_option = 'EduFctyCtCrvPtsPopAndFctyCt'
+
     c = dict(parse=store.unstringifyCoordinatesList, format=store.flattenCoordinatesList, validate='validateCoordinatesList')
     default = '50 0.1; 500 1; 5000 3; 10000 15'
     units = 'population and facility count list'
@@ -46,6 +58,10 @@ class EducationFacilityCountCurveType(V):
     section = 'demand (social infrastructure)'
     option = 'education facility count curve type'
     aliases = ['ed_cc_t']
+
+    short_section = 'DmdSocInf'
+    short_option = 'EduFctyCtCrvTyp'
+
     c = dict(parse=str, input=curve.inputCurveType)
     default = 'ZeroLogisticLinear'
 
@@ -55,6 +71,10 @@ class CommercialFacilityCountCurvePoints(V):
     section = 'demand (social infrastructure)'
     option = 'commercial facility count curve points (population and facility count)'
     aliases = ['co_cc_pts']
+
+    short_section = 'DmdSocInf'
+    short_option = 'ComFctyCtCrvPtsPopAndFctyCt'
+
     c = dict(parse=store.unstringifyCoordinatesList, format=store.flattenCoordinatesList, validate='validateCoordinatesList')
     default = '50 0.12; 500 1.2; 5000 25; 10000 125'
     units = 'population and facility count list'
@@ -65,6 +85,10 @@ class CommercialFacilityCountCurveType(V):
     section = 'demand (social infrastructure)'
     option = 'commercial facility count curve type'
     aliases = ['co_cc_t']
+
+    short_section = 'DmdSocInf'
+    short_option = 'ComFctyCtCrvTyp'
+
     c = dict(parse=str, input=curve.inputCurveType)
     default = 'ZeroLogisticLinear'
 
@@ -74,6 +98,10 @@ class PublicLightingFacilityCountCurvePoints(V):
     section = 'demand (social infrastructure)'
     option = 'public lighting facility count curve points (population and facility count)'
     aliases = ['li_cc_pts']
+
+    short_section = 'DmdSocInf'
+    short_option = 'PubLtgFctyCtCrvPtsPopAndFctyCt'
+
     c = dict(parse=store.unstringifyCoordinatesList, format=store.flattenCoordinatesList, validate='validateCoordinatesList')
     default = '50 0.1; 500 1; 5000 7; 10000 25'
     units = 'population and facility count list'
@@ -84,6 +112,10 @@ class PublicLightingFacilityCountCurveType(V):
     section = 'demand (social infrastructure)'
     option = 'public lighting facility count curve type'
     aliases = ['li_cc_t']
+
+    short_section = 'DmdSocInf'
+    short_option = 'PubLtgFctyCtCrvTyp'
+
     c = dict(parse=str, input=curve.inputCurveType)
     default = 'ZeroLogisticLinear'
 
@@ -97,6 +129,10 @@ class HealthFacilityCountCurve(V):
     section = 'demand (social infrastructure)'
     option = 'health facility count curve'
     aliases = ['he_cc']
+
+    short_section = 'DmdSocInf'
+    short_option = 'HlthFctyCtCrv'
+
     c = dict(parse=curve.parse, format=curve.format)
     dependencies = [
         HealthFacilityCountCurveType,
@@ -108,12 +144,20 @@ class HealthFacilityCountCurve(V):
         curvePoints = self.get(HealthFacilityCountCurvePoints)
         return curve.fit(curveType, curvePoints)
 
+    short_section = 'DmdSocInf'
+    short_option = 'PrjHlthFctyCt'
+    short_section = 'DmdSocInf'
+    short_option = 'PrjHlthFctyCt'
 
 class ProjectedHealthFacilityCount(V):
 
     section = 'demand (social infrastructure)'
     option = 'projected health facility count'
     aliases = ['p_he']
+
+    short_section = 'DmdSocInf'
+    short_option = 'PrjHlthFctyCt'
+
     dependencies = [
         HealthFacilityCountCurve,
         demographics.ProjectedPopulationCount,
@@ -129,6 +173,10 @@ class EducationFacilityCountCurve(V):
     section = 'demand (social infrastructure)'
     option = 'education facility count curve'
     aliases = ['ed_cc']
+
+    short_section = 'DmdSocInf'
+    short_option = 'EduFctyCtCrv'
+
     c = dict(parse=curve.parse, format=curve.format)
     dependencies = [
         EducationFacilityCountCurveType,
@@ -146,6 +194,10 @@ class ProjectedEducationFacilityCount(V):
     section = 'demand (social infrastructure)'
     option = 'projected education facility count'
     aliases = ['p_ed']
+
+    short_section = 'DmdSocInf'
+    short_option = 'PrjEduFctyCt'
+
     dependencies = [
         EducationFacilityCountCurve,
         demographics.ProjectedPopulationCount,
@@ -161,6 +213,10 @@ class CommercialFacilityCountCurve(V):
     section = 'demand (social infrastructure)'
     option = 'commercial facility count curve'
     aliases = ['co_cc']
+
+    short_section = 'DmdSocInf'
+    short_option = 'ComFctyCtCrv'
+
     c = dict(parse=curve.parse, format=curve.format)
     dependencies = [
         CommercialFacilityCountCurveType,
@@ -178,6 +234,10 @@ class ProjectedCommercialFacilityCount(V):
     section = 'demand (social infrastructure)'
     option = 'projected commercial facility count'
     aliases = ['p_co']
+
+    short_section = 'DmdSocInf'
+    short_option = 'PrjComFctyCt'
+
     dependencies = [
         CommercialFacilityCountCurve,
         demographics.ProjectedPopulationCount,
@@ -193,6 +253,10 @@ class PublicLightingFacilityCountCurve(V):
     section = 'demand (social infrastructure)'
     option = 'public lighting facility count curve'
     aliases = ['li_cc']
+
+    short_section = 'DmdSocInf'
+    short_option = 'PubLtgFctyCtCrv'
+
     c = dict(parse=curve.parse, format=curve.format)
     dependencies = [
         PublicLightingFacilityCountCurveType,
@@ -210,6 +274,10 @@ class ProjectedPublicLightingFacilityCount(V):
     section = 'demand (social infrastructure)'
     option = 'projected public lighting facility count'
     aliases = ['p_li']
+
+    short_section = 'DmdSocInf'
+    short_option = 'PrjPubLtgFctyCt'
+
     dependencies = [
         PublicLightingFacilityCountCurve,
         demographics.ProjectedPopulationCount,
@@ -229,6 +297,10 @@ class TargetHouseholdPenetrationRate(V):
     section = 'demand (household)'
     option = 'target household penetration rate'
     aliases = ['tgt_ho_prt']
+
+    short_section = 'DmdHH'
+    short_option = 'TgtHHPnRt'
+
     default = 1
 
 
@@ -237,6 +309,10 @@ class HouseholdUnitDemandPerHouseholdPerYear(V):
     section = 'demand (household)'
     option = 'household unit demand per household per year'
     aliases = ['ho_dc_unit']
+
+    short_section = 'DmdHH'
+    short_option = 'HHUnitDmdPrHHPrYr'
+
     default = 0 # 100
     units = 'kilowatt-hours per year'
 
@@ -246,6 +322,10 @@ class HouseholdDemandCurvePoints(V):
     section = 'demand (household)'
     option = 'demand curve points (population and multiplier)'
     aliases = ['ho_dc_pts']
+
+    short_section = 'DmdHH'
+    short_option = 'DmdCrvPtsPopAndMult'
+
     c = dict(parse=store.unstringifyCoordinatesList, format=store.flattenCoordinatesList, validate='validateCoordinatesList')
     default = '500 1; 1000 1.56; 5000 6.16; 10000 11.5'
     units = 'population and multiplier list'
@@ -256,6 +336,10 @@ class HouseholdDemandCurveType(V):
     section = 'demand (household)'
     option = 'demand curve type'
     aliases = ['ho_dc_t']
+
+    short_section = 'DmdHH'
+    short_option = 'DmdCrvTyp'
+   
     c = dict(parse=str, input=curve.inputCurveType)
     default = 'ZeroLogisticLinear'
 
@@ -269,6 +353,10 @@ class TargetHouseholdCount(V):
     section = 'demand (household)'
     option = 'target household count'
     aliases = ['ct_hh_t']
+
+    short_section = 'DmdHH'
+    short_option = 'TgtHHCt'
+   
     c = dict(parse=store.parseCeilInteger)
     dependencies = [
         TargetHouseholdPenetrationRate,
@@ -285,6 +373,10 @@ class HouseholdDemandCurve(V):
     section = 'demand (household)'
     option = 'demand curve'
     aliases = ['ho_dc']
+
+    short_section = 'DmdHH'
+    short_option = 'DmdCrv'
+
     c = dict(parse=curve.parse, format=curve.format)
     dependencies = [
         HouseholdDemandCurveType,
@@ -302,6 +394,10 @@ class ProjectedHouseholdDemandPerYear(V):
     section = 'demand (household)'
     option = 'projected household demand per year'
     aliases = ['p_dem_ho']
+
+    short_section = 'DmdHH'
+    short_option = 'PrjHHDmdPrYr'
+
     dependencies = [
         finance.ElectricityDemandMultiplier,
         HouseholdDemandCurve,
@@ -324,6 +420,10 @@ class ProductiveUnitDemandPerHouseholdPerYear(V):
     section = 'demand (productive)'
     option = 'productive unit demand per household per year'
     aliases = ['pr_dc_unit']
+
+    short_section = 'DmdProd'
+    short_option = 'ProdUnitDmdPrHHPrYr'
+
     default = 0 # 19.5
     units = 'kilowatt-hours per year'
 
@@ -333,6 +433,10 @@ class ProductiveDemandCurvePoints(V):
     section = 'demand (productive)'
     option = 'demand curve points (population and multiplier)'
     aliases = ['pr_dc_pts']
+
+    short_section = 'DmdProd'
+    short_option = 'DmdCrvPtsPopAndMult'
+
     c = dict(parse=store.unstringifyCoordinatesList, format=store.flattenCoordinatesList, validate='validateCoordinatesList')
     default = '500 1; 1000 3.06; 5000 3.57; 10000 5.10'
     units = 'population and multiplier list'
@@ -343,6 +447,10 @@ class ProductiveDemandCurveType(V):
     section = 'demand (productive)'
     option = 'demand curve type'
     aliases = ['pr_dc_t']
+
+    short_section = 'DmdProd'
+    short_option = 'DmdCrvTyp'
+
     c = dict(parse=str, input=curve.inputCurveType)
     default = 'ZeroLogisticLinear'
 
@@ -356,6 +464,10 @@ class ProductiveDemandCurve(V):
     section = 'demand (productive)'
     option = 'demand curve'
     aliases = ['pr_dc']
+
+    short_section = 'DmdProd'
+    short_option = 'DmdCrv'
+
     c = dict(parse=curve.parse, format=curve.format)
     dependencies = [
         ProductiveDemandCurveType,
@@ -380,6 +492,10 @@ class ProjectedProductiveDemandPerYear(V):
     section = 'demand (productive)'
     option = 'projected productive demand'
     aliases = ['p_dem_pr']
+
+    short_section = 'DmdProd'
+    short_option = 'PrjProdDmd'
+
     dependencies = [
         finance.ElectricityDemandMultiplier,
         ProductiveDemandCurve,
@@ -402,6 +518,10 @@ class HealthFacilityUnitDemandPerHealthFacilityPerYear(V):
     section = 'demand (social infrastructure)'
     option = 'health facility unit demand per health facility per year'
     aliases = ['he_dc_unit']
+
+    short_section = 'DmdSocInf'
+    short_option = 'HlthFctyUnitDmdPrFctyPrYr'
+
     default = 0 # 1000
     units = 'kilowatt-hours per year'
 
@@ -411,6 +531,10 @@ class EducationFacilityUnitDemandPerEducationFacilityPerYear(V):
     section = 'demand (social infrastructure)'
     option = 'education facility unit demand per education facility per year'
     aliases = ['ed_dc_unit']
+
+    short_section = 'DmdSocInf'
+    short_option = 'EduFctyUnitDmdPrFctyPrYr'
+
     default = 0 # 1200
     units = 'kilowatt-hours per year'
 
@@ -420,6 +544,10 @@ class CommercialFacilityUnitDemandPerCommercialFacilityPerYear(V):
     section = 'demand (social infrastructure)'
     option = 'commercial facility unit demand per commercial facility per year'
     aliases = ['co_dc_unit']
+
+    short_section = 'DmdSocInf'
+    short_option = 'ComFctyUnitDmdPrFctyPrYr'
+
     default = 0 # 250
     units = 'kilowatt-hours per year'
 
@@ -429,6 +557,10 @@ class PublicLightingFacilityUnitDemandPerPublicLightingFacilityPerYear(V):
     section = 'demand (social infrastructure)'
     option = 'public lighting facility unit demand per public lighting facility per year'
     aliases = ['li_dc_unit']
+
+    short_section = 'DmdSocInf'
+    short_option = 'PubLtgFctyUnitDmdPrFctyPrYr'
+
     default = 0 # 102
     units = 'kilowatt-hours per year'
 
@@ -438,6 +570,10 @@ class SocialInfrastructureDemandCurvePoints(V):
     section = 'demand (social infrastructure)'
     option = 'demand curve points (population and multiplier)'
     aliases = ['so_dc_pts']
+
+    short_section = 'DmdSocInf'
+    short_option = 'DmdCrvPtsPopAndMult'
+
     c = dict(parse=store.unstringifyCoordinatesList, format=store.flattenCoordinatesList, validate='validateCoordinatesList')
     default = '500 1; 1000 1.5; 5000 2.25; 10000 3.375' 
     units = 'population and multiplier list'
@@ -448,6 +584,10 @@ class SocialInfrastructureDemandCurveType(V):
     section = 'demand (social infrastructure)'
     option = 'demand curve type'
     aliases = ['so_dc_t']
+
+    short_section = 'DmdSocInf'
+    short_option = 'DmdCrvTyp'
+
     c = dict(parse=str, input=curve.inputCurveType)
     default = 'ZeroLogisticLinear'
 
@@ -461,6 +601,10 @@ class SocialInfrastructureDemandCurve(V):
     section = 'demand (social infrastructure)'
     option = 'demand curve'
     aliases = ['so_dc']
+
+    short_section = 'DmdSocInf'
+    short_option = 'DmdCrv'
+
     c = dict(parse=curve.parse, format=curve.format)
     dependencies = [
         SocialInfrastructureDemandCurveType,
@@ -478,6 +622,10 @@ class ProjectedHealthFacilityDemandPerYear(V):
     section = 'demand (social infrastructure)'
     option = 'projected health facility demand per year'
     aliases = ['p_dem_he']
+
+    short_section = 'DmdSocInf'
+    short_option = 'PrjHlthFctyDmdPrYr'
+
     dependencies = [
         finance.ElectricityDemandMultiplier,
         SocialInfrastructureDemandCurve,
@@ -496,6 +644,10 @@ class ProjectedEducationFacilityDemandPerYear(V):
     section = 'demand (social infrastructure)'
     option = 'projected education facility demand per year'
     aliases = ['p_dem_ed']
+
+    short_section = 'DmdSocInf'
+    short_option = 'PrjEduFctyDmdPrYr'
+
     dependencies = [
         finance.ElectricityDemandMultiplier,
         SocialInfrastructureDemandCurve,
@@ -514,6 +666,10 @@ class ProjectedCommercialFacilityDemandPerYear(V):
     section = 'demand (social infrastructure)'
     option = 'projected commercial facility demand per year'
     aliases = ['p_dem_co']
+
+    short_section = 'DmdSocInf'
+    short_option = 'PrjComFctyDmdPrYr'
+
     dependencies = [
         finance.ElectricityDemandMultiplier,
         SocialInfrastructureDemandCurve,
@@ -532,6 +688,10 @@ class ProjectedPublicLightingFacilityDemandPerYear(V):
     section = 'demand (social infrastructure)'
     option = 'projected public lighting facility demand per year'
     aliases = ['p_dem_li']
+
+    short_section = 'DmdSocInf'
+    short_option = 'PrjPubLtgFctyDmdPrYr'
+
     dependencies = [
         finance.ElectricityDemandMultiplier,
         SocialInfrastructureDemandCurve,
@@ -550,6 +710,10 @@ class ProjectedNodalDemandPerYear(V):
     section = 'demand'
     option = 'projected nodal demand per year'
     aliases = ['p_dem']
+
+    short_section = 'Dmd'
+    short_option = 'PrjNdlDmdPrYr'
+
     dependencies = [
         ProjectedHouseholdDemandPerYear,
         ProjectedProductiveDemandPerYear,
@@ -581,6 +745,10 @@ class ProjectedNodalDiscountedDemand(V):
     section = 'demand'
     option = 'projected nodal discounted demand'
     aliases = ['p_dem_d']
+
+    short_section = 'Dmd'
+    short_option = 'PrjNdlDiscDmd'
+
     dependencies = [
         ProjectedNodalDemandPerYear,
         finance.DiscountedCashFlowFactor,
@@ -600,6 +768,10 @@ class RuralPeakDemandAsFractionOfNodalDemandOccurringDuringPeakHours(V):
     section = 'demand (peak)'
     option = 'peak demand as fraction of nodal demand occurring during peak hours (rural)'
     aliases = ['pkdemf_r']
+
+    short_section = 'DmdPk'
+    short_option = 'PkDmdFctnOfNdlDmdInPkHrsRur'
+
     default = 0.4
 
 
@@ -608,6 +780,10 @@ class UrbanPeakDemandAsFractionOfNodalDemandOccurringDuringPeakHours(V):
     section = 'demand (peak)'
     option = 'peak demand as fraction of nodal demand occurring during peak hours (urban)'
     aliases = ['pkdemf_u']
+
+    short_section = 'DmdPk'
+    short_option = 'PkDmdFctnOfNdlDmdInPkHrsUrb'
+
     default = 0.4
 
 
@@ -616,6 +792,10 @@ class PeakElectricalHoursOfOperationPerYear(V):
     section = 'demand (peak)'
     option = 'peak electrical hours of operation per year'
     aliases = ['pkel_hr']
+
+    short_section = 'DmdPk'
+    short_option = 'PkElclHrsOfOprnPrYr'
+
     c = dict(check=store.assertPositive)
     default = 1460
     units = 'hours per year'
@@ -630,6 +810,10 @@ class PeakDemandAsFractionOfNodalDemandOccurringDuringPeakHours(V):
     section = 'demand (peak)'
     option = 'peak demand as fraction of nodal demand occurring during peak hours'
     aliases = ['pkdemf']
+
+    short_section = 'DmdPk'
+    short_option = 'PkDmdFctnOfNdlDmdInPkHrs'
+
     dependencies = [
         RuralPeakDemandAsFractionOfNodalDemandOccurringDuringPeakHours,
         demographics.IsRural,
@@ -645,6 +829,10 @@ class DemandToPeakDemandConversionFactor(V):
     section = 'demand (peak)'
     option = 'demand to peak demand conversion factor'
     aliases = ['dem_pkdemf']
+
+    short_section = 'DmdPk'
+    short_option = 'DmdToPkDmdCnvFctr'
+
     dependencies = [
         PeakDemandAsFractionOfNodalDemandOccurringDuringPeakHours,
         PeakElectricalHoursOfOperationPerYear,
@@ -660,6 +848,10 @@ class ProjectedPeakProductiveDemand(V):
     section = 'demand (peak)'
     option = 'projected peak productive demand'
     aliases = ['p_pkdem_pr']
+
+    short_section = 'DmdPk'
+    short_option = 'PrjPkProdDmd'
+
     dependencies = [
         ProjectedProductiveDemandPerYear,
         DemandToPeakDemandConversionFactor,
@@ -675,6 +867,10 @@ class ProjectedPeakCommercialFacilityDemand(V):
     section = 'demand (peak)'
     option = 'projected peak commercial facility demand'
     aliases = ['p_pkdem_co']
+
+    short_section = 'DmdPk'
+    short_option = 'PrjPkComFctyDmd'
+
     dependencies = [
         ProjectedCommercialFacilityDemandPerYear,
         DemandToPeakDemandConversionFactor,
@@ -690,6 +886,10 @@ class ProjectedPeakNodalDemand(V):
     section = 'demand (peak)'
     option = 'projected peak nodal demand'
     aliases = ['p_pkdem']
+
+    short_section = 'DmdPk'
+    short_option = 'PrjPkNdlDmd'
+
     dependencies = [
         ProjectedNodalDemandPerYear,
         DemandToPeakDemandConversionFactor,

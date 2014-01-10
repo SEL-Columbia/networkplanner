@@ -112,7 +112,7 @@ class OffGridSystemTotalDiscountedDemand(V):
     aliases = ['og_dem_d']
 
     short_section = 'OG'
-    short_option = 'SysTotDsctDmd'
+    short_option = 'SysTotDiscDmd'
 
     default = 0
     units = 'kilowatt-hours'
@@ -169,7 +169,7 @@ class OffGridSystemTotalDiscountedCost(V):
     aliases = ['og_tot_d']
 
     short_section = 'OG'
-    short_option = 'SysTotDsctCst'
+    short_option = 'SysTotDiscCst'
 
     default = 0
     units = 'dollars'
@@ -208,7 +208,7 @@ class OffGridSystemTotalInitialCost(V):
     option = 'system total initial cost'
     aliases = ['og_tot_i']
 
-    short_section = 'GR'
+    short_section = 'OG'
     short_option = 'SysTotInitCst'
 
     default = 0
@@ -227,8 +227,8 @@ class OffGridSystemTotalDiscountedRecurringCost(V):
     option = 'system total discounted recurring cost'
     aliases = ['og_tot_drc']
 
-    short_section = 'GR'
-    short_option = 'SysTotIntDiscRcrgCst'
+    short_section = 'OG'
+    short_option = 'SysTotDiscRcrgCst'
 
     default = 0
     units = 'dollars'
@@ -260,11 +260,15 @@ class MiniGridSystemTotal(V):
             self.value += 1
 
 ## variable would be affected by change in costMiniGrid.py
-class MiniGridSystemTotalDiscountedFuelBatteryCost(V):
+class MiniGridSystemTotalDiscountedEnergyStorageCost(V):
 
     section = 'system (mini-grid)'
-    option = 'system total discounted fuel and battery cost'
-    aliases = ['mg_tot_dfbc']
+    option = 'system total discounted energy storage cost'
+    aliases = ['mg_tot_desc']
+
+    short_section = 'MG'
+    short_option = 'SysTotDiscEnStrgCst'
+
     default = 0
     units = 'dollars'
 
@@ -273,13 +277,18 @@ class MiniGridSystemTotalDiscountedFuelBatteryCost(V):
         if childVS.get(System)[0] == 'm':
             # add up nodal battery/or costs
             self.value += childVS.get(
-              costMiniGrid.MiniGridSystemNodalDiscountedFuelBatteryCost) 
+              costMiniGrid.MiniGridSystemNodalDiscountedEnergyStorageCost) 
+
 
 class MiniGridSystemTotalDiscountedGenerationCost(V):
 
     section = 'system (mini-grid)'
     option = 'system total discounted generation cost'
     aliases = ['mg_tot_dgc']
+
+    short_section = 'MG'
+    short_option = 'SysTotDiscGenCst'
+
     default = 0
     units = 'dollars'
 
@@ -295,6 +304,10 @@ class MiniGridSystemTotalDiscountedCost(V):
     section = 'system (mini-grid)'
     option = 'system total discounted cost'
     aliases = ['mg_tot_d']
+
+    short_section = 'MG'
+    short_option = 'SysTotDiscCst'
+
     default = 0
     units = 'dollars'
 
@@ -310,6 +323,10 @@ class MiniGridSystemTotalDiscountedDemand(V):
     section = 'system (mini-grid)'
     option = 'system total discounted demand'
     aliases = ['mg_dem_d']
+
+    short_section = 'MG'
+    short_option = 'SysTotDiscDmd'
+
     default = 0
     units = 'kilowatt-hours'
 
@@ -319,28 +336,16 @@ class MiniGridSystemTotalDiscountedDemand(V):
             # Update
             self.value += childVS.get(demand.ProjectedNodalDiscountedDemand)
 
-"""
-TODO:  Remove Me, Duplicate of above
-class MiniGridSystemTotalDiscountedCost(V):
-
-    section = 'system (mini-grid)'
-    option = 'system total discounted cost'
-    aliases = ['mg_tot_d']
-    default = 0
-    units = 'dollars'
-
-    def aggregate(self, childVS):
-        # If the system is mini-grid,
-        if childVS.get(System)[0] == 'm':
-            # Update
-            self.value += childVS.get(costMiniGrid.MiniGridSystemNodalDiscountedCost)
-"""
 
 class MiniGridSystemTotalInitialCost(V):
 
     section = 'system (mini-grid)'
     option = 'system total initial cost'
     aliases = ['mg_tot_i']
+
+    short_section = 'MG'
+    short_option = 'SysTotInitCst'
+
     default = 0
     units = 'dollars'
 
@@ -356,6 +361,10 @@ class MiniGridSystemTotalDiscountedRecurringCost(V):
     section = 'system (mini-grid)'
     option = 'system total discounted recurring cost'
     aliases = ['mg_tot_drc']
+
+    short_section = 'MG'
+    short_option = 'SysTotDiscRcrgCst'
+
     default = 0
     units = 'dollars'
 
@@ -373,6 +382,10 @@ class MiniGridSystemTotalLevelizedCost(V):
     section = 'system (mini-grid)'
     option = 'system total levelized cost'
     aliases = ['mg_tot_lev']
+
+    short_section = 'MG'
+    short_option = 'SysTotLvlzdCst'
+
     dependencies = [
         MiniGridSystemTotalDiscountedDemand,
         MiniGridSystemTotalDiscountedCost,
@@ -390,6 +403,10 @@ class GridSystemTotal(V):
     section = 'system (grid)'
     option = 'system total'
     aliases = ['g_ct']
+
+    short_section = 'GR'
+    short_option = 'SysTot'
+
     default = 0
     units = 'count'
 
@@ -405,6 +422,10 @@ class GridSystemTotalDiscountedDemand(V):
     section = 'system (grid)'
     option = 'system total discounted demand'
     aliases = ['gr_dem_d']
+
+    short_section = 'GR'
+    short_option = 'SysTotDiscDmd'
+
     default = 0
     units = 'kilowatt-hours'
 
@@ -423,6 +444,10 @@ class GridSystemTotalExternalInitialCost(V):
     section = 'system (grid)'
     option = 'system total external initial cost'
     aliases = ['gr_tot_ext_ic']
+
+    short_section = 'GR'
+    short_option = 'SysTotInitCst'
+
     default = 0
     units = 'dollars'
 
@@ -447,6 +472,10 @@ class GridSystemTotalExternalDiscountedRecurringCost(V):
     section = 'system (grid)'
     option = 'system total external discounted recurring cost'
     aliases = ['gr_tot_ext_drc']
+
+    short_section = 'GR'
+    short_option = 'SysTotExtDiscRcrgCst'
+
     default = 0
     units = 'dollars'
 
@@ -470,6 +499,10 @@ class GridSystemTotalDiscountedCost(V):
     section = 'system (grid)'
     option = 'system total discounted cost'
     aliases = ['gr_tot_d']
+
+    short_section = 'GR'
+    short_option = 'SysTotDiscCst'
+
     default = 0
     units = 'dollars'
 
@@ -496,6 +529,10 @@ class GridSystemTotalLevelizedCost(V):
     section = 'system (grid)'
     option = 'system total levelized cost'
     aliases = ['gr_tot_lev']
+
+    short_section = 'GR'
+    short_option = 'SysTotLvlzdCst'
+
     dependencies = [
         GridSystemTotalDiscountedDemand,
         GridSystemTotalDiscountedCost,
@@ -513,6 +550,10 @@ class GridSystemTotalInternalInitialCost(V):
     section = 'system (grid)'
     option = 'system total internal initial cost'
     aliases = ['gr_tot_iic']
+
+    short_section = 'GR'
+    short_option = 'SysTotIntInitCst'
+
     default = 0
     units = 'dollars'
 
@@ -533,6 +574,10 @@ class GridSystemTotalInternalDiscountedRecurringCost(V):
     section = 'system (grid)'
     option = 'system total internal discounted recurring cost'
     aliases = ['gr_tot_idrc']
+
+    short_section = 'GR'
+    short_option = 'SysTotIntDiscRcrgCst'
+
     default = 0
     units = 'dollars'
 
@@ -554,6 +599,10 @@ class GridSystemTotalInitialCost(V):
     section = 'system (grid)'
     option = 'system total initial cost'
     aliases = ['gr_tot_init']
+
+    short_section = 'GR'
+    short_option = 'SysTotInitCst'
+
     dependencies = [
         GridSystemTotalInternalInitialCost,
         GridSystemTotalExternalInitialCost,
@@ -570,6 +619,10 @@ class GridSystemTotalDiscountedRecurringCost(V):
     section = 'system (grid)'
     option = 'system total discounted recurring cost'
     aliases = ['gr_tot_drc']
+
+    short_section = 'GR'
+    short_option = 'SysTotDiscRcrgCst'
+
     dependencies = [
         GridSystemTotalExternalDiscountedRecurringCost,
         GridSystemTotalInternalDiscountedRecurringCost,
@@ -588,10 +641,14 @@ class GridSystemTotalExistingNetworkLength(V):
     section = 'system (grid)'
     option = 'system total existing network length'
     aliases = ['gr_tot_enl']
-    units = 'meters'
+
+    short_section = 'GR'
+    short_option = 'SysTotNtwkLgth'
 
     # Don't understand why we need this
     dependencies = [System]
+
+    units = 'meters'
 
     def compute(self):
         return self.state[0].sumNetworkWeight(is_existing=True)
@@ -602,6 +659,10 @@ class GridSystemTotalProposedNetworkLength(V):
     section = 'system (grid)'
     option = 'system total proposed network length'
     aliases = ['gr_tot_pnl']
+
+    short_section = 'GR'
+    short_option = 'SysTotPropNtwkLgth'
+
     units = 'meters'
 
     # Don't understand why we need this
@@ -642,7 +703,7 @@ class VariableStore(VS):
         MiniGridSystemTotalInitialCost,
         MiniGridSystemTotalDiscountedRecurringCost,
         MiniGridSystemTotalDiscountedGenerationCost,
-        MiniGridSystemTotalDiscountedFuelBatteryCost, ### variable changes if fuel name adjusted
+        MiniGridSystemTotalDiscountedEnergyStorageCost,
         GridSystemTotal,
         GridSystemTotalDiscountedDemand,
         GridSystemTotalDiscountedCost,
@@ -676,7 +737,7 @@ roots = [
     MiniGridSystemTotal,
     MiniGridSystemTotalInitialCost,
     MiniGridSystemTotalDiscountedGenerationCost,
-    MiniGridSystemTotalDiscountedFuelBatteryCost, # variable name changes with diesel adjustment
+    MiniGridSystemTotalDiscountedEnergyStorageCost,
     MiniGridSystemTotalDiscountedRecurringCost,
     MiniGridSystemTotalLevelizedCost,
     GridSystemTotal,
