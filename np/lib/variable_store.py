@@ -235,7 +235,15 @@ def buildSectionPacks(model):
     return [(x, variablesBySection[x]) for x in model.sections], derivativesByVariable, roots
 
 def gatherVariables(modelClass):
-    'Gather variables from the model'
+    """
+    Gather variables from the model
+    NOTE:  This depends on all variable's dependencies list being 
+           accurate...otherwise, it will miss variables
+    An alternative method to get all variables in a model is to
+    get them via the __subclasses__ method of the Variable class, 
+    though this may include classes not intended to be included in 
+    the model.
+    """
     # Initialize
     variableClasses = set()
     nextClasses = []
