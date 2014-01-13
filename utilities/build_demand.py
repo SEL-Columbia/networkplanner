@@ -95,10 +95,6 @@ if __name__ == '__main__':
     # prep the csv output stream
     csvWriter = csv.writer(args.outfile)
 
-    # output aliases for header so get the section, option to alias map
-    varClasses, roots = VS.gatherVariables(metricModel.VariableStore)
-    sectionOptionToAlias = VS.getSectionOptionToAliasMap(varClasses)
-
     # use last node as basis for header
     nodeInput = node.input
     nodeOutput = node.output
