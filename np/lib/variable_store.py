@@ -377,7 +377,7 @@ def getRelatedVariables(varClass):
     variableSet = [varTuple[0] for varTuple in variableGraph]
     return variableSet
 
-
+#TODO:  Put these somewhere else?
 HEADER_TYPE_SECTION_OPTION = 'section_option' # i.e. 'Finance > Time Horizon'
 HEADER_TYPE_ALIAS          = 'alias' # or slug, i.e.  'time'
 HEADER_TYPE_SHORT_NAME     = 'short_name' # i.e. 'Fin_TimeHrzn'
