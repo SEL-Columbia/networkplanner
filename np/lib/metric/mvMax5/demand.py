@@ -16,7 +16,7 @@ class HealthFacilityCountCurvePoints(V):
 
     section = 'demand (social infrastructure)'
     option = 'health facility count curve points (population and facility count)'
-    aliases = ['he_cc_pts']
+    aliases = ['DmdSocInf_HlthFctyCtCrvPtsPopAndFctyCt', 'he_cc_pts']
 
     short_section = 'DmdSocInf'
     short_option = 'HlthFctyCtCrvPtsPopAndFctyCt'
@@ -30,7 +30,7 @@ class HealthFacilityCountCurveType(V):
 
     section = 'demand (social infrastructure)'
     option = 'health facility count curve type'
-    aliases = ['he_cc_t']
+    aliases = ['DmdSocInf_HlthFctyCtCrvTyp', 'he_cc_t']
 
     short_section = 'DmdSocInf'
     short_option = 'HlthFctyCtCrvTyp'
@@ -43,7 +43,7 @@ class EducationFacilityCountCurvePoints(V):
 
     section = 'demand (social infrastructure)'
     option = 'education facility count curve points (population and facility count)'
-    aliases = ['ed_cc_pts']
+    aliases = ['DmdSocInf_EduFctyCtCrvPtsPopAndFctyCt', 'ed_cc_pts']
 
     short_section = 'DmdSocInf'
     short_option = 'EduFctyCtCrvPtsPopAndFctyCt'
@@ -57,7 +57,7 @@ class EducationFacilityCountCurveType(V):
 
     section = 'demand (social infrastructure)'
     option = 'education facility count curve type'
-    aliases = ['ed_cc_t']
+    aliases = ['DmdSocInf_EduFctyCtCrvTyp', 'ed_cc_t']
 
     short_section = 'DmdSocInf'
     short_option = 'EduFctyCtCrvTyp'
@@ -70,7 +70,7 @@ class CommercialFacilityCountCurvePoints(V):
 
     section = 'demand (social infrastructure)'
     option = 'commercial facility count curve points (population and facility count)'
-    aliases = ['co_cc_pts']
+    aliases = ['DmdSocInf_ComFctyCtCrvPtsPopAndFctyCt', 'co_cc_pts']
 
     short_section = 'DmdSocInf'
     short_option = 'ComFctyCtCrvPtsPopAndFctyCt'
@@ -84,7 +84,7 @@ class CommercialFacilityCountCurveType(V):
 
     section = 'demand (social infrastructure)'
     option = 'commercial facility count curve type'
-    aliases = ['co_cc_t']
+    aliases = ['DmdSocInf_ComFctyCtCrvTyp', 'co_cc_t']
 
     short_section = 'DmdSocInf'
     short_option = 'ComFctyCtCrvTyp'
@@ -97,7 +97,7 @@ class PublicLightingFacilityCountCurvePoints(V):
 
     section = 'demand (social infrastructure)'
     option = 'public lighting facility count curve points (population and facility count)'
-    aliases = ['li_cc_pts']
+    aliases = ['DmdSocInf_PubLtgFctyCtCrvPtsPopAndFctyCt', 'li_cc_pts']
 
     short_section = 'DmdSocInf'
     short_option = 'PubLtgFctyCtCrvPtsPopAndFctyCt'
@@ -111,7 +111,7 @@ class PublicLightingFacilityCountCurveType(V):
 
     section = 'demand (social infrastructure)'
     option = 'public lighting facility count curve type'
-    aliases = ['li_cc_t']
+    aliases = ['DmdSocInf_PubLtgFctyCtCrvTyp', 'li_cc_t']
 
     short_section = 'DmdSocInf'
     short_option = 'PubLtgFctyCtCrvTyp'
@@ -128,7 +128,7 @@ class HealthFacilityCountCurve(V):
 
     section = 'demand (social infrastructure)'
     option = 'health facility count curve'
-    aliases = ['he_cc']
+    aliases = ['DmdSocInf_HlthFctyCtCrv', 'he_cc']
 
     short_section = 'DmdSocInf'
     short_option = 'HlthFctyCtCrv'
@@ -144,16 +144,11 @@ class HealthFacilityCountCurve(V):
         curvePoints = self.get(HealthFacilityCountCurvePoints)
         return curve.fit(curveType, curvePoints)
 
-    short_section = 'DmdSocInf'
-    short_option = 'PrjHlthFctyCt'
-    short_section = 'DmdSocInf'
-    short_option = 'PrjHlthFctyCt'
-
 class ProjectedHealthFacilityCount(V):
 
     section = 'demand (social infrastructure)'
     option = 'projected health facility count'
-    aliases = ['p_he']
+    aliases = ['DmdSocInf_PrjHlthFctyCt', 'p_he']
 
     short_section = 'DmdSocInf'
     short_option = 'PrjHlthFctyCt'
@@ -172,7 +167,7 @@ class EducationFacilityCountCurve(V):
 
     section = 'demand (social infrastructure)'
     option = 'education facility count curve'
-    aliases = ['ed_cc']
+    aliases = ['DmdSocInf_EduFctyCtCrv', 'ed_cc']
 
     short_section = 'DmdSocInf'
     short_option = 'EduFctyCtCrv'
@@ -193,7 +188,7 @@ class ProjectedEducationFacilityCount(V):
 
     section = 'demand (social infrastructure)'
     option = 'projected education facility count'
-    aliases = ['p_ed']
+    aliases = ['DmdSocInf_PrjEduFctyCt', 'p_ed']
 
     short_section = 'DmdSocInf'
     short_option = 'PrjEduFctyCt'
@@ -212,7 +207,7 @@ class CommercialFacilityCountCurve(V):
 
     section = 'demand (social infrastructure)'
     option = 'commercial facility count curve'
-    aliases = ['co_cc']
+    aliases = ['DmdSocInf_ComFctyCtCrv', 'co_cc']
 
     short_section = 'DmdSocInf'
     short_option = 'ComFctyCtCrv'
@@ -233,7 +228,7 @@ class ProjectedCommercialFacilityCount(V):
 
     section = 'demand (social infrastructure)'
     option = 'projected commercial facility count'
-    aliases = ['p_co']
+    aliases = ['DmdSocInf_PrjComFctyCt', 'p_co']
 
     short_section = 'DmdSocInf'
     short_option = 'PrjComFctyCt'
@@ -252,7 +247,7 @@ class PublicLightingFacilityCountCurve(V):
 
     section = 'demand (social infrastructure)'
     option = 'public lighting facility count curve'
-    aliases = ['li_cc']
+    aliases = ['DmdSocInf_PubLtgFctyCtCrv', 'li_cc']
 
     short_section = 'DmdSocInf'
     short_option = 'PubLtgFctyCtCrv'
@@ -273,7 +268,7 @@ class ProjectedPublicLightingFacilityCount(V):
 
     section = 'demand (social infrastructure)'
     option = 'projected public lighting facility count'
-    aliases = ['p_li']
+    aliases = ['DmdSocInf_PrjPubLtgFctyCt', 'p_li']
 
     short_section = 'DmdSocInf'
     short_option = 'PrjPubLtgFctyCt'
@@ -296,7 +291,7 @@ class TargetHouseholdPenetrationRate(V):
 
     section = 'demand (household)'
     option = 'target household penetration rate'
-    aliases = ['tgt_ho_prt']
+    aliases = ['DmdHH_TgtHHPnRt', 'tgt_ho_prt']
 
     short_section = 'DmdHH'
     short_option = 'TgtHHPnRt'
@@ -308,7 +303,7 @@ class HouseholdUnitDemandPerHouseholdPerYear(V):
 
     section = 'demand (household)'
     option = 'household unit demand per household per year'
-    aliases = ['ho_dc_unit']
+    aliases = ['DmdHH_HHUnitDmdPrHHPrYr', 'ho_dc_unit']
 
     short_section = 'DmdHH'
     short_option = 'HHUnitDmdPrHHPrYr'
@@ -321,7 +316,7 @@ class HouseholdDemandCurvePoints(V):
 
     section = 'demand (household)'
     option = 'demand curve points (population and multiplier)'
-    aliases = ['ho_dc_pts']
+    aliases = ['DmdHH_DmdCrvPtsPopAndMult', 'ho_dc_pts']
 
     short_section = 'DmdHH'
     short_option = 'DmdCrvPtsPopAndMult'
@@ -335,7 +330,7 @@ class HouseholdDemandCurveType(V):
 
     section = 'demand (household)'
     option = 'demand curve type'
-    aliases = ['ho_dc_t']
+    aliases = ['DmdHH_DmdCrvTyp', 'ho_dc_t']
 
     short_section = 'DmdHH'
     short_option = 'DmdCrvTyp'
@@ -352,7 +347,7 @@ class TargetHouseholdCount(V):
 
     section = 'demand (household)'
     option = 'target household count'
-    aliases = ['ct_hh_t']
+    aliases = ['DmdHH_TgtHHCt', 'ct_hh_t']
 
     short_section = 'DmdHH'
     short_option = 'TgtHHCt'
@@ -372,7 +367,7 @@ class HouseholdDemandCurve(V):
 
     section = 'demand (household)'
     option = 'demand curve'
-    aliases = ['ho_dc']
+    aliases = ['DmdHH_DmdCrv', 'ho_dc']
 
     short_section = 'DmdHH'
     short_option = 'DmdCrv'
@@ -393,7 +388,7 @@ class ProjectedHouseholdDemandPerYear(V):
 
     section = 'demand (household)'
     option = 'projected household demand per year'
-    aliases = ['p_dem_ho']
+    aliases = ['DmdHH_PrjHHDmdPrYr', 'p_dem_ho']
 
     short_section = 'DmdHH'
     short_option = 'PrjHHDmdPrYr'
@@ -419,7 +414,7 @@ class ProductiveUnitDemandPerHouseholdPerYear(V):
 
     section = 'demand (productive)'
     option = 'productive unit demand per household per year'
-    aliases = ['pr_dc_unit']
+    aliases = ['DmdProd_ProdUnitDmdPrHHPrYr', 'pr_dc_unit']
 
     short_section = 'DmdProd'
     short_option = 'ProdUnitDmdPrHHPrYr'
@@ -432,7 +427,7 @@ class ProductiveDemandCurvePoints(V):
 
     section = 'demand (productive)'
     option = 'demand curve points (population and multiplier)'
-    aliases = ['pr_dc_pts']
+    aliases = ['DmdProd_DmdCrvPtsPopAndMult', 'pr_dc_pts']
 
     short_section = 'DmdProd'
     short_option = 'DmdCrvPtsPopAndMult'
@@ -446,7 +441,7 @@ class ProductiveDemandCurveType(V):
 
     section = 'demand (productive)'
     option = 'demand curve type'
-    aliases = ['pr_dc_t']
+    aliases = ['DmdProd_DmdCrvTyp', 'pr_dc_t']
 
     short_section = 'DmdProd'
     short_option = 'DmdCrvTyp'
@@ -463,7 +458,7 @@ class ProductiveDemandCurve(V):
 
     section = 'demand (productive)'
     option = 'demand curve'
-    aliases = ['pr_dc']
+    aliases = ['DmdProd_DmdCrv', 'pr_dc']
 
     short_section = 'DmdProd'
     short_option = 'DmdCrv'
@@ -491,7 +486,7 @@ class ProjectedProductiveDemandPerYear(V):
 
     section = 'demand (productive)'
     option = 'projected productive demand'
-    aliases = ['p_dem_pr']
+    aliases = ['DmdProd_PrjProdDmd', 'p_dem_pr']
 
     short_section = 'DmdProd'
     short_option = 'PrjProdDmd'
@@ -517,7 +512,7 @@ class HealthFacilityUnitDemandPerHealthFacilityPerYear(V):
 
     section = 'demand (social infrastructure)'
     option = 'health facility unit demand per health facility per year'
-    aliases = ['he_dc_unit']
+    aliases = ['DmdSocInf_HlthFctyUnitDmdPrFctyPrYr', 'he_dc_unit']
 
     short_section = 'DmdSocInf'
     short_option = 'HlthFctyUnitDmdPrFctyPrYr'
@@ -530,7 +525,7 @@ class EducationFacilityUnitDemandPerEducationFacilityPerYear(V):
 
     section = 'demand (social infrastructure)'
     option = 'education facility unit demand per education facility per year'
-    aliases = ['ed_dc_unit']
+    aliases = ['DmdSocInf_EduFctyUnitDmdPrFctyPrYr', 'ed_dc_unit']
 
     short_section = 'DmdSocInf'
     short_option = 'EduFctyUnitDmdPrFctyPrYr'
@@ -543,7 +538,7 @@ class CommercialFacilityUnitDemandPerCommercialFacilityPerYear(V):
 
     section = 'demand (social infrastructure)'
     option = 'commercial facility unit demand per commercial facility per year'
-    aliases = ['co_dc_unit']
+    aliases = ['DmdSocInf_ComFctyUnitDmdPrFctyPrYr', 'co_dc_unit']
 
     short_section = 'DmdSocInf'
     short_option = 'ComFctyUnitDmdPrFctyPrYr'
@@ -556,7 +551,7 @@ class PublicLightingFacilityUnitDemandPerPublicLightingFacilityPerYear(V):
 
     section = 'demand (social infrastructure)'
     option = 'public lighting facility unit demand per public lighting facility per year'
-    aliases = ['li_dc_unit']
+    aliases = ['DmdSocInf_PubLtgFctyUnitDmdPrFctyPrYr', 'li_dc_unit']
 
     short_section = 'DmdSocInf'
     short_option = 'PubLtgFctyUnitDmdPrFctyPrYr'
@@ -569,7 +564,7 @@ class SocialInfrastructureDemandCurvePoints(V):
 
     section = 'demand (social infrastructure)'
     option = 'demand curve points (population and multiplier)'
-    aliases = ['so_dc_pts']
+    aliases = ['DmdSocInf_DmdCrvPtsPopAndMult', 'so_dc_pts']
 
     short_section = 'DmdSocInf'
     short_option = 'DmdCrvPtsPopAndMult'
@@ -583,7 +578,7 @@ class SocialInfrastructureDemandCurveType(V):
 
     section = 'demand (social infrastructure)'
     option = 'demand curve type'
-    aliases = ['so_dc_t']
+    aliases = ['DmdSocInf_DmdCrvTyp', 'so_dc_t']
 
     short_section = 'DmdSocInf'
     short_option = 'DmdCrvTyp'
@@ -600,7 +595,7 @@ class SocialInfrastructureDemandCurve(V):
 
     section = 'demand (social infrastructure)'
     option = 'demand curve'
-    aliases = ['so_dc']
+    aliases = ['DmdSocInf_DmdCrv', 'so_dc']
 
     short_section = 'DmdSocInf'
     short_option = 'DmdCrv'
@@ -621,7 +616,7 @@ class ProjectedHealthFacilityDemandPerYear(V):
 
     section = 'demand (social infrastructure)'
     option = 'projected health facility demand per year'
-    aliases = ['p_dem_he']
+    aliases = ['DmdSocInf_PrjHlthFctyDmdPrYr', 'p_dem_he']
 
     short_section = 'DmdSocInf'
     short_option = 'PrjHlthFctyDmdPrYr'
@@ -643,7 +638,7 @@ class ProjectedEducationFacilityDemandPerYear(V):
 
     section = 'demand (social infrastructure)'
     option = 'projected education facility demand per year'
-    aliases = ['p_dem_ed']
+    aliases = ['DmdSocInf_PrjEduFctyDmdPrYr', 'p_dem_ed']
 
     short_section = 'DmdSocInf'
     short_option = 'PrjEduFctyDmdPrYr'
@@ -665,7 +660,7 @@ class ProjectedCommercialFacilityDemandPerYear(V):
 
     section = 'demand (social infrastructure)'
     option = 'projected commercial facility demand per year'
-    aliases = ['p_dem_co']
+    aliases = ['DmdSocInf_PrjComFctyDmdPrYr', 'p_dem_co']
 
     short_section = 'DmdSocInf'
     short_option = 'PrjComFctyDmdPrYr'
@@ -687,7 +682,7 @@ class ProjectedPublicLightingFacilityDemandPerYear(V):
 
     section = 'demand (social infrastructure)'
     option = 'projected public lighting facility demand per year'
-    aliases = ['p_dem_li']
+    aliases = ['DmdSocInf_PrjPubLtgFctyDmdPrYr', 'p_dem_li']
 
     short_section = 'DmdSocInf'
     short_option = 'PrjPubLtgFctyDmdPrYr'
@@ -709,7 +704,7 @@ class ProjectedNodalDemandPerYear(V):
 
     section = 'demand'
     option = 'projected nodal demand per year'
-    aliases = ['p_dem']
+    aliases = ['Dmd_PrjNdlDmdPrYr', 'p_dem']
 
     short_section = 'Dmd'
     short_option = 'PrjNdlDmdPrYr'
@@ -744,7 +739,7 @@ class ProjectedNodalDiscountedDemand(V):
 
     section = 'demand'
     option = 'projected nodal discounted demand'
-    aliases = ['p_dem_d']
+    aliases = ['Dmd_PrjNdlDiscDmd', 'p_dem_d']
 
     short_section = 'Dmd'
     short_option = 'PrjNdlDiscDmd'
@@ -767,7 +762,7 @@ class RuralPeakDemandAsFractionOfNodalDemandOccurringDuringPeakHours(V):
 
     section = 'demand (peak)'
     option = 'peak demand as fraction of nodal demand occurring during peak hours (rural)'
-    aliases = ['pkdemf_r']
+    aliases = ['DmdPk_PkDmdFctnOfNdlDmdInPkHrsRur', 'pkdemf_r']
 
     short_section = 'DmdPk'
     short_option = 'PkDmdFctnOfNdlDmdInPkHrsRur'
@@ -779,7 +774,7 @@ class UrbanPeakDemandAsFractionOfNodalDemandOccurringDuringPeakHours(V):
 
     section = 'demand (peak)'
     option = 'peak demand as fraction of nodal demand occurring during peak hours (urban)'
-    aliases = ['pkdemf_u']
+    aliases = ['DmdPk_PkDmdFctnOfNdlDmdInPkHrsUrb', 'pkdemf_u']
 
     short_section = 'DmdPk'
     short_option = 'PkDmdFctnOfNdlDmdInPkHrsUrb'
@@ -791,7 +786,7 @@ class PeakElectricalHoursOfOperationPerYear(V):
 
     section = 'demand (peak)'
     option = 'peak electrical hours of operation per year'
-    aliases = ['pkel_hr']
+    aliases = ['DmdPk_PkElclHrsOfOprnPrYr', 'pkel_hr']
 
     short_section = 'DmdPk'
     short_option = 'PkElclHrsOfOprnPrYr'
@@ -809,7 +804,7 @@ class PeakDemandAsFractionOfNodalDemandOccurringDuringPeakHours(V):
 
     section = 'demand (peak)'
     option = 'peak demand as fraction of nodal demand occurring during peak hours'
-    aliases = ['pkdemf']
+    aliases = ['DmdPk_PkDmdFctnOfNdlDmdInPkHrs', 'pkdemf']
 
     short_section = 'DmdPk'
     short_option = 'PkDmdFctnOfNdlDmdInPkHrs'
@@ -828,7 +823,7 @@ class DemandToPeakDemandConversionFactor(V):
 
     section = 'demand (peak)'
     option = 'demand to peak demand conversion factor'
-    aliases = ['dem_pkdemf']
+    aliases = ['DmdPk_DmdToPkDmdCnvFctr', 'dem_pkdemf']
 
     short_section = 'DmdPk'
     short_option = 'DmdToPkDmdCnvFctr'
@@ -847,7 +842,7 @@ class ProjectedPeakProductiveDemand(V):
 
     section = 'demand (peak)'
     option = 'projected peak productive demand'
-    aliases = ['p_pkdem_pr']
+    aliases = ['DmdPk_PrjPkProdDmd', 'p_pkdem_pr']
 
     short_section = 'DmdPk'
     short_option = 'PrjPkProdDmd'
@@ -866,7 +861,7 @@ class ProjectedPeakCommercialFacilityDemand(V):
 
     section = 'demand (peak)'
     option = 'projected peak commercial facility demand'
-    aliases = ['p_pkdem_co']
+    aliases = ['DmdPk_PrjPkComFctyDmd', 'p_pkdem_co']
 
     short_section = 'DmdPk'
     short_option = 'PrjPkComFctyDmd'
@@ -885,7 +880,7 @@ class ProjectedPeakNodalDemand(V):
 
     section = 'demand (peak)'
     option = 'projected peak nodal demand'
-    aliases = ['p_pkdem']
+    aliases = ['DmdPk_PrjPkNdlDmd', 'p_pkdem']
 
     short_section = 'DmdPk'
     short_option = 'PrjPkNdlDmd'

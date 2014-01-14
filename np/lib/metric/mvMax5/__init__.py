@@ -19,7 +19,7 @@ class Metric(V):
 
     section = 'metric'
     option = 'maximum length of medium voltage line extension'
-    aliases = ['mvmax']
+    aliases = ['Metric_MVMax', 'mvmax']
 
     short_section = 'Metric'
     short_option = 'MVMax'
@@ -56,7 +56,7 @@ class System(V):
 
     section = 'metric'
     option = 'system'
-    aliases = ['system']
+    aliases = ['Metric_Sys', 'system']
 
     short_section = 'Metric'
     short_option = 'Sys'
@@ -90,7 +90,7 @@ class OffGridSystemTotal(V):
 
     section = 'system (off-grid)'
     option = 'system total'
-    aliases = ['og_ct']
+    aliases = ['OG_SysTot', 'og_ct']
 
     short_section = 'OG'
     short_option = 'SysTot'
@@ -109,7 +109,7 @@ class OffGridSystemTotalDiscountedDemand(V):
 
     section = 'system (off-grid)'
     option = 'system total discounted demand'
-    aliases = ['og_dem_d']
+    aliases = ['OG_SysTotDiscDmd', 'og_dem_d']
 
     short_section = 'OG'
     short_option = 'SysTotDiscDmd'
@@ -128,7 +128,7 @@ class OffGridSystemTotalDiscountedDieselCost(V):
 
     section = 'system (off-grid)'
     option = 'system total discounted diesel cost'
-    aliases = ['og_tot_ddc']
+    aliases = ['OG_SysTotDiscDslCst', 'og_tot_ddc']
 
     short_section = 'OG'
     short_option = 'SysTotDiscDslCst'
@@ -147,7 +147,7 @@ class OffGridSystemTotalDiscountedDieselFuelCost(V):
 
     section = 'system (off-grid)'
     option = 'system total discounted diesel fuel cost'
-    aliases = ['og_tot_ddfc']
+    aliases = ['OG_SysTotDiscDslFuelCst', 'og_tot_ddfc']
 
     short_section = 'OG'
     short_option = 'SysTotDiscDslFuelCst'
@@ -166,7 +166,7 @@ class OffGridSystemTotalDiscountedCost(V):
 
     section = 'system (off-grid)'
     option = 'system total discounted cost'
-    aliases = ['og_tot_d']
+    aliases = ['OG_SysTotDiscCst', 'og_tot_d']
 
     short_section = 'OG'
     short_option = 'SysTotDiscCst'
@@ -189,7 +189,7 @@ class OffGridSystemTotalLevelizedCost(V):
     short_section = 'OG'
     short_option = 'SysTotLvlzdCst'
 
-    aliases = ['og_tot_lev']
+    aliases = ['OG_SysTotLvlzdCst', 'og_tot_lev']
     dependencies = [
         OffGridSystemTotalDiscountedDemand,
         OffGridSystemTotalDiscountedCost,
@@ -206,7 +206,7 @@ class OffGridSystemTotalInitialCost(V):
 
     section = 'system (off-grid)'
     option = 'system total initial cost'
-    aliases = ['og_tot_i']
+    aliases = ['OG_SysTotInitCst', 'og_tot_i']
 
     short_section = 'OG'
     short_option = 'SysTotInitCst'
@@ -225,7 +225,7 @@ class OffGridSystemTotalDiscountedRecurringCost(V):
 
     section = 'system (off-grid)'
     option = 'system total discounted recurring cost'
-    aliases = ['og_tot_drc']
+    aliases = ['OG_SysTotDiscRcrgCst', 'og_tot_drc']
 
     short_section = 'OG'
     short_option = 'SysTotDiscRcrgCst'
@@ -245,7 +245,7 @@ class MiniGridSystemTotal(V):
 
     section = 'system (mini-grid)'
     option = 'system total'
-    aliases = ['mg_ct']
+    aliases = ['MG_SysTot', 'mg_ct']
 
     short_section = 'MG'
     short_option = 'SysTot'
@@ -264,7 +264,7 @@ class MiniGridSystemTotalDiscountedEnergyStorageCost(V):
 
     section = 'system (mini-grid)'
     option = 'system total discounted energy storage cost'
-    aliases = ['mg_tot_desc']
+    aliases = ['MG_SysTotDiscEnStrgCst', 'mg_tot_desc']
 
     short_section = 'MG'
     short_option = 'SysTotDiscEnStrgCst'
@@ -284,7 +284,7 @@ class MiniGridSystemTotalDiscountedGenerationCost(V):
 
     section = 'system (mini-grid)'
     option = 'system total discounted generation cost'
-    aliases = ['mg_tot_dgc']
+    aliases = ['MG_SysTotDiscGenCst', 'mg_tot_dgc']
 
     short_section = 'MG'
     short_option = 'SysTotDiscGenCst'
@@ -303,7 +303,7 @@ class MiniGridSystemTotalDiscountedCost(V):
 
     section = 'system (mini-grid)'
     option = 'system total discounted cost'
-    aliases = ['mg_tot_d']
+    aliases = ['MG_SysTotDiscCst', 'mg_tot_d']
 
     short_section = 'MG'
     short_option = 'SysTotDiscCst'
@@ -322,7 +322,7 @@ class MiniGridSystemTotalDiscountedDemand(V):
 
     section = 'system (mini-grid)'
     option = 'system total discounted demand'
-    aliases = ['mg_dem_d']
+    aliases = ['MG_SysTotDiscDmd', 'mg_dem_d']
 
     short_section = 'MG'
     short_option = 'SysTotDiscDmd'
@@ -341,7 +341,7 @@ class MiniGridSystemTotalInitialCost(V):
 
     section = 'system (mini-grid)'
     option = 'system total initial cost'
-    aliases = ['mg_tot_i']
+    aliases = ['MG_SysTotInitCst', 'mg_tot_i']
 
     short_section = 'MG'
     short_option = 'SysTotInitCst'
@@ -360,7 +360,7 @@ class MiniGridSystemTotalDiscountedRecurringCost(V):
 
     section = 'system (mini-grid)'
     option = 'system total discounted recurring cost'
-    aliases = ['mg_tot_drc']
+    aliases = ['MG_SysTotDiscRcrgCst', 'mg_tot_drc']
 
     short_section = 'MG'
     short_option = 'SysTotDiscRcrgCst'
@@ -381,7 +381,7 @@ class MiniGridSystemTotalLevelizedCost(V):
 
     section = 'system (mini-grid)'
     option = 'system total levelized cost'
-    aliases = ['mg_tot_lev']
+    aliases = ['MG_SysTotLvlzdCst', 'mg_tot_lev']
 
     short_section = 'MG'
     short_option = 'SysTotLvlzdCst'
@@ -402,7 +402,7 @@ class GridSystemTotal(V):
 
     section = 'system (grid)'
     option = 'system total'
-    aliases = ['g_ct']
+    aliases = ['GR_SysTot', 'g_ct']
 
     short_section = 'GR'
     short_option = 'SysTot'
@@ -421,7 +421,7 @@ class GridSystemTotalDiscountedDemand(V):
 
     section = 'system (grid)'
     option = 'system total discounted demand'
-    aliases = ['gr_dem_d']
+    aliases = ['GR_SysTotDiscDmd', 'gr_dem_d']
 
     short_section = 'GR'
     short_option = 'SysTotDiscDmd'
@@ -443,10 +443,10 @@ class GridSystemTotalExternalInitialCost(V):
 
     section = 'system (grid)'
     option = 'system total external initial cost'
-    aliases = ['gr_tot_ext_ic']
+    aliases = ['GR_SysTotExtInitCst', 'gr_tot_ext_ic']
 
     short_section = 'GR'
-    short_option = 'SysTotInitCst'
+    short_option = 'SysTotExtInitCst'
 
     default = 0
     units = 'dollars'
@@ -471,7 +471,7 @@ class GridSystemTotalExternalDiscountedRecurringCost(V):
 
     section = 'system (grid)'
     option = 'system total external discounted recurring cost'
-    aliases = ['gr_tot_ext_drc']
+    aliases = ['GR_SysTotExtDiscRcrgCst', 'gr_tot_ext_drc']
 
     short_section = 'GR'
     short_option = 'SysTotExtDiscRcrgCst'
@@ -498,7 +498,7 @@ class GridSystemTotalDiscountedCost(V):
 
     section = 'system (grid)'
     option = 'system total discounted cost'
-    aliases = ['gr_tot_d']
+    aliases = ['GR_SysTotDiscCst', 'gr_tot_d']
 
     short_section = 'GR'
     short_option = 'SysTotDiscCst'
@@ -528,7 +528,7 @@ class GridSystemTotalLevelizedCost(V):
 
     section = 'system (grid)'
     option = 'system total levelized cost'
-    aliases = ['gr_tot_lev']
+    aliases = ['GR_SysTotLvlzdCst', 'gr_tot_lev']
 
     short_section = 'GR'
     short_option = 'SysTotLvlzdCst'
@@ -549,7 +549,7 @@ class GridSystemTotalInternalInitialCost(V):
 
     section = 'system (grid)'
     option = 'system total internal initial cost'
-    aliases = ['gr_tot_iic']
+    aliases = ['GR_SysTotIntInitCst', 'gr_tot_iic']
 
     short_section = 'GR'
     short_option = 'SysTotIntInitCst'
@@ -573,7 +573,7 @@ class GridSystemTotalInternalDiscountedRecurringCost(V):
 
     section = 'system (grid)'
     option = 'system total internal discounted recurring cost'
-    aliases = ['gr_tot_idrc']
+    aliases = ['GR_SysTotIntDiscRcrgCst', 'gr_tot_idrc']
 
     short_section = 'GR'
     short_option = 'SysTotIntDiscRcrgCst'
@@ -598,7 +598,7 @@ class GridSystemTotalInitialCost(V):
 
     section = 'system (grid)'
     option = 'system total initial cost'
-    aliases = ['gr_tot_init']
+    aliases = ['GR_SysTotInitCst', 'gr_tot_init']
 
     short_section = 'GR'
     short_option = 'SysTotInitCst'
@@ -618,7 +618,7 @@ class GridSystemTotalDiscountedRecurringCost(V):
 
     section = 'system (grid)'
     option = 'system total discounted recurring cost'
-    aliases = ['gr_tot_drc']
+    aliases = ['GR_SysTotDiscRcrgCst', 'gr_tot_drc']
 
     short_section = 'GR'
     short_option = 'SysTotDiscRcrgCst'
@@ -640,7 +640,7 @@ class GridSystemTotalExistingNetworkLength(V):
 
     section = 'system (grid)'
     option = 'system total existing network length'
-    aliases = ['gr_tot_enl']
+    aliases = ['GR_SysTotNtwkLgth', 'gr_tot_enl']
 
     short_section = 'GR'
     short_option = 'SysTotNtwkLgth'
@@ -658,7 +658,7 @@ class GridSystemTotalProposedNetworkLength(V):
 
     section = 'system (grid)'
     option = 'system total proposed network length'
-    aliases = ['gr_tot_pnl']
+    aliases = ['GR_SysTotPropNtwkLgth', 'gr_tot_pnl']
 
     short_section = 'GR'
     short_option = 'SysTotPropNtwkLgth'

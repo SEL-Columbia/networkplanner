@@ -14,7 +14,7 @@ class LowVoltageLineCostPerMeter(V):
 
     section = 'distribution'
     option = 'low voltage line cost per meter'
-    aliases = ['di_ll_cm']
+    aliases = ['Dist_LVLnCstPrM', 'di_ll_cm']
 
     short_section = 'Dist'
     short_option = 'LVLnCstPrM'
@@ -27,7 +27,7 @@ class LowVoltageLineLifetime(V):
 
     section = 'distribution'
     option = 'low voltage line lifetime'
-    aliases = ['di_ll_life']
+    aliases = ['Dist_LVLnLife', 'di_ll_life']
 
     short_section = 'Dist'
     short_option = 'LVLnLife'
@@ -41,7 +41,7 @@ class LowVoltageLineOperationsAndMaintenanceCostPerYearAsFractionOfLineCost(V):
 
     section = 'distribution'
     option = 'low voltage line operations and maintenance cost per year as fraction of line cost'
-    aliases = ['di_ll_omf']
+    aliases = ['Dist_LVLnOandMCstPrYrAsFctnOfLnCst', 'di_ll_omf']
 
     short_section = 'Dist'
     short_option = 'LVLnOandMCstPrYrAsFctnOfLnCst'
@@ -53,7 +53,7 @@ class LowVoltageLineEquipmentCostPerConnection(V):
 
     section = 'distribution'
     option = 'low voltage line equipment cost per connection'
-    aliases = ['di_le_cc']
+    aliases = ['Dist_LVLnEqmtCstPrConn', 'di_le_cc']
 
     short_section = 'Dist'
     short_option = 'LVLnEqmtCstPrConn'
@@ -66,7 +66,7 @@ class LowVoltageLineEquipmentOperationsAndMaintenanceCostPerYearAsFractionOfEqui
 
     section = 'distribution'
     option = 'low voltage line equipment operations and maintenance cost as fraction of equipment cost'
-    aliases = ['di_le_omf']
+    aliases = ['Dist_LVLnEqmtOandMCstAsFctnOfEqmtCst', 'di_le_omf']
 
     short_section = 'Dist'
     short_option = 'LVLnEqmtOandMCstAsFctnOfEqmtCst'
@@ -81,7 +81,7 @@ class LowVoltageLineLength(V):
 
     section = 'distribution'
     option = 'low voltage line length'
-    aliases = ['di_ll_len']
+    aliases = ['Dist_LVLnLgth', 'di_ll_len']
 
     short_section = 'Dist'
     short_option = 'LVLnLgth'
@@ -104,7 +104,7 @@ class LowVoltageLineInitialCost(V):
 
     section = 'distribution'
     option = 'low voltage line initial cost'
-    aliases = ['di_ll_ini']
+    aliases = ['Dist_LVLnInitCst', 'di_ll_ini']
 
     short_section = 'Dist'
     short_option = 'LVLnInitCst'
@@ -123,7 +123,7 @@ class LowVoltageLineOperationsAndMaintenanceCostPerYear(V):
 
     section = 'distribution'
     option = 'low voltage line operations and maintenance cost per year'
-    aliases = ['di_ll_om']
+    aliases = ['Dist_LVLnOandMCstPrYr', 'di_ll_om']
 
     short_section = 'Dist'
     short_option = 'LVLnOandMCstPrYr'
@@ -143,7 +143,7 @@ class LowVoltageLineReplacementCostPerYear(V):
 
     section = 'distribution'
     option = 'low voltage line replacement cost per year'
-    aliases = ['di_ll_rep']
+    aliases = ['Dist_LVLnRpmtCstPrYr', 'di_ll_rep']
 
     short_section = 'Dist'
     short_option = 'LVLnRpmtCstPrYr'
@@ -162,7 +162,7 @@ class LowVoltageLineRecurringCostPerYear(V):
 
     section = 'distribution'
     option = 'low voltage line recurring cost per year'
-    aliases = ['di_ll_rec']
+    aliases = ['Dist_LVLnRcrgCstPrYr', 'di_ll_rec']
 
     short_section = 'Dist'
     short_option = 'LVLnRcrgCstPrYr'

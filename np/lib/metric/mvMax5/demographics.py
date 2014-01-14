@@ -15,7 +15,7 @@ class PopulationCount(V):
 
     section = 'demographics'
     option = 'population count'
-    aliases = ['pop', 'population']
+    aliases = ['Demo_PopCt', 'pop', 'population']
 
     short_section = 'Demo'
     short_option = 'PopCt'
@@ -29,7 +29,7 @@ class RuralPopulationGrowthRatePerYear(V):
 
     section = 'demographics'
     option = 'population growth rate per year (rural)'
-    aliases = ['pop_g_r']
+    aliases = ['Demo_PopGrRtPrYrRur', 'pop_g_r']
 
     short_section = 'Demo'
     short_option = 'PopGrRtPrYrRur'
@@ -42,7 +42,7 @@ class UrbanPopulationGrowthRatePerYear(V):
 
     section = 'demographics'
     option = 'population growth rate per year (urban)'
-    aliases = ['pop_g_u']
+    aliases = ['Demo_PopGrRtPrYrUrb', 'pop_g_u']
 
     short_section = 'Demo'
     short_option = 'PopGrRtPrYrUrb'
@@ -55,7 +55,7 @@ class RuralMeanHouseholdSize(V):
 
     section = 'demographics'
     option = 'mean household size (rural)'
-    aliases = ['ho_size_r']
+    aliases = ['Demo_MnHHSzRur', 'ho_size_r']
 
     short_section = 'Demo'
     short_option = 'MnHHSzRur'
@@ -68,7 +68,7 @@ class UrbanMeanHouseholdSize(V):
 
     section = 'demographics'
     option = 'mean household size (urban)'
-    aliases = ['ho_size_u']
+    aliases = ['Demo_MnHHSzUrb', 'ho_size_u']
 
     short_section = 'Demo'
     short_option = 'MnHHSzUrb'
@@ -81,7 +81,7 @@ class UrbanPopulationThreshold(V):
 
     section = 'demographics'
     option = 'urban population threshold'
-    aliases = ['u_pop_thre']
+    aliases = ['Demo_UrbPopTshd', 'u_pop_thre']
 
     short_section = 'Demo'
     short_option = 'UrbPopTshd'
@@ -95,7 +95,7 @@ class MeanInterhouseholdDistance(V):
 
     section = 'demographics'
     option = 'mean interhousehold distance'
-    aliases = ['mid']
+    aliases = ['Demo_MnInterHHDist', 'mid']
 
     short_section = 'Demo'
     short_option = 'MnInterHHDist'
@@ -111,7 +111,7 @@ class ProjectedPopulationCounts(V):
 
     section = 'demographics'
     option = 'projected population counts'
-    aliases = ['p_pops']
+    aliases = ['Demo_PrjPopCts', 'p_pops']
 
     short_section = 'Demo'
     short_option = 'PrjPopCts'
@@ -148,7 +148,7 @@ class ProjectedPopulationCount(V):
 
     section = 'demographics'
     option = 'projected population count'
-    aliases = ['p_pop']
+    aliases = ['Demo_PrjPopCt', 'p_pop']
 
     short_section = 'Demo'
     short_option = 'PrjPopCt'
@@ -167,7 +167,7 @@ class IsRural(V):
 
     section = 'demographics'
     option = 'is rural'
-    aliases = ['rural']
+    aliases = ['Demo_IsRur', 'rural']
 
     short_section = 'Demo'
     short_option = 'IsRur'
@@ -187,7 +187,7 @@ class MeanHouseholdSize(V):
 
     section = 'demographics'
     option = 'mean household size'
-    aliases = ['ho_size']
+    aliases = ['Demo_MnHHSz', 'ho_size']
 
     short_section = 'Demo'
     short_option = 'MnHHSz'
@@ -208,7 +208,7 @@ class ProjectedHouseholdCount(V):
 
     section = 'demographics'
     option = 'projected household count'
-    aliases = ['p_ho']
+    aliases = ['Demo_PrjHHCt', 'p_ho']
 
     short_section = 'Demo'
     short_option = 'PrjHHCt'

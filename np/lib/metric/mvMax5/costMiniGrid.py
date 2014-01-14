@@ -18,7 +18,7 @@ class DistributionLoss(V):
 
     section = 'system (mini-grid)'
     option = 'distribution loss'
-    aliases = ['mg_loss']
+    aliases = ['MG_DistLss', 'mg_loss']
 
     short_section = 'MG'
     short_option = 'DistLss'
@@ -28,11 +28,11 @@ class DistributionLoss(V):
     units = 'fraction'
 
 #Nomenclature Change - available capacities- class name changed
-class GeneratorAvailableSystemCapacities(V):
+class GenerationAvailableSystemCapacities(V):
 
     section = 'system (mini-grid)'
     option = 'available power generation system capacities(kW)'
-    aliases = ['mg_g_cps']
+    aliases = ['MG_AvblGntnSysCapkW', 'mg_g_cps']
 
     short_section = 'MG'
     short_option = 'AvblGntnSysCapkW'
@@ -46,7 +46,7 @@ class GenerationCostPerSystemKilowatt(V):
 
     section = 'system (mini-grid)'
     option = 'generation cost per system kilowatt'
-    aliases = ['mg_g_ck']
+    aliases = ['MG_GntnCstPrSyskW', 'mg_g_ck']
 
     short_section = 'MG'
     short_option = 'GntnCstPrSyskW'
@@ -58,7 +58,7 @@ class GenerationCostPerSystemKilowatt(V):
 class GenerationInstallationCostAsFractionOfGenerationCost(V):
 
     section = 'system (mini-grid)'
-    aliases = ['mg_g_if']
+    aliases = ['MG_GntnInstCstAsFctnOfGntnCst', 'mg_g_if']
     option = 'generation installation cost as fraction of generation cost'
 
     short_section = 'MG'
@@ -72,7 +72,7 @@ class GenerationLifetime(V):
 
     section = 'system (mini-grid)'
     option = 'generation system lifetime'
-    aliases = ['mg_g_life']
+    aliases = ['MG_GntnSysLife', 'mg_g_life']
 
     short_section = 'MG'
     short_option = 'GntnSysLife'
@@ -86,7 +86,7 @@ class EnergyStorageCostPerKilowattHour(V):
 
     section = 'system (mini-grid)'
     option = 'energy storage cost per kWh'
-    aliases = ['mg_escpk']
+    aliases = ['MG_EnStrgCstPrkWHr', 'mg_escpk']
 
     short_section = 'MG'
     short_option = 'EnStrgCstPrkWHr'
@@ -99,7 +99,7 @@ class PercentOfDailyKilowattHourLoadRequiringStorage(V):
 
     section = 'system (mini-grid)'
     option = 'percent of daily load that requires storage or fuel'
-    aliases = ['mg_pdkwhrs']
+    aliases = ['MG_PctOfDlykWHrLdReqStrg', 'mg_pdkwhrs']
 
     short_section = 'MG'
     short_option = 'PctOfDlykWHrLdReqStrg'
@@ -112,7 +112,7 @@ class GenerationCapacityFactor(V):
 
     section = 'system (mini-grid)'
     option = 'capacity factor of generation as factor of nameplate output'
-    aliases = ['mg_g_cf']
+    aliases = ['MG_CptyFctrOfGntnAsFctrOfNmpltCap', 'mg_g_cf']
 
     short_section = 'MG'
     short_option = 'CptyFctrOfGntnAsFctrOfNmpltCap'
@@ -125,12 +125,12 @@ class UtilizationFactor(V):
 
     section = 'system (mini-grid)'
     option = 'utilization factor of power generation as factor of nameplate output'
-    aliases = ['mg_u_fctr']
+    aliases = ['MG_UtznFctrPwrGntnFctrNmpltOtpt', 'mg_u_fctr']
 
     short_section = 'MG'
     short_option = 'UtznFctrPwrGntnFctrNmpltOtpt'
 
-    default = 0.10 #diesel generator has a 10% capacity factor
+    default = 0.10 #diesel generator has a 10% utilization factor
     #(40% of load)/(4 peak hours/day) =  0.10
     #Solar-battery system would be 100% because it's all dispatched on demand via electronics and fully utilized
     units = 'ratio'
@@ -141,7 +141,7 @@ class GenerationOperationsAndMaintenanceCostPerYearAsFractionOfGenerationCost(V)
 
     section = 'system (mini-grid)'
     option = 'generation operations and maintenance cost per year as fraction of generation cost'
-    aliases = ['mg_g_omf']
+    aliases = ['MG_GntnOandMCstPrYrAsFctnOfGntnCst', 'mg_g_omf']
 
     short_section = 'MG'
     short_option = 'GntnOandMCstPrYrAsFctnOfGntnCst'
@@ -152,7 +152,7 @@ class GenerationDaysOfOperationPerYear(V):
 
     section = 'system (mini-grid)'
     option = 'generation hours of operation per year'
-    aliases = ['mg_g_sh']
+    aliases = ['MG_GntnHrOprnPrYr', 'mg_g_sh']
 
     short_section = 'MG'
     short_option = 'GntnHrOprnPrYr'
@@ -168,7 +168,7 @@ class GenerationDesiredSystemCapacity(V):
 
     section = 'system (mini-grid)'
     option = 'generation desired system capacity'
-    aliases = ['mg_g_dcp']
+    aliases = ['MG_GntnDsrdSysCpty', 'mg_g_dcp']
 
     short_section = 'MG'
     short_option = 'GntnDsrdSysCpty'
@@ -199,7 +199,7 @@ class GenerationActualSystemCapacityCounts(V):
 
     section = 'system (mini-grid)'
     option = 'generation actual system capacity counts'
-    aliases = ['mg_g_acps']
+    aliases = ['MG_GntnSysActlSysCptyCts', 'mg_g_acps']
 
     short_section = 'MG'
     short_option = 'GntnSysActlSysCptyCts'
@@ -207,34 +207,34 @@ class GenerationActualSystemCapacityCounts(V):
     c = dict(parse=store.unstringifyIntegerList, format=store.flattenList, validate='validateNumberList')
     dependencies = [
         GenerationDesiredSystemCapacity,
-        GeneratorAvailableSystemCapacities,
+        GenerationAvailableSystemCapacities,
     ]
     units = 'capacity count list'
 
     def compute(self):
         return metric.computeSystemCounts(
             self.get(GenerationDesiredSystemCapacity), 
-            self.get(GeneratorAvailableSystemCapacities))
+            self.get(GenerationAvailableSystemCapacities))
 
 #nomenclature change - class name changed
 class GenerationActualSystemCapacity(V):
 
     section = 'system (mini-grid)'
     option = 'generation actual system capacity'
-    aliases = ['mg_g_acp']
+    aliases = ['MG_GntnActlSysCpty', 'mg_g_acp']
 
     short_section = 'MG'
     short_option = 'GntnActlSysCpty'
 
     dependencies = [
-        GeneratorAvailableSystemCapacities,
+        GenerationAvailableSystemCapacities,
         GenerationActualSystemCapacityCounts,
     ]
     units = 'kilowatts'
 
     def compute(self):
         return numpy.dot(
-            self.get(GeneratorAvailableSystemCapacities), 
+            self.get(GenerationAvailableSystemCapacities), 
             self.get(GenerationActualSystemCapacityCounts))
 
 
@@ -242,7 +242,7 @@ class LowVoltageLineEquipmentCost(V):
 
     section = 'system (mini-grid)'
     option = 'low voltage line equipment cost'
-    aliases = ['mg_le']
+    aliases = ['MG_LVLnEqmtCst', 'mg_le']
 
     short_section = 'MG'
     short_option = 'LVLnEqmtCst'
@@ -261,7 +261,7 @@ class LowVoltageLineEquipmentOperationsAndMaintenanceCostPerYear(V):
 
     section = 'system (mini-grid)'
     option = 'low voltage line equipment operations and maintenance cost per year'
-    aliases = ['mg_le_om']
+    aliases = ['MG_LVLnEqmtOandMCstPrYr', 'mg_le_om']
 
     short_section = 'MG'
     short_option = 'LVLnEqmtOandMCstPrYr'
@@ -280,7 +280,7 @@ class GenerationCost(V):
 
     section = 'system (mini-grid)'
     option = 'generation system cost'
-    aliases = ['mg_g_ini']
+    aliases = ['MG_GntnSysCst', 'mg_g_ini']
 
     short_section = 'MG'
     short_option = 'GntnSysCst'
@@ -300,7 +300,7 @@ class GenerationInstallationCost(V):
 
     section = 'system (mini-grid)'
     option = 'generatation installation cost'
-    aliases = ['mg_g_i']
+    aliases = ['MG_GntnInstCst', 'mg_g_i']
 
     short_section = 'MG'
     short_option = 'GntnInstCst'
@@ -320,7 +320,7 @@ class GenerationOperationsAndMaintenanceCostPerYear(V):
 
     section = 'system (mini-grid)'
     option = 'generation operations and maintenance cost per year'
-    aliases = ['mg_g_om']
+    aliases = ['MG_GntnOandMCstPrYr', 'mg_g_om']
 
     short_section = 'MG'
     short_option = 'GntnOandMCstPrYr'
@@ -342,7 +342,7 @@ class GenerationReplacementCostPerYear(V):
 
     section = 'system (mini-grid)'
     option = 'generation lifetime replacement cost per year'
-    aliases = ['mg_g_rep']
+    aliases = ['MG_GntnLifeRpmtCstPrYr', 'mg_g_rep']
 
     short_section = 'MG'
     short_option = 'GntnLifeRpmtCstPrYr'
@@ -361,7 +361,7 @@ class EnergyStorageCostPerYear(V):
 
     section = 'system (mini-grid)'
     option = 'energy storage costs per year'
-    aliases = ['mg_escpy']
+    aliases = ['MG_EnStrgCstsPrYr', 'mg_escpy']
 
     short_section = 'MG'
     short_option = 'EnStrgCstsPrYr'
@@ -392,7 +392,7 @@ class MiniGridSystemNodalDiscountedEnergyStorageCost(V):
 
     section = 'system (mini-grid)'
     option = 'system nodal discounted energy storage cost'
-    aliases = ['mg_nod_desc']
+    aliases = ['MG_SysNdlDsctdEnStrgCst', 'mg_nod_desc']
 
     short_section = 'MG'
     short_option = 'SysNdlDsctdEnStrgCst'
@@ -411,7 +411,7 @@ class MiniGridSystemInitialGenerationCost(V):
 
     section = 'system (mini-grid)'
     option = 'system initial generation system cost'
-    aliases = ['mg_ini_gc']
+    aliases = ['MG_SysInitGntnCst', 'mg_ini_gc']
 
     short_section = 'MG'
     short_option = 'SysInitGntnCst'
@@ -436,7 +436,7 @@ class MiniGridSystemRecurringGenerationCostPerYear(V):
 
     section = 'system (mini-grid)'
     option = 'system recurring power generation costs per year'
-    aliases = ['mg_rec_gcpy']
+    aliases = ['MG_SysRcrgGntnCstPrYr', 'mg_rec_gcpy']
 
     short_section = 'MG'
     short_option = 'SysRcrgGntnCstPrYr'
@@ -482,7 +482,7 @@ class MiniGridSystemInitialCost(V):
 
     section = 'system (mini-grid)'
     option = 'system initial cost'
-    aliases = ['mg_ini']
+    aliases = ['MG_SysInitCst', 'mg_ini']
 
     short_section = 'MG'
     short_option = 'SysInitCst'
@@ -508,7 +508,7 @@ class MiniGridSystemRecurringCostPerYear(V):
 
     section = 'system (mini-grid)'
     option = 'system recurring cost per year'
-    aliases = ['mg_rec']
+    aliases = ['MG_SysRcrgCstPrYr', 'mg_rec']
 
     short_section = 'MG'
     short_option = 'SysRcrgCstPrYr'
@@ -536,7 +536,7 @@ class MiniGridSystemNodalDiscountedCost(V):
 
     section = 'system (mini-grid)'
     option = 'system nodal discounted cost'
-    aliases = ['mg_nod_d']
+    aliases = ['MG_SysNdlDsctdCst', 'mg_nod_d']
 
     short_section = 'MG'
     short_option = 'SysNdlDsctdCst'
@@ -561,7 +561,7 @@ class MiniGridSystemNodalLevelizedCost(V):
 
     section = 'system (mini-grid)'
     option = 'system nodal levelized cost'
-    aliases = ['mg_nod_lev']
+    aliases = ['MG_SysNdlLvlzdCst', 'mg_nod_lev']
 
     short_section = 'MG'
     short_option = 'SysNdlLvlzdCst'

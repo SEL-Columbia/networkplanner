@@ -15,7 +15,7 @@ class TimeHorizon(V):
     
     section = 'finance'
     option = 'time horizon'
-    aliases = ['time']
+    aliases = ['Fin_TimeHrzn', 'time']
 
     short_section = 'Fin'
     short_option = 'TimeHrzn'
@@ -29,7 +29,7 @@ class InterestRatePerYear(V):
 
     section = 'finance'
     option = 'interest rate per year'
-    aliases = ['interest_g']
+    aliases = ['Fin_IntRtPrYr', 'interest_g']
 
     short_section = 'Fin'
     short_option = 'IntRtPrYr'
@@ -42,7 +42,7 @@ class EconomicGrowthRatePerYear(V):
 
     section = 'finance'
     option = 'economic growth rate per year'
-    aliases = ['economic_g']
+    aliases = ['Fin_EconGrRtPrYr', 'economic_g']
 
     short_section = 'Fin'
     short_option = 'EconGrRtPrYr'
@@ -55,7 +55,7 @@ class ElasticityOfElectricityDemand(V):
 
     section = 'finance'
     option = 'elasticity of electricity demand'
-    aliases = ['elasticity']
+    aliases = ['Fin_ElstOfElecDmd', 'elasticity']
 
     short_section = 'Fin'
     short_option = 'ElstOfElecDmd'
@@ -71,7 +71,7 @@ class ElectricityDemandGrowthRatePerYear(V):
 
     section = 'finance'
     option = 'electricity demand growth rate per year'
-    aliases = ['dem_g']
+    aliases = ['Fin_ElecDmdGrRtPrYr', 'dem_g']
 
     short_section = 'Fin'
     short_option = 'ElecDmdGrRtPrYr'
@@ -90,7 +90,7 @@ class ElectricityDemandMultiplier(V):
 
     section = 'finance'
     option = 'electricity demand multiplier'
-    aliases = ['demf']
+    aliases = ['Fin_ElecDmdMult', 'demf']
 
     short_section = 'Fin'
     short_option = 'ElecDmdMult'
@@ -108,7 +108,7 @@ class DiscountedCashFlowFactor(V):
 
     section = 'finance'
     option = 'discounted cash flow factor'
-    aliases = ['dcff']
+    aliases = ['Fin_DiscCshFlwFctr', 'dcff']
 
     short_section = 'Fin'
     short_option = 'DiscCshFlwFctr'
