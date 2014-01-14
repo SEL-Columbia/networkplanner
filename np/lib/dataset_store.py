@@ -227,7 +227,7 @@ class Store(object):
         # write the appropriate header
         # TODO:  Make the header_type choice config driven?  
         headerPacksToNames = VS.getFieldNamesForHeaderPacks(metricModel, 
-                            headerPacks, VS.HEADER_TYPE_SHORT_NAME)
+                            headerPacks, VS.HEADER_TYPE_ALIAS)
         csvWriter.writerow([headerPacksToNames[(section, option)] for 
                             section, option in headerPacks])
      

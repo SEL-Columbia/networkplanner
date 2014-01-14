@@ -379,8 +379,7 @@ def getRelatedVariables(varClass):
 
 #TODO:  Put these somewhere else?
 HEADER_TYPE_SECTION_OPTION = 'section_option' # i.e. 'Finance > Time Horizon'
-HEADER_TYPE_ALIAS          = 'alias' # or slug, i.e.  'time'
-HEADER_TYPE_SHORT_NAME     = 'short_name' # i.e. 'Fin_TimeHrzn'
+HEADER_TYPE_ALIAS          = 'alias' # The *first* item in the list of aliases for the variable
 
 def getFieldNamesForHeaderPacks(modelClass, headerPacks, headerFieldNameType=HEADER_TYPE_SECTION_OPTION):
     """
@@ -406,11 +405,7 @@ def getFieldNamesForHeaderPacks(modelClass, headerPacks, headerFieldNameType=HEA
         if section_option_to_var.get((section, option)):
             var = section_option_to_var[(section, option)]
             # handle short_name and alias options
-            if (headerFieldNameType==HEADER_TYPE_SHORT_NAME and 
-               hasattr(var, 'short_section') and 
-               hasattr(var, 'short_option')):
-                return "%s_%s" % (var.short_section, var.short_option)
-            elif (headerFieldNameType==HEADER_TYPE_ALIAS and 
+            if (headerFieldNameType==HEADER_TYPE_ALIAS and 
                  hasattr(var, 'aliases') and len(var.aliases) > 0):
                 return var.aliases[0] # simply the first alias of the variable
 
