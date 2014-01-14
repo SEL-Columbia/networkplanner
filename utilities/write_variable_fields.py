@@ -34,11 +34,13 @@ if __name__ == '__main__':
         # no variable parameter, get all vars for the model
         variableSet, roots = VS.gatherVariables(mvModel.VariableStore)
 
-    sys.stdout.write("file,class,alias,section,option,short_section,short_option,units,default,dependencies\n")
+    sys.stdout.write("file,class,alias1,alias2,section,option,short_section,short_option,units,default,dependencies\n")
     for var in variableSet:
         filename = inspect.getfile(var).replace('.pyc', '.py') 
         clazz = VS.getClassname(var)
         alias = VS.getAlias(var)
+        alias1 = "" if len(var.aliases) < 1 else var.aliases[0] 
+        alias2 = "" if len(var.aliases) < 2 else var.aliases[1] 
 
         short_section = ""
         short_option = ""
@@ -51,6 +53,6 @@ if __name__ == '__main__':
         if var.dependencies != None:
             depClasses = [VS.getClassname(dep) for dep in var.dependencies]
 
-        sys.stdout.write("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (filename, clazz, alias, var.section, 
+        sys.stdout.write("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (filename, clazz, alias1, alias2, var.section, 
                          var.option, short_section, short_option, var.units, var.default, ";".join(depClasses)))
         

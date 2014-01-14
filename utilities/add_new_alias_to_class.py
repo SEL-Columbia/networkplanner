@@ -39,7 +39,7 @@ if __name__ == '__main__':
             class_file.close()
             
         cur_line = 0
-        while (cur_line < len(data) and (not re.search("^class[ ]+" + clazz, data[cur_line]))):
+        while (cur_line < len(data) and (not re.search("^class[ ]+" + clazz + "[ ]*\(", data[cur_line]))):
             cur_line += 1
             
         print "Found class %s at line %s:  %s" % (clazz, cur_line, data[cur_line])

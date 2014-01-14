@@ -55,8 +55,7 @@ if __name__ == '__main__':
                         help="csv output of model run")
     parser.add_argument("-t", "--header-type", 
                         choices=[VS.HEADER_TYPE_SECTION_OPTION, 
-                                 VS.HEADER_TYPE_ALIAS,
-                                 VS.HEADER_TYPE_SHORT_NAME], 
+                                 VS.HEADER_TYPE_ALIAS], 
                         default=VS.HEADER_TYPE_ALIAS,
                         help="the output file header field name type")                       
                         
