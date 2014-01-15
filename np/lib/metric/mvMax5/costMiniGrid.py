@@ -180,7 +180,6 @@ class GenerationDesiredSystemCapacity(V):
 
     dependencies = [
         demand.ProjectedNodalDemandPerYear,
-        GenerationDaysOfOperationPerYear,
         DistributionLoss,
         GenerationCapacityFactor,
         UtilizationFactor,
