@@ -109,7 +109,9 @@ class PercentOfDailyKilowattHourLoadRequiringStorage(V):
 
 #!! big change, generator will be modeled as a factor of its capacity factor- class name changed
 class GenerationCapacityFactor(V):
-
+#this is an inherent measurement of how efficient the generation technology is at being generating power in a useful manner based on supply-side characeristics 
+#<http://en.wikipedia.org/wiki/Capacity_factor>
+    
     section = 'system (mini-grid)'
     option = 'capacity factor of generation as factor of nameplate output'
     aliases = ['MG_CptyFctrOfGntnAsFctrOfNmpltCap', 'mg_g_cf']
@@ -122,6 +124,7 @@ class GenerationCapacityFactor(V):
 
 #!! big change, generator will be modeled as a factor of its utilization factor too 
 class UtilizationFactor(V):
+#this is an inherent measurement of how efficient the generation technology is at being utilized in a useful manner based on demand-side usage
 
     section = 'system (mini-grid)'
     option = 'utilization factor of power generation as factor of nameplate output'
@@ -130,8 +133,9 @@ class UtilizationFactor(V):
     short_section = 'MG'
     short_option = 'UtznFctrPwrGntnFctrNmpltOtpt'
 
-    default = 0.10 #diesel generator has a 10% utilization factor
-    #(40% of load)/(4 peak hours/day) =  0.10
+    default = 0.416667 #diesel generator has a 41.667% utilization factor
+    #=> 1/[(Peak Demand as Fraction of Nodal Demand/Peak Hours Per Year)*Total Hours in Year]
+    #=> 1/[ (0.40/1460hr)*24 hrs/day * 365 days/yr] = 0.4166667 = 41.667%
     #Solar-battery system would be 100% because it's all dispatched on demand via electronics and fully utilized
     units = 'ratio'
 
@@ -148,17 +152,18 @@ class GenerationOperationsAndMaintenanceCostPerYearAsFractionOfGenerationCost(V)
 
     default = 0.01
 
-class GenerationDaysOfOperationPerYear(V):
-
-    section = 'system (mini-grid)'
-    option = 'generation hours of operation per year'
-    aliases = ['MG_GntnHrOprnPrYr', 'mg_g_sh']
-
-    short_section = 'MG'
-    short_option = 'GntnHrOprnPrYr'
-
-    default = float(365)
-    units = 'hours'
+###This conversion variable can stay 'hidden' to simplify model's parameters  
+##class GenerationHoursOfOperationPerYear(V):
+##
+##    section = 'system (mini-grid)'
+##    option = 'generation hours of operation per year'
+##    aliases = ['MG_GntnHrOprnPrYr', 'mg_g_sh']
+##
+##    short_section = 'MG'
+##    short_option = 'GntnHrOprnPrYr'
+##
+##    default = float(365*24)
+##    units = 'hours per year'
 
 
 ## Mini-grid system cost derivatives ##
@@ -187,11 +192,15 @@ class GenerationDesiredSystemCapacity(V):
         #Compute effectiveDemandPerYear and assume a mini-grid generator has distribution loss
         effectiveDemandPerYear = (self.get(demand.ProjectedNodalDemandPerYear) / 
                                   float(1 - self.get(DistributionLoss)))
+
+        #Compute Service Hours per year
+        GenerationHoursOfOperationPerYear = 365*24
+
         #Return
         return (effectiveDemandPerYear / 
-                float(self.get(GenerationCapacityFactor)) / #reduce by factor of how much of installed power can be utilized on average
-                self.get(GenerationDaysOfOperationPerYear) * #factor to convert energy usage to power sizing
-                float(self.get(UtilizationFactor))) #derate by utilization factor such as diesel system presents
+                float(self.get(GenerationCapacityFactor)) / #reduce by factor of how much of nameplate power can be utilized per supply-side characteristics 
+                float(self.get(UtilizationFactor))) / #derate by utilization factor of nameplate rating based on demand-side behavior
+                self.get(GenerationHoursOfOperationPerYear) / #factor to convert energy usage [kWh] to power [kW] sizing
 
 
 #nomenclature change, since now power generation system will conform to given list of standards - class name changed
