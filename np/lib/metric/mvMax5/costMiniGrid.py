@@ -199,8 +199,8 @@ class GenerationDesiredSystemCapacity(V):
         #Return
         return (effectiveDemandPerYear / 
                 float(self.get(GenerationCapacityFactor)) / #reduce by factor of how much of nameplate power can be utilized per supply-side characteristics 
-                float(self.get(UtilizationFactor))) / #derate by utilization factor of nameplate rating based on demand-side behavior
-                GenerationHoursOfOperationPerYear #factor to convert energy usage [kWh] to power [kW] sizing
+                float(self.get(UtilizationFactor)) / #derate by utilization factor of nameplate rating based on demand-side behavior
+                GenerationHoursOfOperationPerYear) #factor to convert energy usage [kWh] to power [kW] sizing
 
 
 #nomenclature change, since now power generation system will conform to given list of standards - class name changed
