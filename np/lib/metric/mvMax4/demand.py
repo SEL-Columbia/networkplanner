@@ -648,6 +648,8 @@ class DemandToPeakDemandConversionFactor(V):
         PeakDemandAsFractionOfNodalDemandOccurringDuringPeakHours,
         PeakElectricalHoursOfOperationPerYear,
     ]
+    units = 'fractions per hours' #this is not a unitless conversion factor but rather is a sort of conversion ratios
+    #ie. we say a certain fraction of your annual demand [kWh] is equivalent to proportional to a peak demand [kW]
 
     def compute(self):
         return self.get(PeakDemandAsFractionOfNodalDemandOccurringDuringPeakHours) / float(self.get(PeakElectricalHoursOfOperationPerYear))
