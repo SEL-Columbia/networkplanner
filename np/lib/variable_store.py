@@ -406,7 +406,7 @@ def getFieldNamesForHeaderPacks(modelClass, headerPacks, headerFieldNameType=HEA
             var = section_option_to_var[(section, option)]
             # handle short_name and alias options
             if (headerFieldNameType==HEADER_TYPE_ALIAS and 
-                 hasattr(var, 'aliases') and len(var.aliases) > 0):
+                 var.aliases and len(var.aliases) > 0):
                 return var.aliases[0] # simply the first alias of the variable
 
         # Handle the HEADER_TYPE_SECTION_OPTION case

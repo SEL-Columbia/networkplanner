@@ -238,12 +238,16 @@ class Store(object):
             csvWriter.writerow([node.output.get(section, {}).get(option, '') if section else node.input.get(option, '') for section, option in headerPacks])
 
     # Network
-    def buildNetwork(self, networkModel, networkValueByOptionBySection):
+    def buildNetwork(self, networkModel, networkValueByOptionBySection, writeJobLog=True):
         'Build a network using the nodes and network building algorithm'
         # Load job-level configuration
+        # NOTE:  state[0] is the current dataset_store which is used in the network
+        #        model to retrieve the basePath of the archive.
+        #        This seems like an anti-pattern, coupling the dataset_store to the 
+        #        network model in a non-transparent way. 
         jobVS = networkModel.VariableStore(networkValueByOptionBySection, state=[self])
         # Build network
-        net = jobVS.buildNetworkFromNodes(list(self.cycleNodes()), self.getProj4())
+        net = jobVS.buildNetworkFromNodes(list(self.cycleNodes()), self.getProj4(), writeJobLog=writeJobLog)
         # For each subnet in the generated network,
         for networkSubnet in net.cycleSubnets():
             # Create the subnet in our dataset
