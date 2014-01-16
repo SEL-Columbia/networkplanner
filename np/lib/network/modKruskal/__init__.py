@@ -29,7 +29,7 @@ class CandidateManager(object):
     """
     Class to manage the candidate node pairs in an efficient manner.
     The candidate node pairs (or segments) are the most memory consumptive
-    aspect of modKruskal. 
+    component of modKruskal. 
     """
     dtype = [('i', 'uint16'), ('j', 'uint16'), ('w', 'f4')]
 
@@ -85,7 +85,7 @@ class VariableStore(variable_store.VariableStore):
         ExistingNetworks,
     ]
 
-    def buildNetworkFromNodes(self, nodes, proj4):
+    def buildNetworkFromNodes(self, nodes, proj4, writeJobLog=True):
         'Build a network using the given nodes'
         # If the spatial reference has units in meters,
         if '+units=m' in proj4:
@@ -95,7 +95,7 @@ class VariableStore(variable_store.VariableStore):
             # Use spherical distance
             computeDistance = network.computeSphericalDistance
         # Run algorithm given nodes
-        net = self.buildNetworkFromSegments(*self.generateSegments(nodes, computeDistance, proj4))
+        net = self.buildNetworkFromSegments(*self.generateSegments(nodes, computeDistance, proj4), writeJobLog=writeJobLog)
         # Eliminate subnetworks that have too few real nodes
         minimumNodeCountPerSubnetwork = self.get(MinimumNodeCountPerSubnetwork)
         subnetFilter = lambda subnet: subnet.countNodes() >= minimumNodeCountPerSubnetwork
@@ -136,7 +136,7 @@ class VariableStore(variable_store.VariableStore):
         return candidateManager, net 
 
 
-    def buildNetworkFromSegments(self, candidateManager, net):
+    def buildNetworkFromSegments(self, candidateManager, net, writeJobLog=True):
         """
         MAKE SURE THAT SEGMENTS WITH IDENTICAL COORDINATES CORRESPOND TO THE SAME OBJECT
         MAKE SURE THAT NODES WITH IDENTICAL COORDINATES CORRESPOND TO THE SAME OBJECT
@@ -144,7 +144,9 @@ class VariableStore(variable_store.VariableStore):
         """
         
         time_format = "%Y-%m-%d %H:%M:%S"
-        Job.log("Building network from segments")
+        if writeJobLog:
+            Job.log("Building network from segments")
+
         print "%s Building network from segments" % strftime(time_format, localtime())
 
         # reporting variables
@@ -161,7 +163,9 @@ class VariableStore(variable_store.VariableStore):
             completionPercentage = completedSegments / float(numSegments)
             if completionPercentage > nextReportThreshold:
                 time_format = "%Y-%m-%d %H:%M:%S"
-                Job.log("Processed %s (of %s) segments" % (completedSegments, numSegments))
+                if writeJobLog:
+                    Job.log("Processed %s (of %s) segments" % (completedSegments, numSegments))
+
                 print "%s Processed %s (of %s) segments" % (strftime(time_format, localtime()), completedSegments, numSegments)
                 nextReportThreshold += increment
 
@@ -199,7 +203,9 @@ class VariableStore(variable_store.VariableStore):
 
 
         time_format = "%Y-%m-%d %H:%M:%S"
-        Job.log("processed %s (of %s) segments" % (completedSegments, numSegments))
+        if writeJobLog:
+            Job.log("processed %s (of %s) segments" % (completedSegments, numSegments))
+
         print "%s processed %s (of %s) segments" % (strftime(time_format, localtime()), completedSegments, numSegments)
         # Return
         return net
