@@ -21,8 +21,6 @@ class Metric(V):
     option = 'maximum length of medium voltage line extension'
     aliases = ['Metric_MVMax', 'mvmax']
 
-    short_section = 'Metric'
-    short_option = 'MVMax'
 
     dependencies = [
         costOffGrid.OffGridSystemNodalDiscountedCost,
@@ -58,8 +56,6 @@ class System(V):
     option = 'system'
     aliases = ['Metric_Sys', 'system']
 
-    short_section = 'Metric'
-    short_option = 'Sys'
 
     c = dict(parse=str)
     dependencies = [
@@ -92,8 +88,6 @@ class OffGridSystemTotal(V):
     option = 'system total'
     aliases = ['OG_SysTot', 'og_ct']
 
-    short_section = 'OG'
-    short_option = 'SysTot'
 
     default = 0
     units = 'count'
@@ -111,8 +105,6 @@ class OffGridSystemTotalDiscountedDemand(V):
     option = 'system total discounted demand'
     aliases = ['OG_SysTotDiscDmd', 'og_dem_d']
 
-    short_section = 'OG'
-    short_option = 'SysTotDiscDmd'
 
     default = 0
     units = 'kilowatt-hours'
@@ -130,8 +122,6 @@ class OffGridSystemTotalDiscountedDieselCost(V):
     option = 'system total discounted diesel cost'
     aliases = ['OG_SysTotDiscDslCst', 'og_tot_ddc']
 
-    short_section = 'OG'
-    short_option = 'SysTotDiscDslCst'
 
     default = 0
     units = 'dollars'
@@ -149,8 +139,6 @@ class OffGridSystemTotalDiscountedDieselFuelCost(V):
     option = 'system total discounted diesel fuel cost'
     aliases = ['OG_SysTotDiscDslFuelCst', 'og_tot_ddfc']
 
-    short_section = 'OG'
-    short_option = 'SysTotDiscDslFuelCst'
 
     default = 0
     units = 'dollars'
@@ -168,8 +156,6 @@ class OffGridSystemTotalDiscountedCost(V):
     option = 'system total discounted cost'
     aliases = ['OG_SysTotDiscCst', 'og_tot_d']
 
-    short_section = 'OG'
-    short_option = 'SysTotDiscCst'
 
     default = 0
     units = 'dollars'
@@ -186,8 +172,6 @@ class OffGridSystemTotalLevelizedCost(V):
     section = 'system (off-grid)'
     option = 'system total levelized cost'
 
-    short_section = 'OG'
-    short_option = 'SysTotLvlzdCst'
 
     aliases = ['OG_SysTotLvlzdCst', 'og_tot_lev']
     dependencies = [
@@ -208,8 +192,6 @@ class OffGridSystemTotalInitialCost(V):
     option = 'system total initial cost'
     aliases = ['OG_SysTotInitCst', 'og_tot_i']
 
-    short_section = 'OG'
-    short_option = 'SysTotInitCst'
 
     default = 0
     units = 'dollars'
@@ -227,8 +209,6 @@ class OffGridSystemTotalDiscountedRecurringCost(V):
     option = 'system total discounted recurring cost'
     aliases = ['OG_SysTotDiscRcrgCst', 'og_tot_drc']
 
-    short_section = 'OG'
-    short_option = 'SysTotDiscRcrgCst'
 
     default = 0
     units = 'dollars'
@@ -247,8 +227,6 @@ class MiniGridSystemTotal(V):
     option = 'system total'
     aliases = ['MG_SysTot', 'mg_ct']
 
-    short_section = 'MG'
-    short_option = 'SysTot'
 
     default = 0
     units = 'count'
@@ -266,8 +244,6 @@ class MiniGridSystemTotalDiscountedEnergyStorageCost(V):
     option = 'system total discounted energy storage cost'
     aliases = ['MG_SysTotDiscEnStrgCst', 'mg_tot_desc']
 
-    short_section = 'MG'
-    short_option = 'SysTotDiscEnStrgCst'
 
     default = 0
     units = 'dollars'
@@ -286,8 +262,6 @@ class MiniGridSystemTotalDiscountedGenerationCost(V):
     option = 'system total discounted generation cost'
     aliases = ['MG_SysTotDiscGenCst', 'mg_tot_dgc']
 
-    short_section = 'MG'
-    short_option = 'SysTotDiscGenCst'
 
     default = 0
     units = 'dollars'
@@ -305,8 +279,6 @@ class MiniGridSystemTotalDiscountedCost(V):
     option = 'system total discounted cost'
     aliases = ['MG_SysTotDiscCst', 'mg_tot_d']
 
-    short_section = 'MG'
-    short_option = 'SysTotDiscCst'
 
     default = 0
     units = 'dollars'
@@ -324,8 +296,6 @@ class MiniGridSystemTotalDiscountedDemand(V):
     option = 'system total discounted demand'
     aliases = ['MG_SysTotDiscDmd', 'mg_dem_d']
 
-    short_section = 'MG'
-    short_option = 'SysTotDiscDmd'
 
     default = 0
     units = 'kilowatt-hours'
@@ -343,8 +313,6 @@ class MiniGridSystemTotalInitialCost(V):
     option = 'system total initial cost'
     aliases = ['MG_SysTotInitCst', 'mg_tot_i']
 
-    short_section = 'MG'
-    short_option = 'SysTotInitCst'
 
     default = 0
     units = 'dollars'
@@ -362,8 +330,6 @@ class MiniGridSystemTotalDiscountedRecurringCost(V):
     option = 'system total discounted recurring cost'
     aliases = ['MG_SysTotDiscRcrgCst', 'mg_tot_drc']
 
-    short_section = 'MG'
-    short_option = 'SysTotDiscRcrgCst'
 
     default = 0
     units = 'dollars'
@@ -383,8 +349,6 @@ class MiniGridSystemTotalLevelizedCost(V):
     option = 'system total levelized cost'
     aliases = ['MG_SysTotLvlzdCst', 'mg_tot_lev']
 
-    short_section = 'MG'
-    short_option = 'SysTotLvlzdCst'
 
     dependencies = [
         MiniGridSystemTotalDiscountedDemand,
@@ -404,8 +368,6 @@ class GridSystemTotal(V):
     option = 'system total'
     aliases = ['GR_SysTot', 'g_ct']
 
-    short_section = 'GR'
-    short_option = 'SysTot'
 
     default = 0
     units = 'count'
@@ -423,8 +385,6 @@ class GridSystemTotalDiscountedDemand(V):
     option = 'system total discounted demand'
     aliases = ['GR_SysTotDiscDmd', 'gr_dem_d']
 
-    short_section = 'GR'
-    short_option = 'SysTotDiscDmd'
 
     default = 0
     units = 'kilowatt-hours'
@@ -445,8 +405,6 @@ class GridSystemTotalExternalInitialCost(V):
     option = 'system total external initial cost'
     aliases = ['GR_SysTotExtInitCst', 'gr_tot_ext_ic']
 
-    short_section = 'GR'
-    short_option = 'SysTotExtInitCst'
 
     default = 0
     units = 'dollars'
@@ -473,8 +431,6 @@ class GridSystemTotalExternalDiscountedRecurringCost(V):
     option = 'system total external discounted recurring cost'
     aliases = ['GR_SysTotExtDiscRcrgCst', 'gr_tot_ext_drc']
 
-    short_section = 'GR'
-    short_option = 'SysTotExtDiscRcrgCst'
 
     default = 0
     units = 'dollars'
@@ -500,8 +456,6 @@ class GridSystemTotalDiscountedCost(V):
     option = 'system total discounted cost'
     aliases = ['GR_SysTotDiscCst', 'gr_tot_d']
 
-    short_section = 'GR'
-    short_option = 'SysTotDiscCst'
 
     default = 0
     units = 'dollars'
@@ -530,8 +484,6 @@ class GridSystemTotalLevelizedCost(V):
     option = 'system total levelized cost'
     aliases = ['GR_SysTotLvlzdCst', 'gr_tot_lev']
 
-    short_section = 'GR'
-    short_option = 'SysTotLvlzdCst'
 
     dependencies = [
         GridSystemTotalDiscountedDemand,
@@ -551,8 +503,6 @@ class GridSystemTotalInternalInitialCost(V):
     option = 'system total internal initial cost'
     aliases = ['GR_SysTotIntInitCst', 'gr_tot_iic']
 
-    short_section = 'GR'
-    short_option = 'SysTotIntInitCst'
 
     default = 0
     units = 'dollars'
@@ -575,8 +525,6 @@ class GridSystemTotalInternalDiscountedRecurringCost(V):
     option = 'system total internal discounted recurring cost'
     aliases = ['GR_SysTotIntDiscRcrgCst', 'gr_tot_idrc']
 
-    short_section = 'GR'
-    short_option = 'SysTotIntDiscRcrgCst'
 
     default = 0
     units = 'dollars'
@@ -600,8 +548,6 @@ class GridSystemTotalInitialCost(V):
     option = 'system total initial cost'
     aliases = ['GR_SysTotInitCst', 'gr_tot_init']
 
-    short_section = 'GR'
-    short_option = 'SysTotInitCst'
 
     dependencies = [
         GridSystemTotalInternalInitialCost,
@@ -620,8 +566,6 @@ class GridSystemTotalDiscountedRecurringCost(V):
     option = 'system total discounted recurring cost'
     aliases = ['GR_SysTotDiscRcrgCst', 'gr_tot_drc']
 
-    short_section = 'GR'
-    short_option = 'SysTotDiscRcrgCst'
 
     dependencies = [
         GridSystemTotalExternalDiscountedRecurringCost,
@@ -642,8 +586,6 @@ class GridSystemTotalExistingNetworkLength(V):
     option = 'system total existing network length'
     aliases = ['GR_SysTotNtwkLgth', 'gr_tot_enl']
 
-    short_section = 'GR'
-    short_option = 'SysTotNtwkLgth'
 
     # Don't understand why we need this
     dependencies = [System]
@@ -660,8 +602,6 @@ class GridSystemTotalProposedNetworkLength(V):
     option = 'system total proposed network length'
     aliases = ['GR_SysTotPropNtwkLgth', 'gr_tot_pnl']
 
-    short_section = 'GR'
-    short_option = 'SysTotPropNtwkLgth'
 
     units = 'meters'
 

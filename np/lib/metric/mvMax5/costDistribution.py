@@ -16,8 +16,6 @@ class LowVoltageLineCostPerMeter(V):
     option = 'low voltage line cost per meter'
     aliases = ['Dist_LVLnCstPrM', 'di_ll_cm']
 
-    short_section = 'Dist'
-    short_option = 'LVLnCstPrM'
 
     default = 10
     units = 'dollars per meter'
@@ -29,8 +27,6 @@ class LowVoltageLineLifetime(V):
     option = 'low voltage line lifetime'
     aliases = ['Dist_LVLnLife', 'di_ll_life']
 
-    short_section = 'Dist'
-    short_option = 'LVLnLife'
 
     c = dict(check=store.assertPositive)
     default = 10
@@ -43,8 +39,6 @@ class LowVoltageLineOperationsAndMaintenanceCostPerYearAsFractionOfLineCost(V):
     option = 'low voltage line operations and maintenance cost per year as fraction of line cost'
     aliases = ['Dist_LVLnOandMCstPrYrAsFctnOfLnCst', 'di_ll_omf']
 
-    short_section = 'Dist'
-    short_option = 'LVLnOandMCstPrYrAsFctnOfLnCst'
 
     default = 0.01
 
@@ -55,8 +49,6 @@ class LowVoltageLineEquipmentCostPerConnection(V):
     option = 'low voltage line equipment cost per connection'
     aliases = ['Dist_LVLnEqmtCstPrConn', 'di_le_cc']
 
-    short_section = 'Dist'
-    short_option = 'LVLnEqmtCstPrConn'
 
     default = 200
     units = 'dollars per connection'
@@ -68,8 +60,6 @@ class LowVoltageLineEquipmentOperationsAndMaintenanceCostPerYearAsFractionOfEqui
     option = 'low voltage line equipment operations and maintenance cost as fraction of equipment cost'
     aliases = ['Dist_LVLnEqmtOandMCstAsFctnOfEqmtCst', 'di_le_omf']
 
-    short_section = 'Dist'
-    short_option = 'LVLnEqmtOandMCstAsFctnOfEqmtCst'
 
     default = 0.01
 
@@ -83,8 +73,6 @@ class LowVoltageLineLength(V):
     option = 'low voltage line length'
     aliases = ['Dist_LVLnLgth', 'di_ll_len']
 
-    short_section = 'Dist'
-    short_option = 'LVLnLgth'
 
     dependencies = [
         demographics.MeanInterhouseholdDistance,
@@ -106,8 +94,6 @@ class LowVoltageLineInitialCost(V):
     option = 'low voltage line initial cost'
     aliases = ['Dist_LVLnInitCst', 'di_ll_ini']
 
-    short_section = 'Dist'
-    short_option = 'LVLnInitCst'
 
     dependencies = [
         LowVoltageLineLength,
@@ -125,8 +111,6 @@ class LowVoltageLineOperationsAndMaintenanceCostPerYear(V):
     option = 'low voltage line operations and maintenance cost per year'
     aliases = ['Dist_LVLnOandMCstPrYr', 'di_ll_om']
 
-    short_section = 'Dist'
-    short_option = 'LVLnOandMCstPrYr'
 
     dependencies = [
         LowVoltageLineOperationsAndMaintenanceCostPerYearAsFractionOfLineCost,
@@ -145,8 +129,6 @@ class LowVoltageLineReplacementCostPerYear(V):
     option = 'low voltage line replacement cost per year'
     aliases = ['Dist_LVLnRpmtCstPrYr', 'di_ll_rep']
 
-    short_section = 'Dist'
-    short_option = 'LVLnRpmtCstPrYr'
 
     dependencies = [
         LowVoltageLineInitialCost,
@@ -164,8 +146,6 @@ class LowVoltageLineRecurringCostPerYear(V):
     option = 'low voltage line recurring cost per year'
     aliases = ['Dist_LVLnRcrgCstPrYr', 'di_ll_rec']
 
-    short_section = 'Dist'
-    short_option = 'LVLnRcrgCstPrYr'
 
     dependencies = [
         LowVoltageLineOperationsAndMaintenanceCostPerYear,

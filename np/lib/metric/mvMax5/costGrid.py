@@ -20,8 +20,6 @@ class DistributionLoss(V):
     option = 'distribution loss'
     aliases = ['GR_DistLss', 'gr_loss']
 
-    short_section = 'GR'
-    short_option = 'DistLss'
 
     c = dict(check=store.assertLessThanOne)
     default = 0.15
@@ -34,8 +32,6 @@ class GridElectricityCostPerKilowattHour(V):
     option = 'electricity cost per kilowatt-hour'
     aliases = ['GR_ElecCstPrkWHr', 'gr_el_ckwh']
 
-    short_section = 'GR'
-    short_option = 'ElecCstPrkWHr'
 
     default = 0.17
     units = 'dollars per kilowatt-hour'
@@ -47,8 +43,6 @@ class GridTransformerAvailableSystemCapacities(V):
     option = 'available system capacities (transformer)'
     aliases = ['GR_AvblSysCapTfmr', 'gr_tr_cps']
 
-    short_section = 'GR'
-    short_option = 'AvblSysCapTfmr'
 
     c = dict(parse=store.unstringifyDescendingFloatList, format=store.flattenList, validate='validateNumberList')
     default = '1000 900 800 700 600 500 400 300 200 100 90 80 70 60 50 40 30 20 15 5'
@@ -61,8 +55,6 @@ class GridTransformerCostPerGridSystemKilowatt(V):
     option = 'transformer cost per grid system kilowatt'
     aliases = ['GR_TfmrCstPrGRSyskW', 'gr_tr_ckw']
 
-    short_section = 'GR'
-    short_option = 'TfmrCstPrGRSyskW'
 
     default = 1000
     units = 'dollars per kilowatt'
@@ -74,8 +66,6 @@ class GridTransformerLifetime(V):
     option = 'transformer lifetime'
     aliases = ['GR_TfmrLife', 'gr_tr_life']
 
-    short_section = 'GR'
-    short_option = 'TfmrLife'
 
     c = dict(check=store.assertPositive)
     default = 10
@@ -88,8 +78,6 @@ class GridTransformerOperationsAndMaintenanceCostPerYearAsFractionOfTransformerC
     option = 'transformer operations and maintenance cost per year as fraction of transformer cost'
     aliases = ['GR_TfmrOandMCstPrYrAsFctnOfTfmrCst', 'gr_tr_omf']
 
-    short_section = 'GR'
-    short_option = 'TfmrOandMCstPrYrAsFctnOfTfmrCst'
 
     default = 0.03
 
@@ -100,8 +88,6 @@ class GridInstallationCostPerConnection(V):
     option = 'installation cost per connection'
     aliases = ['GR_InstCstPrConn', 'gr_i_cc']
 
-    short_section = 'GR'
-    short_option = 'InstCstPrConn'
 
     default = 130
     units = 'dollars per connection'
@@ -113,8 +99,6 @@ class GridMediumVoltageLineCostPerMeter(V):
     option = 'medium voltage line cost per meter'
     aliases = ['GR_MVLnCstPrM', 'gr_ml_cm']
 
-    short_section = 'GR'
-    short_option = 'MVLnCstPrM'
 
     default = 20
     units = 'dollars per meter'
@@ -126,8 +110,6 @@ class GridMediumVoltageLineLifetime(V):
     option = 'medium voltage line lifetime'
     aliases = ['GR_MVLnLife', 'gr_ml_life']
 
-    short_section = 'GR'
-    short_option = 'MVLnLife'
 
     c = dict(check=store.assertPositive)
     default = 30
@@ -140,8 +122,6 @@ class GridMediumVoltageLineOperationsAndMaintenanceCostPerYearAsFractionOfLineCo
     option = 'medium voltage line operations and maintenance cost per year as fraction of line cost'
     aliases = ['GR_MVLnOandMCstPrYrAsFctnOfLnCst', 'gr_ml_omf']
 
-    short_section = 'GR'
-    short_option = 'MVLnOandMCstPrYrAsFctnOfLnCst'
 
     default = 0.01
 
@@ -156,8 +136,6 @@ class GridSocialInfrastructureCount(V):
     option = 'social infrastructure count'
     aliases = ['GR_SoclnfCt', 'gr_so']
 
-    short_section = 'GR'
-    short_option = 'SoclnfCt'
 
     dependencies = [
         demand.ProjectedHealthFacilityCount,
@@ -177,8 +155,6 @@ class GridInternalConnectionCount(V):
     option = 'internal connection count'
     aliases = ['GR_IntConnCt', 'gr_ic']
 
-    short_section = 'GR'
-    short_option = 'IntConnCt'
 
     dependencies = [
         demand.TargetHouseholdCount,
@@ -196,8 +172,6 @@ class GridTransformerDesiredSystemCapacity(V):
     option = 'grid transformer desired system capacity'
     aliases = ['GR_GRTfmrDsrdSysCpty', 'gr_tr_dcp']
 
-    short_section = 'GR'
-    short_option = 'GRTfmrDsrdSysCpty'
 
     dependencies = [
         demand.ProjectedPeakNodalDemand,
@@ -215,8 +189,6 @@ class GridTransformerActualSystemCapacityCounts(V):
     option = 'grid transformer actual system capacity counts'
     aliases = ['GR_GRTfmrActlSysCptyCts', 'gr_tr_acps']
 
-    short_section = 'GR'
-    short_option = 'GRTfmrActlSysCptyCts'
 
     c = dict(parse=store.unstringifyIntegerList, format=store.flattenList, validate='validateNumberList')
     dependencies = [
@@ -237,8 +209,6 @@ class GridTransformerActualSystemCapacity(V):
     option = 'grid transformer actual system capacity'
     aliases = ['GR_GRTfmrActlSysCpty', 'gr_tr_acp']
 
-    short_section = 'GR'
-    short_option = 'GRTfmrActlSysCpty'
 
     dependencies = [
         GridTransformerAvailableSystemCapacities,
@@ -258,8 +228,6 @@ class GridInstallationCost(V):
     option = 'installation cost'
     aliases = ['GR_InstCst', 'gr_i']
 
-    short_section = 'GR'
-    short_option = 'InstCst'
 
     dependencies = [
         GridInstallationCostPerConnection,
@@ -277,8 +245,6 @@ class LowVoltageLineEquipmentCost(V):
     option = 'low voltage line equipment cost'
     aliases = ['GR_LVLnEqmtCst', 'gr_le']
 
-    short_section = 'GR'
-    short_option = 'LVLnEqmtCst'
 
     dependencies = [
         costDistribution.LowVoltageLineEquipmentCostPerConnection,
@@ -296,8 +262,6 @@ class LowVoltageLineEquipmentOperationsAndMaintenanceCostPerYear(V):
     option = 'low voltage line equipment operations and maintenance cost per year'
     aliases = ['GR_LVLnEqmtOandMCstPrYr', 'gr_le_om']
 
-    short_section = 'GR'
-    short_option = 'LVLnEqmtOandMCstPrYr'
 
     dependencies = [
         costDistribution.LowVoltageLineEquipmentOperationsAndMaintenanceCostPerYearAsFractionOfEquipmentCost,
@@ -315,8 +279,6 @@ class GridTransformerCost(V):
     option = 'transformer cost'
     aliases = ['GR_TfmrCst', 'gr_tr']
 
-    short_section = 'GR'
-    short_option = 'TfmrCst'
 
     dependencies = [
         GridTransformerCostPerGridSystemKilowatt,
@@ -334,8 +296,6 @@ class GridTransformerOperationsAndMaintenanceCostPerYear(V):
     option = 'transformer operations and maintenance cost per year'
     aliases = ['GR_TfmrOandMCstPrYr', 'gr_tr_om']
 
-    short_section = 'GR'
-    short_option = 'TfmrOandMCstPrYr'
 
     dependencies = [
         GridTransformerOperationsAndMaintenanceCostPerYearAsFractionOfTransformerCost,
@@ -353,8 +313,6 @@ class GridTransformerReplacementCostPerYear(V):
     option = 'transformer replacement cost per year'
     aliases = ['GR_TfmrRpmtCstPrYr', 'gr_tr_rep']
 
-    short_section = 'GR'
-    short_option = 'TfmrRpmtCstPrYr'
 
     dependencies = [
         GridTransformerCost,
@@ -372,8 +330,6 @@ class GridElectricityCostPerYear(V):
     option = 'electricity cost per year'
     aliases = ['GR_ElecCstPrYr', 'gr_el']
 
-    short_section = 'GR'
-    short_option = 'ElecCstPrYr'
 
     dependencies = [
         GridElectricityCostPerKilowattHour,
@@ -392,8 +348,6 @@ class GridInternalSystemInitialCost(V):
     option = 'internal system initial cost'
     aliases = ['GR_IntSysInitCst', 'gi_ini']
 
-    short_section = 'GR'
-    short_option = 'IntSysInitCst'
 
     dependencies = [
         GridInstallationCost,
@@ -418,8 +372,6 @@ class GridInternalSystemRecurringCostPerYear(V):
     option = 'internal system recurring cost per year'
     aliases = ['GR_IntSysRcrgCstPrYr', 'gi_rec']
 
-    short_section = 'GR'
-    short_option = 'IntSysRcrgCstPrYr'
 
     dependencies = [
         GridTransformerOperationsAndMaintenanceCostPerYear,
@@ -446,8 +398,6 @@ class GridInternalSystemNodalDiscountedCost(V):
     option = 'internal system nodal discounted cost'
     aliases = ['GR_IntSysNdlDsctdCst', 'gi_nod_d']
 
-    short_section = 'GR'
-    short_option = 'IntSysNdlDsctdCst'
 
     dependencies = [
         demand.ProjectedNodalDemandPerYear,
@@ -469,8 +419,6 @@ class GridInternalSystemNodalLevelizedCost(V):
     option = 'internal system nodal levelized cost'
     aliases = ['GR_IntSysNdlLvlzdCst', 'gi_nod_lev']
 
-    short_section = 'GR'
-    short_option = 'IntSysNdlLvlzdCst'
 
     dependencies = [
         demand.ProjectedNodalDiscountedDemand,
@@ -490,8 +438,6 @@ class GridMediumVoltageLineOperationsAndMaintenanceCostPerMeterPerYear(V):
     option = 'medium voltage line operations and maintenace cost per meter per year'
     aliases = ['GR_MVLnOandMCstPrMPrYr', 'gr_ml_omm']
 
-    short_section = 'GR'
-    short_option = 'MVLnOandMCstPrMPrYr'
 
     dependencies = [
         GridMediumVoltageLineOperationsAndMaintenanceCostPerYearAsFractionOfLineCost,
@@ -509,8 +455,6 @@ class GridMediumVoltageLineReplacementCostPerMeterPerYear(V):
     option = 'medium voltage line replacement cost per meter per year'
     aliases = ['GR_MVLnRpmtCstPrMPrYr', 'gr_ml_repm']
 
-    short_section = 'GR'
-    short_option = 'MVLnRpmtCstPrMPrYr'
 
     dependencies = [
         GridMediumVoltageLineCostPerMeter,
@@ -528,8 +472,6 @@ class GridExternalSystemInitialCostPerMeter(V):
     option = 'external system initial cost per meter'
     aliases = ['GR_ExtSysInitCstPrM', 'ge_inim']
 
-    short_section = 'GR'
-    short_option = 'ExtSysInitCstPrM'
 
     dependencies = [
         GridMediumVoltageLineCostPerMeter,
@@ -546,8 +488,6 @@ class GridExternalSystemRecurringCostPerMeterPerYear(V):
     option = 'external system recurring cost per meter per year'
     aliases = ['GR_ExtSysRcrgCstPrMPrYr', 'ge_recm']
 
-    short_section = 'GR'
-    short_option = 'ExtSysRcrgCstPrMPrYr'
 
     dependencies = [
         GridMediumVoltageLineOperationsAndMaintenanceCostPerMeterPerYear,
@@ -565,8 +505,6 @@ class GridExternalSystemNodalDiscountedRecurringCostPerMeter(V):
     option = 'external nodal discounted recurring cost per meter'
     aliases = ['GR_ExtNdlDsctdRcrgCstPrM', 'ge_nodm_drcpm']
 
-    short_section = 'GR'
-    short_option = 'ExtNdlDsctdRcrgCstPrM'
 
     c = dict(check=store.assertPositive)
     dependencies = [
@@ -585,8 +523,6 @@ class GridExternalSystemNodalDiscountedCostPerMeter(V):
     option = 'external nodal discounted cost per meter'
     aliases = ['GR_ExtNdlDsctdCstPrM', 'ge_nodm_d']
 
-    short_section = 'GR'
-    short_option = 'ExtNdlDsctdCstPrM'
 
     c = dict(check=store.assertPositive)
     dependencies = [
