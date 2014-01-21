@@ -13,6 +13,7 @@ if __name__ == '__main__':
 
     if (len(sys.argv) < 2):
         sys.stderr.write("example usage:  python add_new_alias_to_class.py class_alias_file\n")
+        sys.stderr.write("class_alias_file:  csv with fields 'class,file,new_alias'\n")
         sys.exit()
 
     # setup model
@@ -26,9 +27,7 @@ if __name__ == '__main__':
     for row in csv_reader:
         
         clazz = row['class'].rpartition(".")[-1]
-        short_section = row['short_section']
-        short_option = row['short_option']
-        added_alias = short_section + "_" + short_option
+        new_alias = row['new_alias']
         class_file_name = row['file']
         # tmp_class_file = class_file.replace(".py", ".py_tmp")
 
@@ -60,7 +59,7 @@ if __name__ == '__main__':
 
         p = re.compile(r"\[([^\]]*)]")
 
-        new_alias_def = p.sub("['" + added_alias + "', \\1]", cur_alias_def)
+        new_alias_def = p.sub("['" + new_alias  + "', \\1]", cur_alias_def)
         data[cur_line] = new_alias_def
 
 
