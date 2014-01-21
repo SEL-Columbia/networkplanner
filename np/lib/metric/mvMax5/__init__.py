@@ -171,9 +171,8 @@ class OffGridSystemTotalLevelizedCost(V):
 
     section = 'system (off-grid)'
     option = 'system total levelized cost'
-
-
     aliases = ['OG_SysTotLvlzdCst', 'og_tot_lev']
+
     dependencies = [
         OffGridSystemTotalDiscountedDemand,
         OffGridSystemTotalDiscountedCost,

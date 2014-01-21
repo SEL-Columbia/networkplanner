@@ -15,4 +15,5 @@ docs/metric-mvMax2.rst
 docs/metric-mvMax3.rst
 docs/network-modKruskal.rst
 *.pyc
+*.swp
 cycleProcessors.sh

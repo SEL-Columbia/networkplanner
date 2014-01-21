@@ -1,3 +1,4 @@
+import os
 # import custom modules
 from np import model
 from np.model import meta
@@ -16,7 +17,7 @@ email = 'username@example.com'
 email_sms = ''
 nickname = u'nickname'
 
-good_dataset_store_path = "test_data/dataset2/dataset.db"
+good_dataset_store_path = os.path.join("test_data", "dataset2", "dataset.db")
 
 class TestScenariosController(TestController):
 
@@ -51,7 +52,7 @@ class TestScenariosController(TestController):
                 'networkModelName': 'modKruskal'
         }
 
-        upload_file = ('demographicDatabase', u"test_data/demographics_dataset2.csv")
+        upload_file = ('demographicDatabase', os.path.join("test_data", "demographics_dataset2.csv"))
 
         response = self.app.post(url('scenarios'), params=params, upload_files=[upload_file])
         scenario = meta.Session.query(model.Scenario).filter(model.Scenario.name == 'scenario1').first()

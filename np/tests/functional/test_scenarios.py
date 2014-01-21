@@ -18,7 +18,7 @@ class TestScenarios(unittest.TestCase):
 
     def test_scenarioRun(self):
         'for now, just make sure it runs'
-        sourcePath = os.path.join(inputDataPath, "sample_demand_nodes.csv")
+        sourcePath = os.path.join(inputDataPath, "sample_demand_nodes_lrg_population.csv")
         # make output dir if not exists
         if not os.path.exists(outputDataPath):
             os.makedirs(outputDataPath)
