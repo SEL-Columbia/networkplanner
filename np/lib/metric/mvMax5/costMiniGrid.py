@@ -20,6 +20,8 @@ class DistributionLoss(V):
     option = 'distribution loss'
     aliases = ['MG_DistLss', 'mg_loss']
 
+    short_section = 'MG'
+    short_option = 'DistLss'
 
     c = dict(check=store.assertLessThanOne)
     default = 0.10
@@ -32,6 +34,8 @@ class GenerationAvailableSystemCapacities(V):
     option = 'available power generation system capacities(kW)'
     aliases = ['MG_AvblGntnSysCapkW', 'mg_g_cps']
 
+    short_section = 'MG'
+    short_option = 'AvblGntnSysCapkW'
 
     c = dict(parse=store.unstringifyDescendingFloatList, format=store.flattenList, validate='validateNumberList')
     default = '1000 750 500 400 200 150 100 70 32 19 12 6'
@@ -44,6 +48,8 @@ class GenerationCostPerSystemKilowatt(V):
     option = 'generation cost per system kilowatt'
     aliases = ['MG_GntnCstPrSyskW', 'mg_g_ck']
 
+    short_section = 'MG'
+    short_option = 'GntnCstPrSyskW'
 
     default = 150
     units = 'dollars per kilowatt'
@@ -55,6 +61,8 @@ class GenerationInstallationCostAsFractionOfGenerationCost(V):
     aliases = ['MG_GntnInstCstAsFctnOfGntnCst', 'mg_g_if']
     option = 'generation installation cost as fraction of generation cost'
 
+    short_section = 'MG'
+    short_option = 'GntnInstCstAsFctnOfGntnCst'
 
     default = 0.25
     units = 'fraction'
@@ -66,6 +74,8 @@ class GenerationLifetime(V):
     option = 'generation system lifetime'
     aliases = ['MG_GntnSysLife', 'mg_g_life']
 
+    short_section = 'MG'
+    short_option = 'GntnSysLife'
 
     c = dict(check=store.assertPositive)
     default = 5
@@ -78,6 +88,8 @@ class EnergyStorageCostPerKilowattHour(V):
     option = 'energy storage cost per kWh'
     aliases = ['MG_EnStrgCstPrkWHr', 'mg_escpk']
 
+    short_section = 'MG'
+    short_option = 'EnStrgCstPrkWHr'
 
     default = 0.54 #matches old defaults of $1.08/L fuel @ 0.5L/kWh fuel consumption 
     units = 'dollars per kWh'
@@ -89,9 +101,23 @@ class PercentOfDailyKilowattHourLoadRequiringStorage(V):
     option = 'percent of daily load that requires storage or fuel'
     aliases = ['MG_PctOfDlykWHrLdReqStrg', 'mg_pdkwhrs']
 
+    short_section = 'MG'
+    short_option = 'PctOfDlykWHrLdReqStrg'
 
     default = 1.0 #diesel systems require 100% energy  to come via fuel, solar-batteries require near 100% storage too
     units = 'percent'
+
+# Introducing variable that sets floor capacity value for energy storage system
+#When compared to MVMax4, this is comparable to the value of "DieselGeneratorMinimumHoursOfOperationPerYear" since we now consider
+#storage requirements to encompass both fuel and battery costs
+    class MinimumEnergyStorageCapacity(V):
+
+    section = 'system (mini-grid)'
+    option = 'Minimum Size of Installed Energy Storage System (kWh/day)'
+    aliases = ['MG_MinStrgCapPrDy', 'mg_mnesc']
+    default = 24
+    units = 'kWh Stored Per Day'
+
 
 #!! big change, generator will be modeled as a factor of its capacity factor- class name changed
 class GenerationCapacityFactor(V):
@@ -102,6 +128,8 @@ class GenerationCapacityFactor(V):
     option = 'capacity factor of generation as factor of nameplate output'
     aliases = ['MG_CptyFctrOfGntnAsFctrOfNmpltCap', 'mg_g_cf']
 
+    short_section = 'MG'
+    short_option = 'CptyFctrOfGntnAsFctrOfNmpltCap'
 
     default = 1.0 #diesel generator has a 100% capacity factor, solar ~17% per solar hours
     units = 'ratio'
@@ -114,6 +142,8 @@ class UtilizationFactor(V):
     option = 'utilization factor of power generation as factor of nameplate output'
     aliases = ['MG_UtznFctrPwrGntnFctrNmpltOtpt', 'mg_u_fctr']
 
+    short_section = 'MG'
+    short_option = 'UtznFctrPwrGntnFctrNmpltOtpt'
 
     default = 0.416667 #diesel generator has a 41.667% utilization factor
     #=> 1/[(Peak Demand as Fraction of Nodal Demand/Peak Hours Per Year)*Total Hours in Year]
@@ -129,6 +159,8 @@ class GenerationOperationsAndMaintenanceCostPerYearAsFractionOfGenerationCost(V)
     option = 'generation operations and maintenance cost per year as fraction of generation cost'
     aliases = ['MG_GntnOandMCstPrYrAsFctnOfGntnCst', 'mg_g_omf']
 
+    short_section = 'MG'
+    short_option = 'GntnOandMCstPrYrAsFctnOfGntnCst'
 
     default = 0.01
 
@@ -155,6 +187,8 @@ class GenerationDesiredSystemCapacity(V):
     option = 'generation desired system capacity'
     aliases = ['MG_GntnDsrdSysCpty', 'mg_g_dcp']
 
+    short_section = 'MG'
+    short_option = 'GntnDsrdSysCpty'
 
     dependencies = [
         demand.ProjectedNodalDemandPerYear,
@@ -187,6 +221,8 @@ class GenerationActualSystemCapacityCounts(V):
     option = 'generation actual system capacity counts'
     aliases = ['MG_GntnSysActlSysCptyCts', 'mg_g_acps']
 
+    short_section = 'MG'
+    short_option = 'GntnSysActlSysCptyCts'
 
     c = dict(parse=store.unstringifyIntegerList, format=store.flattenList, validate='validateNumberList')
     dependencies = [
@@ -207,6 +243,8 @@ class GenerationActualSystemCapacity(V):
     option = 'generation actual system capacity'
     aliases = ['MG_GntnActlSysCpty', 'mg_g_acp']
 
+    short_section = 'MG'
+    short_option = 'GntnActlSysCpty'
 
     dependencies = [
         GenerationAvailableSystemCapacities,
@@ -226,6 +264,8 @@ class LowVoltageLineEquipmentCost(V):
     option = 'low voltage line equipment cost'
     aliases = ['MG_LVLnEqmtCst', 'mg_le']
 
+    short_section = 'MG'
+    short_option = 'LVLnEqmtCst'
 
     dependencies = [
         costDistribution.LowVoltageLineEquipmentCostPerConnection,
@@ -243,6 +283,8 @@ class LowVoltageLineEquipmentOperationsAndMaintenanceCostPerYear(V):
     option = 'low voltage line equipment operations and maintenance cost per year'
     aliases = ['MG_LVLnEqmtOandMCstPrYr', 'mg_le_om']
 
+    short_section = 'MG'
+    short_option = 'LVLnEqmtOandMCstPrYr'
 
     dependencies = [
         costDistribution.LowVoltageLineEquipmentOperationsAndMaintenanceCostPerYearAsFractionOfEquipmentCost,
@@ -260,6 +302,8 @@ class GenerationCost(V):
     option = 'generation system cost'
     aliases = ['MG_GntnSysCst', 'mg_g_ini']
 
+    short_section = 'MG'
+    short_option = 'GntnSysCst'
 
     dependencies = [
         GenerationCostPerSystemKilowatt,
@@ -278,6 +322,8 @@ class GenerationInstallationCost(V):
     option = 'generatation installation cost'
     aliases = ['MG_GntnInstCst', 'mg_g_i']
 
+    short_section = 'MG'
+    short_option = 'GntnInstCst'
 
     dependencies = [
         GenerationInstallationCostAsFractionOfGenerationCost,
@@ -296,6 +342,8 @@ class GenerationOperationsAndMaintenanceCostPerYear(V):
     option = 'generation operations and maintenance cost per year'
     aliases = ['MG_GntnOandMCstPrYr', 'mg_g_om']
 
+    short_section = 'MG'
+    short_option = 'GntnOandMCstPrYr'
 
     dependencies = [
         GenerationOperationsAndMaintenanceCostPerYearAsFractionOfGenerationCost,
@@ -316,6 +364,8 @@ class GenerationReplacementCostPerYear(V):
     option = 'generation lifetime replacement cost per year'
     aliases = ['MG_GntnLifeRpmtCstPrYr', 'mg_g_rep']
 
+    short_section = 'MG'
+    short_option = 'GntnLifeRpmtCstPrYr'
 
     dependencies = [
         GenerationCost,
@@ -333,6 +383,8 @@ class EnergyStorageCostPerYear(V):
     option = 'energy storage costs per year'
     aliases = ['MG_EnStrgCstsPrYr', 'mg_escpy']
 
+    short_section = 'MG'
+    short_option = 'EnStrgCstsPrYr'
 
     dependencies = [
         EnergyStorageCostPerKilowattHour, #fuel or storage cost per kWh
@@ -341,6 +393,7 @@ class EnergyStorageCostPerYear(V):
         #DieselGeneratorEffectiveHoursOfOperationPerYear,
         demand.ProjectedNodalDemandPerYear,
         DistributionLoss,
+        MinimumEnergyStorageCapacity,
     ]
     units = 'dollars per year'
 
@@ -350,6 +403,10 @@ class EnergyStorageCostPerYear(V):
         #Compute effectiveDemandPerYear and assume a mini-grid diesel generator has distribution loss
         effectiveDemandPerYear = (self.get(demand.ProjectedNodalDemandPerYear) / 
                                   float(1 - self.get(DistributionLoss)))
+
+        #Don't consider energy storage systems below a certain size
+        effectiveDemandPerYear = max(self.get(MinimumEnergyStorageCapacity)*365),
+                                     effectiveDemandPerYear)
         
         return (self.get(EnergyStorageCostPerKilowattHour) * 
                 float(self.get(PercentOfDailyKilowattHourLoadRequiringStorage)) * 
@@ -362,6 +419,8 @@ class MiniGridSystemNodalDiscountedEnergyStorageCost(V):
     option = 'system nodal discounted energy storage cost'
     aliases = ['MG_SysNdlDsctdEnStrgCst', 'mg_nod_desc']
 
+    short_section = 'MG'
+    short_option = 'SysNdlDsctdEnStrgCst'
 
     dependencies = [
         EnergyStorageCostPerYear,
@@ -379,6 +438,8 @@ class MiniGridSystemInitialGenerationCost(V):
     option = 'system initial generation system cost'
     aliases = ['MG_SysInitGntnCst', 'mg_ini_gc']
 
+    short_section = 'MG'
+    short_option = 'SysInitGntnCst'
 
     dependencies = [
         GenerationCost,
@@ -402,6 +463,8 @@ class MiniGridSystemRecurringGenerationCostPerYear(V):
     option = 'system recurring power generation costs per year'
     aliases = ['MG_SysRcrgGntnCstPrYr', 'mg_rec_gcpy']
 
+    short_section = 'MG'
+    short_option = 'SysRcrgGntnCstPrYr'
 
     dependencies = [
         GenerationOperationsAndMaintenanceCostPerYear,
@@ -424,6 +487,8 @@ class MiniGridSystemNodalDiscountedGenerationCost(V):
     option = 'system nodal discounted generation costs'
     aliases = ['mg_nod_dgc']
 
+    short_section = 'MG'
+    short_option = 'SysNdlDsctdGntnCst'
 
     dependencies = [
         MiniGridSystemInitialGenerationCost,
@@ -444,6 +509,8 @@ class MiniGridSystemInitialCost(V):
     option = 'system initial cost'
     aliases = ['MG_SysInitCst', 'mg_ini']
 
+    short_section = 'MG'
+    short_option = 'SysInitCst'
 
     dependencies = [
         GenerationCost,
@@ -468,6 +535,8 @@ class MiniGridSystemRecurringCostPerYear(V):
     option = 'system recurring cost per year'
     aliases = ['MG_SysRcrgCstPrYr', 'mg_rec']
 
+    short_section = 'MG'
+    short_option = 'SysRcrgCstPrYr'
 
     dependencies = [
         GenerationOperationsAndMaintenanceCostPerYear,
@@ -494,6 +563,8 @@ class MiniGridSystemNodalDiscountedCost(V):
     option = 'system nodal discounted cost'
     aliases = ['MG_SysNdlDsctdCst', 'mg_nod_d']
 
+    short_section = 'MG'
+    short_option = 'SysNdlDsctdCst'
 
     dependencies = [
         demand.ProjectedNodalDemandPerYear,
@@ -517,6 +588,8 @@ class MiniGridSystemNodalLevelizedCost(V):
     option = 'system nodal levelized cost'
     aliases = ['MG_SysNdlLvlzdCst', 'mg_nod_lev']
 
+    short_section = 'MG'
+    short_option = 'SysNdlLvlzdCst'
 
     dependencies = [
         demand.ProjectedNodalDiscountedDemand,
