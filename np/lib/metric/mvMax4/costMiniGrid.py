@@ -18,7 +18,7 @@ class DistributionLoss(V):
 
     section = 'system (mini-grid)'
     option = 'distribution loss'
-    aliases = ['mg_loss']
+    aliases = ['MG_DistLss', 'mg_loss']
     c = dict(check=store.assertLessThanOne)
     default = 0.10
     units = 'fraction'
@@ -28,7 +28,7 @@ class DieselGeneratorAvailableSystemCapacities(V):
 
     section = 'system (mini-grid)'
     option = 'available system capacities (diesel generator)'
-    aliases = ['mg_dg_cps']
+    aliases = ['MG_AvblSysCapDslGntr', 'mg_dg_cps']
     c = dict(parse=store.unstringifyDescendingFloatList, format=store.flattenList, validate='validateNumberList')
     default = '1000 750 500 400 200 150 100 70 32 19 12 6'
     units = 'kilowatts list'
@@ -38,7 +38,7 @@ class DieselGeneratorCostPerDieselSystemKilowatt(V):
 
     section = 'system (mini-grid)'
     option = 'diesel generator cost per diesel system kilowatt'
-    aliases = ['mg_dg_ck']
+    aliases = ['MG_DslGntrCstPrSyskW', 'mg_dg_ck']
     default = 150
     units = 'dollars per kilowatt'
 
@@ -46,7 +46,7 @@ class DieselGeneratorCostPerDieselSystemKilowatt(V):
 class DieselGeneratorInstallationCostAsFractionOfGeneratorCost(V):
 
     section = 'system (mini-grid)'
-    aliases = ['mg_dg_if']
+    aliases = ['MG_DslGntrInstCstAsFctnOfGntrCst', 'mg_dg_if']
     option = 'diesel generator installation cost as fraction of generator cost'
     default = 0.25
 
@@ -55,7 +55,7 @@ class DieselGeneratorLifetime(V):
 
     section = 'system (mini-grid)'
     option = 'diesel generator lifetime'
-    aliases = ['mg_dg_life']
+    aliases = ['MG_DslGntrLife', 'mg_dg_life']
     c = dict(check=store.assertPositive)
     default = 5
     units = 'years'
@@ -65,7 +65,7 @@ class DieselFuelCostPerLiter(V):
 
     section = 'system (mini-grid)'
     option = 'diesel fuel cost per liter'
-    aliases = ['mg_fl_cl']
+    aliases = ['MG_DslFuelCstPrLtr', 'mg_fl_cl']
     default = 1.08
     units = 'dollars per liter'
 
@@ -74,7 +74,7 @@ class DieselFuelLitersConsumedPerKilowattHour(V):
 
     section = 'system (mini-grid)'
     option = 'diesel fuel liters consumed per kilowatt-hour'
-    aliases = ['mg_fl_lkwh']
+    aliases = ['MG_DslLtrCsmdPrkWHr', 'mg_fl_lkwh']
     default = 0.5
     units = 'liters per kilowatt-hour'
 
@@ -83,7 +83,7 @@ class DieselGeneratorMinimumHoursOfOperationPerYear(V):
 
     section = 'system (mini-grid)'
     option = 'diesel generator hours of operation per year (minimum)'
-    aliases = ['mg_dg_mnhr']
+    aliases = ['MG_DslGntrMinHrsOprnPrYr', 'mg_dg_mnhr']
     default = 1460
     units = 'hours per year'
 
@@ -92,7 +92,7 @@ class DieselGeneratorOperationsAndMaintenanceCostPerYearAsFractionOfGeneratorCos
 
     section = 'system (mini-grid)'
     option = 'diesel generator operations and maintenance cost per year as fraction of generator cost'
-    aliases = ['mg_dg_omf']
+    aliases = ['MG_DslGntrOandMCstPrYrAsFctnOfGntrCst', 'mg_dg_omf']
     default = 0.01
 
 
@@ -103,7 +103,7 @@ class DieselGeneratorDesiredSystemCapacity(V):
 
     section = 'system (mini-grid)'
     option = 'diesel generator desired system capacity'
-    aliases = ['mg_dg_dcp']
+    aliases = ['MG_DslGntrDsrdSysCpty', 'mg_dg_dcp']
     dependencies = [
         demand.ProjectedPeakNodalDemand,
         DistributionLoss,
@@ -118,7 +118,7 @@ class DieselGeneratorActualSystemCapacityCounts(V):
 
     section = 'system (mini-grid)'
     option = 'diesel generator actual system capacity counts'
-    aliases = ['mg_dg_acps']
+    aliases = ['MG_DslGntrSysActlSysCptyCts', 'mg_dg_acps']
     c = dict(parse=store.unstringifyIntegerList, format=store.flattenList, validate='validateNumberList')
     dependencies = [
         DieselGeneratorDesiredSystemCapacity,
@@ -136,7 +136,7 @@ class DieselGeneratorActualSystemCapacity(V):
 
     section = 'system (mini-grid)'
     option = 'diesel generator actual system capacity'
-    aliases = ['mg_dg_acp']
+    aliases = ['MG_DslGntrActlSysCpty', 'mg_dg_acp']
     dependencies = [
         DieselGeneratorAvailableSystemCapacities,
         DieselGeneratorActualSystemCapacityCounts,
@@ -153,7 +153,7 @@ class LowVoltageLineEquipmentCost(V):
 
     section = 'system (mini-grid)'
     option = 'low voltage line equipment cost'
-    aliases = ['mg_le']
+    aliases = ['MG_LVLnEqmtCst', 'mg_le']
     dependencies = [
         costDistribution.LowVoltageLineEquipmentCostPerConnection,
         demand.TargetHouseholdCount,
@@ -168,7 +168,7 @@ class LowVoltageLineEquipmentOperationsAndMaintenanceCostPerYear(V):
 
     section = 'system (mini-grid)'
     option = 'low voltage line equipment operations and maintenance cost per year'
-    aliases = ['mg_le_om']
+    aliases = ['MG_LVLnEqmtOandMCstPrYr', 'mg_le_om']
     dependencies = [
         costDistribution.LowVoltageLineEquipmentOperationsAndMaintenanceCostPerYearAsFractionOfEquipmentCost,
         LowVoltageLineEquipmentCost,
@@ -183,7 +183,7 @@ class DieselGeneratorCost(V):
 
     section = 'system (mini-grid)'
     option = 'diesel generator cost'
-    aliases = ['mg_dg_ini']
+    aliases = ['MG_DslGntrCst', 'mg_dg_ini']
     dependencies = [
         DieselGeneratorCostPerDieselSystemKilowatt,
         DieselGeneratorActualSystemCapacity,
@@ -198,7 +198,7 @@ class DieselGeneratorInstallationCost(V):
 
     section = 'system (mini-grid)'
     option = 'diesel generator installation cost'
-    aliases = ['mg_dg_i']
+    aliases = ['MG_DslGntrInstCst', 'mg_dg_i']
     dependencies = [
         DieselGeneratorInstallationCostAsFractionOfGeneratorCost,
         DieselGeneratorCost,
@@ -213,7 +213,7 @@ class DieselGeneratorOperationsAndMaintenanceCostPerYear(V):
 
     section = 'system (mini-grid)'
     option = 'diesel generator operations and maintenance cost per year'
-    aliases = ['mg_dg_om']
+    aliases = ['MG_DslGntrOandMCstPrYr', 'mg_dg_om']
     dependencies = [
         DieselGeneratorOperationsAndMaintenanceCostPerYearAsFractionOfGeneratorCost,
         DieselGeneratorCost,
@@ -228,7 +228,7 @@ class DieselGeneratorReplacementCostPerYear(V):
 
     section = 'system (mini-grid)'
     option = 'diesel generator replacement cost per year'
-    aliases = ['mg_dg_rep']
+    aliases = ['MG_DslGntrLifeRpmtCstPrYr', 'mg_dg_rep']
     dependencies = [
         DieselGeneratorCost,
         DieselGeneratorLifetime,
@@ -243,7 +243,7 @@ class DieselGeneratorEffectiveHoursOfOperationPerYear(V):
 
     section = 'system (mini-grid)'
     option = 'diesel generator hours of operation per year (effective)'
-    aliases = ['mg_dg_efhr']
+    aliases = ['MG_DslGntrEffHrsOprnPrYr', 'mg_dg_efhr']
     dependencies = [
         demand.ProjectedNodalDemandPerYear,
         DistributionLoss,
@@ -270,7 +270,7 @@ class DieselFuelCostPerYear(V):
 
     section = 'system (mini-grid)'
     option = 'diesel fuel cost per year'
-    aliases = ['mg_fl']
+    aliases = ['MG_DslFuelCstPrYr', 'mg_fl']
     dependencies = [
         DieselFuelCostPerLiter,
         DieselFuelLitersConsumedPerKilowattHour,
@@ -357,7 +357,7 @@ class MiniGridSystemInitialCost(V):
 
     section = 'system (mini-grid)'
     option = 'system initial cost'
-    aliases = ['mg_ini']
+    aliases = ['MG_SysInitCst', 'mg_ini']
     dependencies = [
         DieselGeneratorCost,
         DieselGeneratorInstallationCost,
@@ -379,7 +379,7 @@ class MiniGridSystemRecurringCostPerYear(V):
 
     section = 'system (mini-grid)'
     option = 'system recurring cost per year'
-    aliases = ['mg_rec']
+    aliases = ['MG_SysRcrgCstPrYr', 'mg_rec']
     dependencies = [
         DieselGeneratorOperationsAndMaintenanceCostPerYear,
         DieselGeneratorReplacementCostPerYear,
@@ -403,7 +403,7 @@ class MiniGridSystemNodalDiscountedCost(V):
 
     section = 'system (mini-grid)'
     option = 'system nodal discounted cost'
-    aliases = ['mg_nod_d']
+    aliases = ['MG_SysNdlDsctdCst', 'mg_nod_d']
     dependencies = [
         demand.ProjectedNodalDemandPerYear,
         MiniGridSystemInitialCost,
@@ -424,7 +424,7 @@ class MiniGridSystemNodalLevelizedCost(V):
 
     section = 'system (mini-grid)'
     option = 'system nodal levelized cost'
-    aliases = ['mg_nod_lev']
+    aliases = ['MG_SysNdlLvlzdCst', 'mg_nod_lev']
     dependencies = [
         demand.ProjectedNodalDiscountedDemand,
         MiniGridSystemNodalDiscountedCost,
