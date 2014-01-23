@@ -95,7 +95,7 @@ class PercentOfDailyKilowattHourLoadRequiringStorage(V):
 
 #!! big change, generator will be modeled as a factor of its capacity factor- class name changed
 class GenerationCapacityFactor(V):
-#this is an inherent measurement of how efficient the generation technology is at being generating power in a useful manner based on supply-side characeristics 
+#this is an inherent measurement of how efficient the generation technology is at generating power in a useful manner based on supply-side characeristics 
 #<http://en.wikipedia.org/wiki/Capacity_factor>
     
     section = 'system (mini-grid)'
@@ -117,7 +117,7 @@ class UtilizationFactor(V):
 
     default = 0.416667 #diesel generator has a 41.667% utilization factor
     #=> 1/[(Peak Demand as Fraction of Nodal Demand/Peak Hours Per Year)*Total Hours in Year]
-    #=> 1/[ (0.40/1460hr)*24 hrs/day * 365 days/yr] = 0.4166667 = 41.667%
+    #=> 1/[ (0.40/1460hr/yr)*24 hrs/day * 365 days/yr] = 0.4166667 = 41.667%
     #Solar-battery system would be 100% because it's all dispatched on demand via electronics and fully utilized
     units = 'ratio'
 
