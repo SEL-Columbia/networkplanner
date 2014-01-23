@@ -405,9 +405,9 @@ class EnergyStorageCostPerYear(V):
                                   float(1 - self.get(DistributionLoss)))
 
         #Don't consider energy storage systems below a certain size
-        effectiveDemandPerYear = max(self.get(MinimumEnergyStorageCapacity)*365),
+        effectiveDemandPerYear = max(self.get(MinimumEnergyStorageCapacity)*365,
                                      effectiveDemandPerYear)
-        
+                
         return (self.get(EnergyStorageCostPerKilowattHour) * 
                 float(self.get(PercentOfDailyKilowattHourLoadRequiringStorage)) * 
                 effectiveDemandPerYear)
