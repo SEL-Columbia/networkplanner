@@ -207,7 +207,7 @@ class Store(object):
             'population quartiles': [numpy.median(populations1), numpy.median(populations), numpy.median(populations2)],
         }
 
-    def saveMetricsCSV(self, targetPath, metricModel):
+    def saveMetricsCSV(self, targetPath, metricModel, headerType=VS.HEADER_TYPE_SECTION_OPTION):
         'Save node-level metrics in CSV format'
         # Make sure that nodes exist
         if not self.countNodes():
@@ -227,7 +227,7 @@ class Store(object):
         # write the appropriate header
         # TODO:  Make the header_type choice config driven?  
         headerPacksToNames = VS.getFieldNamesForHeaderPacks(metricModel, 
-                            headerPacks, VS.HEADER_TYPE_ALIAS)
+                            headerPacks, headerType)
         csvWriter.writerow([headerPacksToNames[(section, option)] for 
                             section, option in headerPacks])
      

@@ -9,10 +9,7 @@ basePath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(basePath)
 
 # Import custom modules
-from np.lib import dataset_store
-from np.lib import metric
-from np.lib import network
-
+from np.lib import dataset_store, metric, network, variable_store as VS
 
 # Run Scenario
 if __name__ == '__main__':
@@ -28,6 +25,12 @@ if __name__ == '__main__':
                         help="model parameters json file")
     parser.add_argument('output_path', help="directory where outputs will be placed")
     parser.add_argument('input_nodes_file', help="csv file of nodes (lat,lon,population,...)")
+    parser.add_argument("-t", "--header-type", 
+                        choices=[VS.HEADER_TYPE_SECTION_OPTION, 
+                                 VS.HEADER_TYPE_ALIAS], 
+                        default=VS.HEADER_TYPE_ALIAS,
+                        help="the output file header field name type")                       
+ 
                        
     args = parser.parse_args()
 
@@ -58,7 +61,7 @@ if __name__ == '__main__':
 
     metric.saveMetricsConfigurationCSV(os.path.join(outputDataPath, 'metrics-job-input'), metricConfiguration)
     metric.saveMetricsCSV(os.path.join(outputDataPath, 'metrics-global'), metricModel, metricValueByOptionBySection)
-    datasetStore.saveMetricsCSV(os.path.join(outputDataPath, 'metrics-local'), metricModel)
+    datasetStore.saveMetricsCSV(os.path.join(outputDataPath, 'metrics-local'), metricModel, args.header_type)
     datasetStore.saveSegmentsSHP(os.path.join(outputDataPath, 'networks-proposed'), is_existing=False)
 
 
