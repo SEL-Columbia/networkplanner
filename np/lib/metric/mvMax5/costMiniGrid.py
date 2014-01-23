@@ -92,7 +92,7 @@ class EnergyStorageCostPerKilowattHour(V):
     short_option = 'EnStrgCstPrkWHr'
 
     default = 0.54 #matches old defaults of $1.08/L fuel @ 0.5L/kWh fuel consumption 
-    units = 'dollars per kWh'
+    units = 'dollars per kilowatt-hour'
 
 #!! big calculation change, consider effective load percent that requires storage or fuel, more generic expression- class name changed
 class PercentOfDailyKilowattHourLoadRequiringStorage(V):
@@ -108,15 +108,15 @@ class PercentOfDailyKilowattHourLoadRequiringStorage(V):
     units = 'percent'
 
 # Introducing variable that sets floor capacity value for energy storage system
-#When compared to MVMax4, this is comparable to the value of "DieselGeneratorMinimumHoursOfOperationPerYear" since we now consider
-#storage requirements to encompass both fuel and battery costs
-    class MinimumEnergyStorageCapacity(V):
+# When compared to MVMax4, this is comparable to the value of "DieselGeneratorMinimumHoursOfOperationPerYear" since we now consider
+# storage requirements to encompass both fuel and battery costs
+class MinimumEnergyStorageCapacity(V):
 
     section = 'system (mini-grid)'
     option = 'Minimum Size of Installed Energy Storage System (kWh/day)'
     aliases = ['MG_MinStrgCapPrDy', 'mg_mnesc']
     default = 24
-    units = 'kWh Stored Per Day'
+    units = 'kilowatt-hours per day'
 
 
 #!! big change, generator will be modeled as a factor of its capacity factor- class name changed
