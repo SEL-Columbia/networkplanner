@@ -9,7 +9,8 @@ import argparse
 """
 Utility to run only the metric model on a set of demand
 nodes given a set of model parameters.  
-This allows more rapid feedback on demand and model changes
+
+This allows more rapid feedback on demand and metric model changes
 """
 
 def getNodes(proj4, nodePacks):

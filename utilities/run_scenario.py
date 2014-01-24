@@ -11,7 +11,15 @@ sys.path.append(basePath)
 # Import custom modules
 from np.lib import dataset_store, metric, network, variable_store as VS
 
-# Run Scenario
+"""
+Utility to run a full scenario on a set of demand nodes (running the
+metric model, network model, aggregations and outputting the resulting
+dataset).  
+
+This is useful for getting rapid feedback on demand and model changes.
+(i.e. you don't need to deploy the web-site to run this)
+"""
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description="Run NetworkPlanner Scenario")
