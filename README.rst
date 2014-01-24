@@ -117,7 +117,11 @@ in the utilities directory and can be run via python.
 
     # Run metric model on a set of demand nodes (using mvMax5 model)
     # The output can be loaded as an R or Pandas dataframe for analysis
-    python utilities/build_demand.py test_data/sample_demand_nodes.csv mvMax5 sample_metric_params.json > sample_demand_out.csv
+    python utilities/build_demand.py mvMax5 sample_metric_params.json test_data/sample_demand_nodes.csv > sample_demand_out.csv
+
+    # Run full scenario (including network builder) on a set of demand nodes
+    # (the results will end up in the mv5_run directory as spec'd by the 5th param)
+    python utilities/run_scenario.py mvMax5 sample_metric_params.json modKruskal network_params.json mv5_run test_data/sample_demand_nodes.csv
 
     # Create a dot graph for the dependencies of the MiniGrid RecurringCost 
     # variable of the mvMax4 model 

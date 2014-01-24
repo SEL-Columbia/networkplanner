@@ -14,6 +14,7 @@ The decision metric is used to decide between different electricity technology o
 .. toctree::
     :maxdepth: 1
 
+    metric-mvMax5
     metric-mvMax4
     metric-mvMax3
     metric-mvMax2
@@ -158,7 +159,7 @@ Choose system sizes for each technology
 A. The projected peak demand in kilowatts determines the desired system capacity for electricity.  The system estimates peak demand by multiplying demand by a :ref:`conversion factor <mvmax3-demand-demandtopeakdemandconversionfactor>`.
 
   - For off-grid technology, the photovoltaic panel capacity is sized on projected peak household, peak educational, peak health and peak public lighting demand while the diesel generator capacity is sized on projected peak productive and peak commercial demand.
-  - For mini-grid technology, the diesel generator capacity is sized on projected peak demand for the community.
+  - For mini-grid technology, the generator capacity is sized on projected peak demand for the community.
   - For grid technology, the transformer capacity is sized on projected peak demand for the community.
 
 B. The desired system capacity translates into the available system capacities in a manner similar to converting money into a linear combination of fixed denominations like quarters, dimes and nickels.

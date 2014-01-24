@@ -1,6 +1,33 @@
 Releases
 =========
 
+v0.9.7
+----------------
+
+Added mvMax5 Metric Model:
+
+- Substitutes a generic energy source in place of diesel for mini-grids.
+- This makes mini-grids somewhat source agnostic (could be
+  wind-based, hydro-based, even some combination) without
+  having to work-around a diesel based formulation.
+- This was mostly the work of Jonathan Carbajal, and stemmed
+  from confusion around a "hack" used to model alternative 
+  energy sources for Indonesia via mvMax4.
+
+Added several utility scripts to run models, scenarios and to extract
+information from the models (i.e. graphs to depict them): 
+
+- Running the metric model and full scenarios can now easily be done 
+  on a users desktop via the command line.  This allows for more rapid 
+  testing of models (removes the web-app/deployment bottleneck).  
+
+Added friendlier aliases to mvMax4 and mvMax5 variables: 
+
+- These are "in-between" the explicit "section > option" headers and 
+  the more cryptic short aliases.  
+- When running a model/scenario via the utilities, you can now select which
+  headers you want (section_option or alias)
+
 v0.9.6
 ----------------
 
