@@ -13,6 +13,8 @@ docs/_build/doctrees/
 docs/_build/html/
 docs/metric-mvMax2.rst
 docs/metric-mvMax3.rst
+docs/metric-mvMax4.rst
+docs/metric-mvMax5.rst
 docs/network-modKruskal.rst
 *.pyc
 *.swp
