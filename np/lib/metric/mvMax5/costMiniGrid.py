@@ -105,7 +105,7 @@ class PercentOfDailyKilowattHourLoadRequiringStorage(V):
     short_option = 'PctOfDlykWHrLdReqStrg'
 
     default = 1.0 #diesel systems require 100% energy  to come via fuel, solar-batteries require near 100% storage too
-    units = 'percent'
+    units = 'fraction'
 
 # Introducing variable that sets floor capacity value for energy storage system
 # When compared to MVMax4, this is comparable to the value of "DieselGeneratorMinimumHoursOfOperationPerYear" since we now consider
@@ -113,7 +113,7 @@ class PercentOfDailyKilowattHourLoadRequiringStorage(V):
 class MinimumEnergyStorageCapacity(V):
 
     section = 'system (mini-grid)'
-    option = 'Minimum Size of Installed Energy Storage System (kWh/day)'
+    option = 'Minimum Size of Installed Energy Storage System (kWh served per day)'
     aliases = ['MG_MinStrgCapPrDy', 'mg_mnesc']
     default = 24
     units = 'kilowatt-hours per day'
@@ -132,7 +132,7 @@ class GenerationCapacityFactor(V):
     short_option = 'CptyFctrOfGntnAsFctrOfNmpltCap'
 
     default = 1.0 #diesel generator has a 100% capacity factor, solar ~17% per solar hours
-    units = 'ratio'
+    units = 'fraction'
 
 #!! big change, generator will be modeled as a factor of its utilization factor too 
 class UtilizationFactor(V):
@@ -149,7 +149,7 @@ class UtilizationFactor(V):
     #=> 1/[(Peak Demand as Fraction of Nodal Demand/Peak Hours Per Year)*Total Hours in Year]
     #=> 1/[ (0.40/1460hr/yr)*24 hrs/day * 365 days/yr] = 0.4166667 = 41.667%
     #Solar-battery system would be 100% because it's all dispatched on demand via electronics and fully utilized
-    units = 'ratio'
+    units = 'fraction'
 
     
 #nomenclature change, generalize diesel genset to power generation - class name changed
@@ -163,6 +163,8 @@ class GenerationOperationsAndMaintenanceCostPerYearAsFractionOfGenerationCost(V)
     short_option = 'GntnOandMCstPrYrAsFctnOfGntnCst'
 
     default = 0.01
+
+    units = 'fraction'
 
 ###This conversion variable can stay 'hidden' to simplify model's parameters  
 ##class GenerationHoursOfOperationPerYear(V):
