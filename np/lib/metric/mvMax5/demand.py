@@ -264,6 +264,8 @@ class TargetHouseholdPenetrationRate(V):
 
     default = 1
 
+    units = 'fraction'
+
 
 class HouseholdUnitDemandPerHouseholdPerYear(V):
 
