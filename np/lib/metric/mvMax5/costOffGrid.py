@@ -177,9 +177,9 @@ class DieselGeneratorInstallationCostAsFractionOfGeneratorCost(V):
 
 class DieselGeneratorLifetime(V):
 
-    section = 'system (mini-grid)'
+    section = 'system (off-grid)'
     option = 'diesel generator lifetime'
-    aliases = ['MG_DslGntrLife', 'og_dg_life']
+    aliases = ['OG_DslGntrLife', 'og_dg_life']
 
 
     c = dict(check=store.assertPositive)
