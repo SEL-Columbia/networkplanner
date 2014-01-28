@@ -113,7 +113,7 @@ class PercentOfDailyKilowattHourLoadRequiringStorage(V):
 class MinimumEnergyStorageCapacity(V):
 
     section = 'system (mini-grid)'
-    option = 'Minimum Size of Installed Energy Storage System (kWh served per day)'
+    option = 'Minimum Size of Daily Capacity of Energy Storage System (kWh)'
     aliases = ['MG_MinStrgCapPrDy', 'mg_mnesc']
     default = 24
     units = 'kilowatt-hours per day'
@@ -406,13 +406,13 @@ class EnergyStorageCostPerYear(V):
         effectiveDemandPerYear = (self.get(demand.ProjectedNodalDemandPerYear) / 
                                   float(1 - self.get(DistributionLoss)))
 
-        #Don't consider energy storage systems below a certain size
-        effectiveDemandPerYear = max(self.get(MinimumEnergyStorageCapacity)*365,
-                                     effectiveDemandPerYear)
+        #Determine Minimum Storage System Size acceptable for minigrid
+        #Don't consider energy storage systems below that value
+        StorageDemandPerYear = max(self.get(MinimumEnergyStorageCapacity)*365,
+                                   effectiveDemandPerYear*float(self.get(PercentOfDailyKilowattHourLoadRequiringStorage)))
                 
         return (self.get(EnergyStorageCostPerKilowattHour) * 
-                float(self.get(PercentOfDailyKilowattHourLoadRequiringStorage)) * 
-                effectiveDemandPerYear)
+                StorageDemandPerYear)
 
 #nomenclature change - class name changed
 class MiniGridSystemNodalDiscountedEnergyStorageCost(V):
