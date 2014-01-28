@@ -212,25 +212,31 @@ class Store(object):
         # Make sure that nodes exist
         if not self.countNodes():
             return
+
         # Prepare column headers in order
+        # Use the 1st node's input to get the "pass-through" fields 
         node = self.cycleNodes().next()
         nodeInput = node.input
-        nodeOutput = node.output
         headerPacks = [('', key) for key in sorted(nodeInput)]
-        for section, valueByOption in sorted(nodeOutput.iteritems(), key=lambda x: metricModel.sections.index(x[0])):
-            for option in sorted(valueByOption):
-                headerPacks.append((section, option))
-        
+
+        # get the section/option values in order from the model
+        # and append to the headerPacks
+        # Note:  metricModel.VariableStore.variableClasses should have all the
+        #        the variableClasses associated with the model as long as 
+        #        metricModel.VariableStore() has been called.
+        baseVars = metricModel.VariableStore.variableClasses
+        baseVarHeaders = [(var.section, var.option) for var in 
+                          sorted(baseVars, key=lambda v: (v.section, v.option))]
+        headerPacks.extend(baseVarHeaders)
+        headerPacksToNames = VS.getFieldNamesForHeaderPacks(metricModel, 
+                                headerPacks, headerType)
+       
         csvWriter = csv.writer(open(store.replaceFileExtension(targetPath, 'csv'), 'wb'))
         csvWriter.writerow(['PROJ.4 ' + self.getProj4()])
 
-        # write the appropriate header
-        # TODO:  Make the header_type choice config driven?  
-        headerPacksToNames = VS.getFieldNamesForHeaderPacks(metricModel, 
-                            headerPacks, headerType)
         csvWriter.writerow([headerPacksToNames[(section, option)] for 
                             section, option in headerPacks])
-     
+    
         # csvWriter.writerow(['%s > %s' % (section.capitalize(), option.capitalize()) if section else option.capitalize() for section, option in headerPacks])
         # For each node,
         for node in self.cycleNodes():

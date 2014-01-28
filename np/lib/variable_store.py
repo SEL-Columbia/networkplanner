@@ -377,6 +377,17 @@ def getRelatedVariables(varClass):
     variableSet = [varTuple[0] for varTuple in variableGraph]
     return variableSet
 
+def getBaseVariables(modelModule): 
+    """
+    Get all variables depended on by the top-level variables referenced
+    in the models variableClasses element.  This should restrict the
+    set of vars to those NOT in the summary/aggregate category.
+    """
+    varSets = [set(getRelatedVariables(var)) for var in 
+               modelModule.VariableStore.variableClasses]
+    return reduce(lambda s1, s2: s1.union(s2), varSets)
+
+
 #TODO:  Put these somewhere else?
 HEADER_TYPE_SECTION_OPTION = 'section_option' # i.e. 'Finance > Time Horizon'
 HEADER_TYPE_ALIAS          = 'alias' # The *first* item in the list of aliases for the variable

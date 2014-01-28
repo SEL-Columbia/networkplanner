@@ -95,27 +95,24 @@ if __name__ == '__main__':
     # prep the csv output stream
     csvWriter = csv.writer(args.outfile)
 
-    # use last node as basis for header
+    # node input is for the "pass-through" fields 
     nodeInput = node.input
-    nodeOutput = node.output
-    # get the section/option values in order from both input/output 
     headerPacks = [('', key) for key in sorted(nodeInput)] # handle the aliases?  
-    for section, valueByOption in sorted(nodeOutput.iteritems(), 
-                                         key=lambda x: 
-                                         metricModel.sections.index(x[0])):
-        for option in sorted(valueByOption):
-            headerPacks.append((section, option))
 
+    # get the section/option values in order from the model
+    # and append to the headerPacks
+    # Note:  metricModel.VariableStore.variableClasses should have all the
+    #        the variableClasses associated with the model as long as 
+    #        metricModel.VariableStore() has been called.
+    baseVars = metricModel.VariableStore.variableClasses
+    baseVarHeaders = [(var.section, var.option) for var in 
+                      sorted(baseVars, key=lambda v: (v.section, v.option))]
+    headerPacks.extend(baseVarHeaders)
     headerPacksToNames = VS.getFieldNamesForHeaderPacks(metricModel, 
                             headerPacks, args.header_type)
 
     csvWriter.writerow([headerPacksToNames[(section, option)] for 
                         section, option in headerPacks])
-    """
-    csvWriter.writerow([sectionOptionToAlias[(section, option)] if section 
-                        else option.capitalize() 
-                        for section, option in headerPacks])
-    """
 
     node_gen = (node for node in nodes if not node.is_fake)
     for node in node_gen:
