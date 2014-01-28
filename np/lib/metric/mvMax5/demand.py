@@ -260,10 +260,7 @@ class TargetHouseholdPenetrationRate(V):
     section = 'demand (household)'
     option = 'target household penetration rate'
     aliases = ['DmdHH_TgtHHPnRt', 'tgt_ho_prt']
-
-
     default = 1
-
     units = 'fraction'
 
 

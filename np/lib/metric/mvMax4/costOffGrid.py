@@ -563,7 +563,7 @@ class OffGridSystemNodalDiscountedCost(V):
 
     section = 'system (off-grid)'
     option = 'system nodal discounted cost'
-    aliases = ['OG_SysNdlDsctdCst', 'og_nod_d']
+    aliases = ['OG_SysNdlDiscCst', 'og_nod_d']
     dependencies = [
         demand.ProjectedNodalDemandPerYear,
         OffGridSystemInitialCost,
@@ -582,7 +582,7 @@ class OffGridSystemNodalDiscountedDieselFuelCost(V):
 
     section = 'system (off-grid)'
     option = 'system nodal discounted diesel fuel cost'
-    aliases = ['og_nod_ddfc']
+    aliases = ['OG_SysNdlDiscDslFuelCst', 'og_nod_ddfc']
     dependencies = [
         DieselFuelCostPerYear,
     ]
@@ -595,7 +595,7 @@ class OffGridSystemNodalDiscountedDieselCost(V):
 
     section = 'system (off-grid)'
     option = 'system nodal discounted diesel cost'
-    aliases = ['og_nod_ddc']
+    aliases = ['OG_SysNdlDiscDslCst', 'og_nod_ddc']
     dependencies = [
         demand.ProjectedNodalDemandPerYear,
         DieselComponentInitialCost,

@@ -228,14 +228,15 @@ class TargetHouseholdPenetrationRate(V):
 
     section = 'demand (household)'
     option = 'target household penetration rate'
+    aliases = ['DmdHH_TgtHHPnRt', 'tgt_ho_prt']
     default = 1
-
+    units = 'fraction'
 
 class HouseholdUnitDemandPerHouseholdPerYear(V):
 
     section = 'demand (household)'
     option = 'household unit demand per household per year'
-    aliases = ['DmdHH_TgtHHPnRt', 'DmdHH_HHUnitDmdPrHHPrYr', 'ho_dc_unit']
+    aliases = ['DmdHH_HHUnitDmdPrHHPrYr', 'ho_dc_unit']
     default = 0 # 100
     units = 'kilowatt-hours per year'
 
@@ -659,7 +660,7 @@ class ProjectedPeakHouseholdDemand(V):
 
     section = 'demand (peak)'
     option = 'projected peak household demand'
-    aliases = ['p_pkdem_ho']
+    aliases = ['DmdPk_PrjPkHHDmd', 'p_pkdem_ho']
     dependencies = [
         ProjectedHouseholdDemandPerYear,
         DemandToPeakDemandConversionFactor,
@@ -689,7 +690,7 @@ class ProjectedPeakHealthFacilityDemand(V):
 
     section = 'demand (peak)'
     option = 'projected peak health facility demand'
-    aliases = ['p_pkdem_he']
+    aliases = ['DmdPk_PrjPkHlthFctyDmd', 'p_pkdem_he']
     dependencies = [
         ProjectedHealthFacilityDemandPerYear,
         DemandToPeakDemandConversionFactor,
@@ -704,7 +705,7 @@ class ProjectedPeakEducationFacilityDemand(V):
 
     section = 'demand (peak)'
     option = 'projected peak education facility demand'
-    aliases = ['p_pkdem_ed']
+    aliases = ['DmdPk_PrjPkEduFctyDmd', 'p_pkdem_ed']
     dependencies = [
         ProjectedEducationFacilityDemandPerYear,
         DemandToPeakDemandConversionFactor,
@@ -734,7 +735,7 @@ class ProjectedPeakPublicLightingFacilityDemand(V):
 
     section = 'demand (peak)'
     option = 'projected peak public lighting facility demand'
-    aliases = ['p_pkdem_li']
+    aliases = ['DmdPk_PrjPkPubLtgFctyDmd', 'p_pkdem_li']
     dependencies = [
         ProjectedPublicLightingFacilityDemandPerYear,
         DemandToPeakDemandConversionFactor,

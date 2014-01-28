@@ -194,7 +194,7 @@ class ProjectedHouseholdCount(V):
         ProjectedPopulationCount,
         MeanHouseholdSize,
     ]
-    units = 'household count'
+    units = 'households'
 
     def compute(self):
         return math.ceil(self.get(ProjectedPopulationCount) / float(self.get(MeanHouseholdSize)))

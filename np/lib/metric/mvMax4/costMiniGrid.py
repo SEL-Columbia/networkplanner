@@ -290,7 +290,7 @@ class MiniGridSystemNodalDiscountedDieselFuelCost(V):
 
     section = 'system (mini-grid)'
     option = 'system nodal discounted diesel fuel cost'
-    aliases = ['mg_nod_ddfc']
+    aliases = ['MG_SysNdlDiscDslFuelCst', 'mg_nod_ddfc']
     dependencies = [
         DieselFuelCostPerYear,
     ]
@@ -303,7 +303,7 @@ class MiniGridSystemInitialDieselCost(V):
 
     section = 'system (mini-grid)'
     option = 'system initial diesel cost'
-    aliases = ['mg_inidc']
+    aliases = ['MG_SysInitDslCst', 'mg_inidc']
     dependencies = [
         DieselGeneratorCost,
         DieselGeneratorInstallationCost,
@@ -321,7 +321,7 @@ class MiniGridSystemRecurringDieselCostPerYear(V):
 
     section = 'system (mini-grid)'
     option = 'system recurring diesel cost per year'
-    aliases = ['mg_recdc']
+    aliases = ['MG_SysRcrgDslCstPrYr', 'mg_recdc']
     dependencies = [
         DieselGeneratorOperationsAndMaintenanceCostPerYear,
         DieselGeneratorReplacementCostPerYear,
@@ -341,7 +341,7 @@ class MiniGridSystemNodalDiscountedDieselCost(V):
 
     section = 'system (mini-grid)'
     option = 'system nodal discounted diesel cost'
-    aliases = ['mg_nod_ddc']
+    aliases = ['MG_SysNdlDiscDslCst', 'mg_nod_ddc']
     dependencies = [
         MiniGridSystemInitialDieselCost,
         MiniGridSystemRecurringDieselCostPerYear,
@@ -403,7 +403,7 @@ class MiniGridSystemNodalDiscountedCost(V):
 
     section = 'system (mini-grid)'
     option = 'system nodal discounted cost'
-    aliases = ['MG_SysNdlDsctdCst', 'mg_nod_d']
+    aliases = ['MG_SysNdlDiscCst', 'mg_nod_d']
     dependencies = [
         demand.ProjectedNodalDemandPerYear,
         MiniGridSystemInitialCost,
