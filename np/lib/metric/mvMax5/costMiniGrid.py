@@ -113,7 +113,7 @@ class PercentOfDailyKilowattHourLoadRequiringStorage(V):
 class MinimumEnergyStorageCapacity(V):
 
     section = 'system (mini-grid)'
-    option = 'Minimum Size of Daily Capacity of Energy Storage System (kWh)'
+    option = 'minimum size of daily capacity of energy storage system (kWh)'
     aliases = ['MG_MinStrgCapPrDy', 'mg_mnesc']
     default = 24
     units = 'kilowatt-hours per day'
@@ -382,11 +382,11 @@ class GenerationReplacementCostPerYear(V):
 class EnergyStorageCostPerYear(V):
 
     section = 'system (mini-grid)'
-    option = 'energy storage costs per year'
-    aliases = ['MG_EnStrgCstsPrYr', 'mg_escpy']
+    option = 'energy storage cost per year'
+    aliases = ['MG_EnStrgCstPrYr', 'mg_escpy']
 
     short_section = 'MG'
-    short_option = 'EnStrgCstsPrYr'
+    short_option = 'EnStrgCstPrYr'
 
     dependencies = [
         EnergyStorageCostPerKilowattHour, #fuel or storage cost per kWh
@@ -408,11 +408,11 @@ class EnergyStorageCostPerYear(V):
 
         #Determine Minimum Storage System Size acceptable for minigrid
         #Don't consider energy storage systems below that value
-        StorageDemandPerYear = max(self.get(MinimumEnergyStorageCapacity)*365,
+        storageDemandPerYear = max(self.get(MinimumEnergyStorageCapacity)*365,
                                    effectiveDemandPerYear*float(self.get(PercentOfDailyKilowattHourLoadRequiringStorage)))
                 
         return (self.get(EnergyStorageCostPerKilowattHour) * 
-                StorageDemandPerYear)
+                storageDemandPerYear)
 
 #nomenclature change - class name changed
 class MiniGridSystemNodalDiscountedEnergyStorageCost(V):
@@ -462,7 +462,7 @@ class MiniGridSystemInitialGenerationCost(V):
 class MiniGridSystemRecurringGenerationCostPerYear(V):
 
     section = 'system (mini-grid)'
-    option = 'system recurring power generation costs per year'
+    option = 'system recurring power generation cost per year'
     aliases = ['MG_SysRcrgGntnCstPrYr', 'mg_rec_gcpy']
 
     short_section = 'MG'
