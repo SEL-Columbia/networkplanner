@@ -321,7 +321,7 @@ class GenerationCost(V):
 class GenerationInstallationCost(V):
 
     section = 'system (mini-grid)'
-    option = 'generatation installation cost'
+    option = 'generation installation cost'
     aliases = ['MG_GntnInstCst', 'mg_g_i']
 
     short_section = 'MG'
