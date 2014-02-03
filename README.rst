@@ -3,7 +3,7 @@ NP Electricity Infrastructure Prototyping Framework
 
 NetworkPlanner is a framework for planning large-scale electricity 
 infrastructure projects.  Included are an example technology pricing metric 
-model and a network optimization algorithm.  The framework is easily 
+model and a network optimization algorithm.  The framework is  
 extensible so that governments can adapt the example models to fit their 
 country's needs.  NetworkPlanner is developed and maintained by the 
 Sustainable Engineering Lab at the Earth Institute of Columbia University.
