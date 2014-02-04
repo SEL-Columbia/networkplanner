@@ -168,7 +168,6 @@ class Store(object):
             csvWriter.writerow([node.input.get('name', ''), node.getX(), node.getY()] + [node.input.get(x, '') for x in customHeaders])
 
     # Metric
-
     def applyMetric(self, metricModel, metricValueByOptionBySection):
         'Compute a metric for each node'
         # Load job-level configuration
@@ -438,7 +437,10 @@ def digestNodesFromCSVStream(sourceStream):
     # Prepare labels
     labels = []
     for label in row:
-        label = label.lower()
+        # We allow for case-insensitive matches to field names by lower-casing the 
+        # field name and comparing to the existing alias or option/section (which are
+        # all lower-case)
+        label = label.lower() 
         if label == 'longitude':
             label = 'x'
         elif label == 'latitude':

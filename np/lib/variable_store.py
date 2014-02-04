@@ -293,7 +293,13 @@ def validateVariableClasses(variableClasses):
 
 
 def extractVariableValue(valueByOptionBySection, variableClass, variableStore):
-    'Extract value corresponding to variableClass'
+    """
+    Extract value corresponding to variableClass
+    This is where the 'override' functionality is implemented...i.e.
+    for each Variable, if the valueByOptionBySection (a dict) has a value
+    either for the Variable's aliases OR the Variable's section/option, then
+    use this for that Variable's value.
+    """
     # For each alias,
     for variableAlias in variableClass.aliases or []:
         # If we find a matching alias,

@@ -15,7 +15,7 @@ class PopulationCount(V):
 
     section = 'demographics'
     option = 'population count'
-    aliases = ['Demo_PopCt', 'pop', 'population']
+    aliases = ['demo_pop_ct', 'pop', 'population']
     c = dict(parse=store.parseCeilInteger)
     default = 0
     units = 'person count'
@@ -25,7 +25,7 @@ class RuralPopulationGrowthRatePerYear(V):
 
     section = 'demographics'
     option = 'population growth rate per year (rural)'
-    aliases = ['Demo_PopGrRtPrYrRur', 'pop_g_r']
+    aliases = ['demo_pop_gr_rt_pr_yr_rur', 'pop_g_r']
     default = 0.015
     units = 'fraction per year'
 
@@ -34,7 +34,7 @@ class UrbanPopulationGrowthRatePerYear(V):
 
     section = 'demographics'
     option = 'population growth rate per year (urban)'
-    aliases = ['Demo_PopGrRtPrYrUrb', 'pop_g_u']
+    aliases = ['demo_pop_gr_rt_pr_yr_urb', 'pop_g_u']
     default = 0.036
     units = 'fraction per year'
 
@@ -43,7 +43,7 @@ class RuralMeanHouseholdSize(V):
 
     section = 'demographics'
     option = 'mean household size (rural)'
-    aliases = ['Demo_MnHHSzRur', 'ho_size_r']
+    aliases = ['demo_mn_hh_sz_rur', 'ho_size_r']
     default = 9.6
     units = 'person count'
 
@@ -52,7 +52,7 @@ class UrbanMeanHouseholdSize(V):
 
     section = 'demographics'
     option = 'mean household size (urban)'
-    aliases = ['Demo_MnHHSzUrb', 'ho_size_u']
+    aliases = ['demo_mn_hh_sz_urb', 'ho_size_u']
     default = 7.5
     units = 'person count'
 
@@ -61,7 +61,7 @@ class UrbanPopulationThreshold(V):
 
     section = 'demographics'
     option = 'urban population threshold'
-    aliases = ['Demo_UrbPopTshd', 'u_pop_thre']
+    aliases = ['demo_urb_pop_tshd', 'u_pop_thre']
     c = dict(parse=store.parseCeilInteger)
     default = 5000
     units = 'person count'
@@ -71,7 +71,7 @@ class MeanInterhouseholdDistance(V):
 
     section = 'demographics'
     option = 'mean interhousehold distance'
-    aliases = ['Demo_MnInterHHDist', 'mid']
+    aliases = ['demo_mn_inter_hh_dist', 'mid']
     default = 25
     units = 'meters'
 
@@ -83,7 +83,7 @@ class ProjectedPopulationCounts(V):
 
     section = 'demographics'
     option = 'projected population counts'
-    aliases = ['Demo_PrjPopCts', 'p_pops']
+    aliases = ['demo_prj_pop_cts', 'p_pops']
     c = dict(parse=store.unstringifyIntegerList, format=store.flattenList, validate='validateNumberList')
     dependencies = [
         PopulationCount,
@@ -116,7 +116,7 @@ class ProjectedPopulationCount(V):
 
     section = 'demographics'
     option = 'projected population count'
-    aliases = ['Demo_PrjPopCt', 'p_pop']
+    aliases = ['demo_prj_pop_ct', 'p_pop']
     c = dict(parse=store.parseCeilInteger)
     dependencies = [
         ProjectedPopulationCounts,
@@ -131,7 +131,7 @@ class IsRural(V):
 
     section = 'demographics'
     option = 'is rural'
-    aliases = ['Demo_IsRur', 'rural']
+    aliases = ['demo_is_rur', 'rural']
     c = dict(parse=int)
     dependencies = [
         ProjectedPopulationCount,
@@ -147,7 +147,7 @@ class MeanHouseholdSize(V):
 
     section = 'demographics'
     option = 'mean household size'
-    aliases = ['Demo_MnHHSz', 'ho_size']
+    aliases = ['demo_mn_hh_sz', 'ho_size']
     c = dict(check=store.assertPositive)
     dependencies = [
         RuralMeanHouseholdSize,
@@ -164,7 +164,7 @@ class ProjectedHouseholdCount(V):
 
     section = 'demographics'
     option = 'projected household count'
-    aliases = ['Demo_PrjHHCt', 'p_ho']
+    aliases = ['demo_prj_hh_ct', 'p_ho']
     c = dict(check=store.assertNonNegative)
     dependencies = [
         ProjectedPopulationCount,
