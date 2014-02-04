@@ -15,7 +15,7 @@ class TimeHorizon(V):
     
     section = 'finance'
     option = 'time horizon'
-    aliases = ['Fin_TimeHrzn', 'time']
+    aliases = ['fin_time_hrzn', 'time']
     c = dict(parse=store.parseCeilInteger)
     default = 10
     units = 'years'
@@ -25,7 +25,7 @@ class InterestRatePerYear(V):
 
     section = 'finance'
     option = 'interest rate per year'
-    aliases = ['Fin_IntRtPrYr', 'interest_g']
+    aliases = ['fin_int_rt_pr_yr', 'interest_g']
     default = 0.1
     units = 'fraction per year'
 
@@ -34,7 +34,7 @@ class EconomicGrowthRatePerYear(V):
 
     section = 'finance'
     option = 'economic growth rate per year'
-    aliases = ['Fin_EconGrRtPrYr', 'economic_g']
+    aliases = ['fin_econ_gr_rt_pr_yr', 'economic_g']
     default = 0.06
     units = 'fraction per year'
 
@@ -43,7 +43,7 @@ class ElasticityOfElectricityDemand(V):
 
     section = 'finance'
     option = 'elasticity of electricity demand'
-    aliases = ['Fin_ElstOfElecDmd', 'elasticity']
+    aliases = ['fin_elst_of_elec_dmd', 'elasticity']
     default = 1.5
 
 
@@ -55,7 +55,7 @@ class ElectricityDemandGrowthRatePerYear(V):
 
     section = 'finance'
     option = 'electricity demand growth rate per year'
-    aliases = ['Fin_ElecDmdGrRtPrYr', 'dem_g']
+    aliases = ['fin_elec_dmd_gr_rt_pr_yr', 'dem_g']
     dependencies = [
         ElasticityOfElectricityDemand,
         EconomicGrowthRatePerYear,
@@ -70,7 +70,7 @@ class ElectricityDemandMultiplier(V):
 
     section = 'finance'
     option = 'electricity demand multiplier'
-    aliases = ['Fin_ElecDmdMult', 'demf']
+    aliases = ['fin_elec_dmd_mult', 'demf']
     dependencies = [
         ElectricityDemandGrowthRatePerYear,
         TimeHorizon,
@@ -84,7 +84,7 @@ class DiscountedCashFlowFactor(V):
 
     section = 'finance'
     option = 'discounted cash flow factor'
-    aliases = ['Fin_DsctdCshFlwFctr', 'dcff']
+    aliases = ['fin_disc_csh_flw_fctr', 'dcff']
     dependencies = [
         TimeHorizon,
         InterestRatePerYear,

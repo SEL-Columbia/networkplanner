@@ -22,7 +22,7 @@ class PeakSunHoursPerYear(V):
 
     section = 'system (off-grid)'
     option = 'peak sun hours per year'
-    aliases = ['OG_PkSunHrsPrYr', 'pksu_hr']
+    aliases = ['og_pk_sun_hrs_pr_yr', 'pksu_hr']
 
 
     c = dict(check=store.assertPositive)
@@ -34,7 +34,7 @@ class PhotovoltaicPanelAvailableSystemCapacities(V):
 
     section = 'system (off-grid)'
     option = 'available system capacities (photovoltaic panel)'
-    aliases = ['OG_AvblSysCapPVPnl', 'og_pp_cps']
+    aliases = ['og_avbl_sys_cap_pv_pnl', 'og_pp_cps']
 
 
     c = dict(parse=store.unstringifyDescendingFloatList, format=store.flattenList, validate='validateNumberList')
@@ -46,7 +46,7 @@ class PhotovoltaicPanelCostPerPhotovoltaicComponentKilowatt(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic panel cost per photovoltaic component kilowatt'
-    aliases = ['OG_PVPnlCstPrPVCmptkW', 'og_pp_ckw']
+    aliases = ['og_pv_pnl_cst_pr_pv_cmpt_kw', 'og_pp_ckw']
 
 
     default = 6000
@@ -57,7 +57,7 @@ class PhotovoltaicBalanceCostAsFractionOfPanelCost(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic balance cost as fraction of panel cost'
-    aliases = ['OG_PVBalCstAsFctnOfPnlCst', 'og_px_cf']
+    aliases = ['og_pv_bal_cst_as_fctn_of_pnl_cst', 'og_px_cf']
 
 
     default = 0.5
@@ -67,7 +67,7 @@ class PhotovoltaicBatteryKilowattHoursPerPhotovoltaicComponentKilowatt(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic battery kilowatt-hours per photovoltaic component kilowatt'
-    aliases = ['OG_PVBattkWHrPrPVCmptkW', 'og_pb_hkw']
+    aliases = ['og_pv_batt_kw_hr_pr_pv_cmpt_kw', 'og_pb_hkw']
 
 
     default = 5
@@ -78,7 +78,7 @@ class PhotovoltaicBatteryCostPerKilowattHour(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic battery cost per kilowatt-hour'
-    aliases = ['OG_PVBattCstPrkWHr', 'og_pb_ckwh']
+    aliases = ['og_pv_batt_cst_pr_kw_hr', 'og_pb_ckwh']
 
 
     default = 400
@@ -89,7 +89,7 @@ class PhotovoltaicPanelLifetime(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic panel lifetime'
-    aliases = ['OG_PVPnlLife', 'og_pp_life']
+    aliases = ['og_pv_pnl_life', 'og_pp_life']
 
 
     c = dict(check=store.assertPositive)
@@ -101,7 +101,7 @@ class PhotovoltaicBalanceLifetime(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic balance lifetime'
-    aliases = ['OG_PVBalLife', 'og_px_life']
+    aliases = ['og_pv_bal_life', 'og_px_life']
 
 
     c = dict(check=store.assertPositive)
@@ -113,7 +113,7 @@ class PhotovoltaicBatteryLifetime(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic battery lifetime'
-    aliases = ['OG_PVBattLife', 'og_pb_life']
+    aliases = ['og_pv_batt_life', 'og_pb_life']
 
 
     c = dict(check=store.assertPositive)
@@ -125,7 +125,7 @@ class PhotovoltaicComponentEfficiencyLoss(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic component efficiency loss'
-    aliases = ['OG_PVCmptEfcyLss', 'og_p_loss']
+    aliases = ['og_pv_cmpt_efcy_lss', 'og_p_loss']
 
 
     c = dict(check=store.assertLessThanOne)
@@ -137,7 +137,7 @@ class PhotovoltaicComponentOperationsAndMaintenanceCostPerYearAsFractionOfCompon
 
     section = 'system (off-grid)'
     option = 'photovoltaic component operations and maintenance cost per year as fraction of component cost'
-    aliases = ['OG_PVCmptOandMCstPrYrAsFctnOfCmptCst', 'og_p_omf']
+    aliases = ['og_pv_cmpt_o_and_m_cst_pr_yr_as_fctn_of_cmpt_cst', 'og_p_omf']
 
 
     default = 0.05
@@ -147,7 +147,7 @@ class DieselGeneratorAvailableSystemCapacities(V):
 
     section = 'system (off-grid)'
     option = 'available system capacities (diesel generator)'
-    aliases = ['OG_AvblSysCapDslGntr', 'og_dg_cps']
+    aliases = ['og_avbl_sys_cap_dsl_gntr', 'og_dg_cps']
 
 
     c = dict(parse=store.unstringifyDescendingFloatList, format=store.flattenList, validate='validateNumberList')
@@ -159,7 +159,7 @@ class DieselGeneratorCostPerDieselSystemKilowatt(V):
 
     section = 'system (off-grid)'
     option = 'diesel generator cost per diesel system kilowatt'
-    aliases = ['OG_DslGntrCstPrDslSyskW', 'og_dg_ck']
+    aliases = ['og_dsl_gntr_cst_pr_dsl_sys_kw', 'og_dg_ck']
 
 
     default = 150
@@ -168,7 +168,7 @@ class DieselGeneratorCostPerDieselSystemKilowatt(V):
 class DieselGeneratorInstallationCostAsFractionOfGeneratorCost(V):
 
     section = 'system (off-grid)'
-    aliases = ['OG_DslGntrInstCstAsFctnOfGntrCst', 'og_dg_if']
+    aliases = ['og_dsl_gntr_inst_cst_as_fctn_of_gntr_cst', 'og_dg_if']
 
 
     option = 'diesel generator installation cost as fraction of generator cost'
@@ -179,7 +179,7 @@ class DieselGeneratorLifetime(V):
 
     section = 'system (off-grid)'
     option = 'diesel generator lifetime'
-    aliases = ['OG_DslGntrLife', 'og_dg_life']
+    aliases = ['og_dsl_gntr_life', 'og_dg_life']
 
 
     c = dict(check=store.assertPositive)
@@ -191,7 +191,7 @@ class DieselFuelCostPerLiter(V):
 
     section = 'system (off-grid)'
     option = 'diesel fuel cost per liter'
-    aliases = ['OG_DslCstPrLtr', 'og_fl_cl']
+    aliases = ['og_dsl_cst_pr_ltr', 'og_fl_cl']
 
 
     default = 1.08
@@ -202,7 +202,7 @@ class DieselFuelLitersConsumedPerKilowattHour(V):
 
     section = 'system (off-grid)'
     option = 'diesel fuel liters consumed per kilowatt-hour'
-    aliases = ['OG_DslLtrCsmdPrkWHr', 'og_fl_lkwh']
+    aliases = ['og_dsl_ltr_csmd_pr_kw_hr', 'og_fl_lkwh']
 
 
     default = 0.5
@@ -213,7 +213,7 @@ class DieselGeneratorMinimumHoursOfOperationPerYear(V):
 
     section = 'system (off-grid)'
     option = 'diesel generator hours of operation per year (minimum)'
-    aliases = ['OG_DslGntrHrsOfOprnPrYrMin', 'og_dg_mnhr']
+    aliases = ['og_dsl_gntr_hrs_of_oprn_pr_yr_min', 'og_dg_mnhr']
 
 
     default = 1460
@@ -224,7 +224,7 @@ class DieselGeneratorOperationsAndMaintenanceCostPerYearAsFractionOfGeneratorCos
 
     section = 'system (off-grid)'
     option = 'diesel generator operations and maintenance cost per year as fraction of generator cost'
-    aliases = ['OG_DslGntrOandMCstPrYrAsFctnOfGntrCst', 'og_dg_omf']
+    aliases = ['og_dsl_gntr_o_and_m_cst_pr_yr_as_fctn_of_gntr_cst', 'og_dg_omf']
 
 
     default = 0.01
@@ -237,7 +237,7 @@ class PhotovoltaicPanelDesiredSystemCapacity(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic panel desired capacity'
-    aliases = ['OG_PVPnlDsrdCpty', 'og_pp_dcp']
+    aliases = ['og_pv_pnl_dsrd_cpty', 'og_pp_dcp']
 
 
     dependencies = [
@@ -266,7 +266,7 @@ class PhotovoltaicPanelActualSystemCapacityCounts(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic panel actual capacity counts'
-    aliases = ['OG_PVPnlActlCptyCts', 'og_pp_acps']
+    aliases = ['og_pv_pnl_actl_cpty_cts', 'og_pp_acps']
 
 
     c = dict(parse=store.unstringifyIntegerList, format=store.flattenList, validate='validateNumberList')
@@ -286,7 +286,7 @@ class PhotovoltaicPanelActualSystemCapacity(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic panel actual capacity'
-    aliases = ['OG_PVPnlActlCpty', 'og_pp_acp']
+    aliases = ['og_pv_pnl_actl_cpty', 'og_pp_acp']
 
 
     dependencies = [
@@ -305,7 +305,7 @@ class PhotovoltaicPanelCost(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic panel cost'
-    aliases = ['OG_PVPnlCst', 'og_pp_ini']
+    aliases = ['og_pv_pnl_cst', 'og_pp_ini']
 
 
     dependencies = [
@@ -322,7 +322,7 @@ class PhotovoltaicPanelReplacementCostPerYear(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic panel replacement cost per year'
-    aliases = ['OG_PVPnlRpmtCstPrYr', 'og_pp_rep']
+    aliases = ['og_pv_pnl_rpmt_cst_pr_yr', 'og_pp_rep']
 
 
     dependencies = [
@@ -339,7 +339,7 @@ class PhotovoltaicBatteryCost(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic battery cost'
-    aliases = ['OG_PVBattCst', 'og_pb_ini']
+    aliases = ['og_pv_batt_cst', 'og_pb_ini']
 
 
     dependencies = [
@@ -357,7 +357,7 @@ class PhotovoltaicBatteryReplacementCostPerYear(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic battery replacement cost per year'
-    aliases = ['OG_PVBattRpmtCstPrYr', 'og_pb_rep']
+    aliases = ['og_pv_batt_rpmt_cst_pr_yr', 'og_pb_rep']
 
 
     dependencies = [
@@ -378,7 +378,7 @@ class PhotovoltaicBalanceCost(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic balance cost'
-    aliases = ['OG_PVBalCst', 'og_px_ini']
+    aliases = ['og_pv_bal_cst', 'og_px_ini']
 
 
     dependencies = [
@@ -395,7 +395,7 @@ class PhotovoltaicBalanceReplacementCostPerYear(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic balance replacement cost per year'
-    aliases = ['OG_PVBalRpmtCstPrYr', 'og_px_rep']
+    aliases = ['og_pv_bal_rpmt_cst_pr_yr', 'og_px_rep']
 
 
     dependencies = [
@@ -412,7 +412,7 @@ class PhotovoltaicComponentInitialCost(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic component initial cost'
-    aliases = ['OG_PVCmptInitCst', 'og_p_ini']
+    aliases = ['og_pv_cmpt_init_cst', 'og_p_ini']
 
 
     dependencies = [
@@ -430,7 +430,7 @@ class PhotovoltaicComponentOperationsAndMaintenanceCostPerYear(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic component operations and maintenance cost per year'
-    aliases = ['OG_PVCmptOandMCstPrYr', 'og_p_om']
+    aliases = ['og_pv_cmpt_o_and_m_cst_pr_yr', 'og_p_om']
 
 
     dependencies = [
@@ -447,7 +447,7 @@ class PhotovoltaicComponentRecurringCostPerYear(V):
 
     section = 'system (off-grid)'
     option = 'photovoltaic component recurring cost per year'
-    aliases = ['OG_PVCmptRcrgCstPrYr', 'og_p_rec']
+    aliases = ['og_pv_cmpt_rcrg_cst_pr_yr', 'og_p_rec']
 
 
     dependencies = [
@@ -470,7 +470,7 @@ class DieselGeneratorDesiredSystemCapacity(V):
 
     section = 'system (off-grid)'
     option = 'diesel generator desired system capacity'
-    aliases = ['OG_DslGntrDsrdSysCpty', 'og_dg_dcp']
+    aliases = ['og_dsl_gntr_dsrd_sys_cpty', 'og_dg_dcp']
 
 
     dependencies = [
@@ -490,7 +490,7 @@ class DieselGeneratorActualSystemCapacityCounts(V):
 
     section = 'system (off-grid)'
     option = 'diesel generator actual system capacity counts'
-    aliases = ['OG_DslGntrActlSysCptyCts', 'og_dg_acps']
+    aliases = ['og_dsl_gntr_actl_sys_cpty_cts', 'og_dg_acps']
 
 
     c = dict(parse=store.unstringifyIntegerList, format=store.flattenList, validate='validateNumberList')
@@ -510,7 +510,7 @@ class DieselGeneratorActualSystemCapacity(V):
 
     section = 'system (off-grid)'
     option = 'diesel generator actual system capacity'
-    aliases = ['OG_DslGntrActlSysCpty', 'og_dg_acp']
+    aliases = ['og_dsl_gntr_actl_sys_cpty', 'og_dg_acp']
 
 
     dependencies = [
@@ -529,7 +529,7 @@ class DieselGeneratorCost(V):
 
     section = 'system (off-grid)'
     option = 'diesel generator cost'
-    aliases = ['OG_DslGntrCst', 'og_dg_ini']
+    aliases = ['og_dsl_gntr_cst', 'og_dg_ini']
 
 
     dependencies = [
@@ -547,7 +547,7 @@ class DieselGeneratorInstallationCost(V):
 
     section = 'system (off-grid)'
     option = 'diesel generator installation cost'
-    aliases = ['OG_DslGntrInstCst', 'og_dg_i']
+    aliases = ['og_dsl_gntr_inst_cst', 'og_dg_i']
 
 
     dependencies = [
@@ -565,7 +565,7 @@ class DieselGeneratorOperationsAndMaintenanceCostPerYear(V):
 
     section = 'system (off-grid)'
     option = 'diesel generator operations and maintenance cost per year'
-    aliases = ['OG_DslGntrOandMCstPrYr', 'og_dg_om']
+    aliases = ['og_dsl_gntr_o_and_m_cst_pr_yr', 'og_dg_om']
 
 
     dependencies = [
@@ -584,7 +584,7 @@ class DieselGeneratorReplacementCostPerYear(V):
 
     section = 'system (off-grid)'
     option = 'diesel generator replacement cost per year'
-    aliases = ['OG_DslGntrRpmtCstPrYr', 'og_dg_rep']
+    aliases = ['og_dsl_gntr_rpmt_cst_pr_yr', 'og_dg_rep']
 
 
     dependencies = [
@@ -602,7 +602,7 @@ class DieselGeneratorEffectiveHoursOfOperationPerYear(V):
 
     section = 'system (off-grid)'
     option = 'diesel generator hours of operation per year (effective)'
-    aliases = ['OG_DslGntrHrsOfOprnPrYrEff', 'og_dg_efhr']
+    aliases = ['og_dsl_gntr_hrs_of_oprn_pr_yr_eff', 'og_dg_efhr']
 
 
     dependencies = [
@@ -630,7 +630,7 @@ class DieselFuelCostPerYear(V):
 
     section = 'system (off-grid)'
     option = 'diesel fuel cost per year'
-    aliases = ['OG_DslFuelCstPrYr', 'og_fl']
+    aliases = ['og_dsl_fuel_cst_pr_yr', 'og_fl']
 
 
     dependencies = [
@@ -653,7 +653,7 @@ class DieselComponentInitialCost(V):
 
     section = 'system (off-grid)'
     option = 'diesel component initial cost'
-    aliases = ['OG_DslCmptInitCst', 'og_d_ini']
+    aliases = ['og_dsl_cmpt_init_cst', 'og_d_ini']
 
 
     dependencies = [
@@ -674,7 +674,7 @@ class DieselComponentRecurringCostPerYear(V):
 
     section = 'system (off-grid)'
     option = 'diesel component recurring cost per year'
-    aliases = ['OG_DslCmptRcrgCstPrYr', 'og_d_rec']
+    aliases = ['og_dsl_cmpt_rcrg_cst_pr_yr', 'og_d_rec']
 
 
     dependencies = [
@@ -700,7 +700,7 @@ class OffGridSystemInitialCost(V):
 
     section = 'system (off-grid)'
     option = 'system initial cost'
-    aliases = ['OG_SysInitCst', 'og_ini']
+    aliases = ['og_sys_init_cst', 'og_ini']
 
 
     dependencies = [
@@ -717,7 +717,7 @@ class OffGridSystemRecurringCostPerYear(V):
 
     section = 'system (off-grid)'
     option = 'system recurring cost per year'
-    aliases = ['OG_SysRcrgCstPrYr', 'og_rec']
+    aliases = ['og_sys_rcrg_cst_pr_yr', 'og_rec']
 
 
     dependencies = [
@@ -734,7 +734,7 @@ class OffGridSystemNodalDiscountedCost(V):
 
     section = 'system (off-grid)'
     option = 'system nodal discounted cost'
-    aliases = ['OG_SysNdlDsctdCst', 'og_nod_d']
+    aliases = ['og_sys_ndl_disc_cst', 'og_nod_d']
 
 
     dependencies = [
@@ -755,7 +755,7 @@ class OffGridSystemNodalDiscountedDieselFuelCost(V):
 
     section = 'system (off-grid)'
     option = 'system nodal discounted diesel fuel cost'
-    aliases = ['OG_SysNdlDsctdDslFuelCst', 'og_nod_ddfc']
+    aliases = ['og_sys_ndl_disc_dsl_fuel_cst', 'og_nod_ddfc']
 
 
     dependencies = [
@@ -770,7 +770,7 @@ class OffGridSystemNodalDiscountedDieselCost(V):
 
     section = 'system (off-grid)'
     option = 'system nodal discounted diesel cost'
-    aliases = ['OG_SysNdlDsctdDslCst', 'og_nod_ddc']
+    aliases = ['og_sys_ndl_disc_dsl_cst', 'og_nod_ddc']
 
 
     dependencies = [
@@ -791,7 +791,7 @@ class OffGridSystemNodalLevelizedCost(V):
 
     section = 'system (off-grid)'
     option = 'system nodal levelized cost'
-    aliases = ['OG_SysNdlLvlzdCst', 'og_nod_lev']
+    aliases = ['og_sys_ndl_lvlzd_cst', 'og_nod_lev']
 
 
     dependencies = [
