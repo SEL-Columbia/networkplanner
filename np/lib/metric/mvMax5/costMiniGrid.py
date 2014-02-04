@@ -338,25 +338,21 @@ class GenerationReplacementCostPerYear(V):
     def compute(self):
         return self.get(GenerationCost) / float(self.get(GenerationLifetime))
 
-#output generic fuel/battery cost per year based on ratio of nodal demand for which fuel/storage is needed - class name changed
-class EnergyStorageCostPerYear(V):
+
+# generic fuel/battery demand per year as a ratio of nodal demand for which fuel/storage is needed
+class EnergyStorageDemandPerYear(V):
 
     section = 'system (mini-grid)'
-    option = 'energy storage cost per year'
-    aliases = ['mg_en_strg_cst_pr_yr', 'mg_escpy']
-
+    option = 'energy storage demand per year'
+    aliases = ['mg_en_strg_dmd_pr_yr', 'mg_esdpy']
 
     dependencies = [
-        EnergyStorageCostPerKilowattHour, #fuel or storage cost per kWh
-        PercentOfDailyKilowattHourLoadRequiringStorage, #percent of daily load that requires storage or fuel'
-        #DieselGeneratorActualSystemCapacity, #Actual system capacity 
-        #DieselGeneratorEffectiveHoursOfOperationPerYear,
+        PercentOfDailyKilowattHourLoadRequiringStorage, #percent of daily load that requires storage or fuel
         demand.ProjectedNodalDemandPerYear,
         DistributionLoss,
         MinimumEnergyStorageCapacity,
     ]
-    units = 'dollars per year'
-
+    units = 'kilowatt-hours per year'
 
     def compute(self):
         #Initialize
@@ -366,11 +362,29 @@ class EnergyStorageCostPerYear(V):
 
         #Determine Minimum Storage System Size acceptable for minigrid
         #Don't consider energy storage systems below that value
-        storageDemandPerYear = max(self.get(MinimumEnergyStorageCapacity)*365,
-                                   effectiveDemandPerYear*float(self.get(PercentOfDailyKilowattHourLoadRequiringStorage)))
+        return max(self.get(MinimumEnergyStorageCapacity)*365,
+                            effectiveDemandPerYear*float(self.get(PercentOfDailyKilowattHourLoadRequiringStorage)))
+
+
+# generic fuel/battery cost per year 
+class EnergyStorageCostPerYear(V):
+
+    section = 'system (mini-grid)'
+    option = 'energy storage cost per year'
+    aliases = ['mg_en_strg_cst_pr_yr', 'mg_escpy']
+
+
+    dependencies = [
+        EnergyStorageCostPerKilowattHour, #fuel or storage cost per kWh
+        EnergyStorageDemandPerYear,
+    ]
+    units = 'dollars per year'
+
+    def compute(self):
                 
         return (self.get(EnergyStorageCostPerKilowattHour) * 
-                storageDemandPerYear)
+                self.get(EnergyStorageDemandPerYear))
+
 
 #nomenclature change - class name changed
 class MiniGridSystemNodalDiscountedEnergyStorageCost(V):
