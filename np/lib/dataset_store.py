@@ -437,8 +437,10 @@ def digestNodesFromCSVStream(sourceStream):
     # Prepare labels
     labels = []
     for label in row:
-        if label.lower() in ('longitude', 'latitude', 'x', 'y', 'name'):
-            label = label.lower() 
+        # We allow for case-insensitive matches to field names by lower-casing the 
+        # field name and comparing to the existing alias or option/section (which are
+        # all lower-case)
+        label = label.lower() 
         if label == 'longitude':
             label = 'x'
         elif label == 'latitude':

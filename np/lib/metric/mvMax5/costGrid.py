@@ -30,7 +30,7 @@ class GridElectricityCostPerKilowattHour(V):
 
     section = 'system (grid)'
     option = 'electricity cost per kilowatt-hour'
-    aliases = ['gr_elec_cst_pr_kw_hr', 'gr_el_c_kwh']
+    aliases = ['gr_elec_cst_pr_kw_hr', 'gr_el_ckwh']
 
 
     default = 0.17
@@ -53,7 +53,7 @@ class GridTransformerCostPerGridSystemKilowatt(V):
 
     section = 'system (grid)'
     option = 'transformer cost per grid system kilowatt'
-    aliases = ['gr_tfmr_cst_prgr_sys_kw', 'gr_tr_c_kw']
+    aliases = ['gr_tfmr_cst_prgr_sys_kw', 'gr_tr_ckw']
 
 
     default = 1000
