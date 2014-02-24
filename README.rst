@@ -94,6 +94,18 @@ used as a guide to create a working environment on Debian based systems
 
     # only required for network model
     pip install -r requirements_network.txt 
+    
+    # NOTE:  Depending on your default user environment variables, you may need to set
+    # the LD_LIBRARY_PATH in order for networkplanner to reference libspatialindex properly
+    # Here are the contents of my $VIRTUAL_ENV/bin/postactivate file:
+    
+    export OLD_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+    
+    # and the $VIRTUAL_ENV/bin/predeactivate file:
+    
+    export LD_LIBRARY_PATH=$OLD_LD_LIBRARY_PATH
+    unset OLD_LD_LIBRARY_PATH
 
 
 Modes of Operation
