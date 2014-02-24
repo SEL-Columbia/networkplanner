@@ -1,8 +1,8 @@
 create table jobs_copy (
   pid integer not null, 
   host varchar(64) not null, 
-  start_time datetime not null, 
-  end_time datetime, 
+  start_time timestamp without time zone not null, 
+  end_time timestamp without time zone, 
   primary key (pid, host, start_time) 
 );
 
