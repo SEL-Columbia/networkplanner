@@ -6,7 +6,7 @@ from time import localtime, strftime
 import numpy
 # Import custom modules
 from np.lib import network, store, geometry_store, variable_store
-from np.model import Job
+# from np.model import Job
 
 
 class MinimumNodeCountPerSubnetwork(variable_store.Variable):
@@ -85,7 +85,7 @@ class VariableStore(variable_store.VariableStore):
         ExistingNetworks,
     ]
 
-    def buildNetworkFromNodes(self, nodes, proj4, writeJobLog=True):
+    def buildNetworkFromNodes(self, nodes, proj4, jobLogger=None):
         'Build a network using the given nodes'
         # If the spatial reference has units in meters,
         if '+units=m' in proj4:
@@ -95,7 +95,7 @@ class VariableStore(variable_store.VariableStore):
             # Use spherical distance
             computeDistance = network.computeSphericalDistance
         # Run algorithm given nodes
-        net = self.buildNetworkFromSegments(*self.generateSegments(nodes, computeDistance, proj4), writeJobLog=writeJobLog)
+        net = self.buildNetworkFromSegments(*self.generateSegments(nodes, computeDistance, proj4), jobLogger=jobLogger)
         # Eliminate subnetworks that have too few real nodes
         minimumNodeCountPerSubnetwork = self.get(MinimumNodeCountPerSubnetwork)
         subnetFilter = lambda subnet: subnet.countNodes() >= minimumNodeCountPerSubnetwork
@@ -136,7 +136,7 @@ class VariableStore(variable_store.VariableStore):
         return candidateManager, net 
 
 
-    def buildNetworkFromSegments(self, candidateManager, net, writeJobLog=True):
+    def buildNetworkFromSegments(self, candidateManager, net, jobLogger=None):
         """
         MAKE SURE THAT SEGMENTS WITH IDENTICAL COORDINATES CORRESPOND TO THE SAME OBJECT
         MAKE SURE THAT NODES WITH IDENTICAL COORDINATES CORRESPOND TO THE SAME OBJECT
@@ -144,8 +144,8 @@ class VariableStore(variable_store.VariableStore):
         """
         
         time_format = "%Y-%m-%d %H:%M:%S"
-        if writeJobLog:
-            Job.log("Building network from segments")
+        if jobLogger:
+            jobLogger.log("Building network from segments")
 
         print "%s Building network from segments" % strftime(time_format, localtime())
 
@@ -163,8 +163,8 @@ class VariableStore(variable_store.VariableStore):
             completionPercentage = completedSegments / float(numSegments)
             if completionPercentage > nextReportThreshold:
                 time_format = "%Y-%m-%d %H:%M:%S"
-                if writeJobLog:
-                    Job.log("Processed %s (of %s) segments" % (completedSegments, numSegments))
+                if jobLogger:
+                    jobLogger.log("Processed %s (of %s) segments" % (completedSegments, numSegments))
 
                 print "%s Processed %s (of %s) segments" % (strftime(time_format, localtime()), completedSegments, numSegments)
                 nextReportThreshold += increment
@@ -203,8 +203,8 @@ class VariableStore(variable_store.VariableStore):
 
 
         time_format = "%Y-%m-%d %H:%M:%S"
-        if writeJobLog:
-            Job.log("processed %s (of %s) segments" % (completedSegments, numSegments))
+        if jobLogger:
+            jobLogger.log("processed %s (of %s) segments" % (completedSegments, numSegments))
 
         print "%s processed %s (of %s) segments" % (strftime(time_format, localtime()), completedSegments, numSegments)
         # Return
