@@ -90,7 +90,7 @@ processors_table = sa.Table('processors', Base.metadata,
 jobs_table = sa.Table('jobs', Base.metadata,
     sa.Column('pid', sa.Integer, primary_key=True),
     sa.Column('host', sa.String(parameter.HOST_LENGTH_MAXIMUM), primary_key=True),
-    sa.Column('start_time', sa.DateTime, nullable=False),
+    sa.Column('start_time', sa.DateTime, primary_key=True),
     sa.Column('end_time', sa.DateTime, nullable=True),
 )
 
@@ -104,13 +104,14 @@ class Job(object):
         job_log_dir = os.path.join(config['storage_path'], 'jobs')
         if not os.path.exists(job_log_dir):
             os.makedirs(job_log_dir, mode=0o755)
-        return os.path.join(job_log_dir, "%s.log" % self.pid)
+        return os.path.join(job_log_dir, "%s_%s.log" % (self.pid, self.start_time.strftime("%Y%m%d%H%M%S")))
 
     @staticmethod
     def _current():
         pid = os.getpid()
         host = socket.gethostname()
-        job = Session.query(Job).filter(Job.pid == pid and Job.host == host).first()
+        job = Session.query(Job).filter(Job.pid == pid and Job.host == host).\
+              order_by(Job.start_time.desc()).first()
         return job
 
     #write message to the log and append a newline
@@ -258,7 +259,7 @@ class Scenario(object):
         print "%s Building network" % strftime(time_format, localtime())
         networkModel = network.getModel(scenarioInput['network model name'])
         networkConfiguration = scenarioInput['network configuration']
-        networkValueByOptionBySection = datasetStore.buildNetwork(networkModel, networkConfiguration)
+        networkValueByOptionBySection = datasetStore.buildNetwork(networkModel, networkConfiguration, jobLogger=Job)
         # Update metric
         Job.log("Updating metric")
         print "%s Updating metric" % strftime(time_format, localtime())
