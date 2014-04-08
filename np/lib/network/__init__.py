@@ -265,8 +265,9 @@ class Network(object):
         # create unique subnet, count tuples
         subnetCounts = {}
         for subnet, intersection in subnetIntersections.values():
-            if isinstance(intersection, shapely.geometry.Point):
-                # we have exactly one intersection
+            if(isinstance(intersection, shapely.geometry.Point) or
+               isinstance(intersection, shapely.geometry.linestring.LineString)):
+                # we have exactly one intersection (either at a point or on a line)
                 subnetCounts[id(subnet)] = (subnet, 1)
             else:
                 # we have more than one intersection

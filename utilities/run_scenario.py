@@ -61,7 +61,7 @@ if __name__ == '__main__':
 
     # Now that metrics (mvMax in particular) have been calculated
     # we can build the network
-    networkValueByOptionBySection = datasetStore.buildNetwork(networkModel, networkConfiguration, writeJobLog=False)
+    networkValueByOptionBySection = datasetStore.buildNetwork(networkModel, networkConfiguration)
 
     # Now that the network's been built (and the electrification option 
     # is chosen) run the aggregate calculations
