@@ -2,6 +2,6 @@
     "algorithm": 
     {"minimum node count per subnetwork": 2},
     "network":
-    {"existing networks": "HV_Line_Segements_MVLines_Within_Magway_and_50kmbuffer.zip"}
+    {"existing networks": "small_network.zip"}
 }
 
