@@ -1,5 +1,7 @@
 {
     "algorithm": 
-    {"minimum node count per subnetwork": 2}
+    {"minimum node count per subnetwork": 2},
+    "network":
+    {"existing networks": "small_network.zip"}
 }
 

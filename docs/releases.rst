@@ -1,6 +1,12 @@
 Releases
 =========
 
+v0.9.7a
+---------------
+
+Add provision to allow candidate segment to intersect subnet along 
+a line (with the result being a LineString).  
+
 v0.9.7
 ----------------
 
