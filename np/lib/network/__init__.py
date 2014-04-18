@@ -265,13 +265,16 @@ class Network(object):
         # create unique subnet, count tuples
         subnetCounts = {}
         for subnet, intersection in subnetIntersections.values():
-            if(isinstance(intersection, shapely.geometry.Point) or
-               isinstance(intersection, shapely.geometry.linestring.LineString)):
-                # we have exactly one intersection (either at a point or on a line)
+
+            if(isinstance(intersection, shapely.geometry.Point)):
+                # we have exactly one intersection
                 subnetCounts[id(subnet)] = (subnet, 1)
             else:
                 # we have more than one intersection
-                assert len(intersection) > 1
+                # this includes the case where the intersection is a LineString,
+                # effectively eliminating duplicate segments from being added 
+                assert(isinstance(intersection, shapely.geometry.linestring.LineString) or
+                       len(intersection) > 1)
                 subnetCounts[id(subnet)] = (subnet, 2)
 
         # add the targetSegments subnet to the list of subnets if it does NOT
@@ -336,10 +339,6 @@ class Network(object):
         Add a new segment to the network using index to get intersections; 
         return subnet if successful
         """
-
-        #import pdb;
-        #if(newSegment.node1.ID == 50 or newSegment.node1.ID == 110):
-        #    pdb.set_trace()
 
         subnetCounts = self._getIntersectingSubnets(newSegment)
 
@@ -523,7 +522,9 @@ class Subnet(object):
         intersectionCategory = categorizeIntersection(self.multiLineString, newSegment.lineString)
         # Get targetSegment
         targetSegment = newSegment.getTargetSegment()
-        # If the targetSegment is in our subnet and does not intersect our newSegment,
+        # If the targetSegment is in our subnet and the intersects test does not detect an intersection
+        # it should still count as an intersection (this is a workaround for some deficiency in the way
+        # we project nodes onto networks...this should be rare)
         if targetSegment and targetSegment in self.segments and not targetSegment.lineString.intersects(newSegment.lineString):
             # Add one to our intersection count
             intersectionCategory += 1
