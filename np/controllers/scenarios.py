@@ -162,7 +162,7 @@ class ScenariosController(BaseController):
     def show(self, id, format='html'):
         'GET /scenarios/id: Show a specific item'
         # If the output format is not supported, 
-        if format not in ['html', 'zip', 'geojson', 'json']: 
+        if format not in ['html', 'zip', 'geojson', 'json', 'show']: 
             return 'Unsupported output format: ' + format 
         try:
             id = int(id)
@@ -238,6 +238,9 @@ class ScenariosController(BaseController):
             return c.scenario.getDataset().exportGeoJSON(transform_point)
         elif format == 'json':
             return c.scenario.exportJSON(request.params.get('nodeID'))
+        elif format == 'show':
+            c.geojson = c.scenario.getDataset().exportGeoJSON(transform_point)
+            return render('/scenarios/show2.mako')
 
     @jsonify
     def check(self, scenarioID):
