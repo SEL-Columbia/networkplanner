@@ -19,15 +19,11 @@ Map.init = function(geojson){
     geojson.features.forEach(function(feature){
         var geometry = feature.geometry;
         if (geometry.type === 'LineString'){
-            lines.push([
-                self.utmToWgs84(geometry.coordinates[0]),
-                self.utmToWgs84(geometry.coordinates[1])
-            ]);
+            lines.push(geometry.coordinates);
         } else if (geometry.type === 'Point'){
-            var coordinates = self.utmToWgs84(geometry.coordinates);
             nodes.push({
-                lat: coordinates[1],
-                lon: coordinates[0]
+                lat: geometry.coordinates[1],
+                lon: geometry.coordinates[0]
             });
         }
     });
@@ -37,13 +33,11 @@ Map.init = function(geojson){
     self.initD3Layer();
     self.drawLines(lines);
     self.drawNodes(nodes);
-};
-
-
-Map.utmToWgs84 = function(coordinates){
-    var utm = "+proj=utm +zone=32";
-    var wgs84 = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs";
-    return proj4(utm, wgs84, coordinates);
+    
+    // SVG Click Handlers
+    $(document.body).on('click', '.node', function(){
+        console.log(this);
+    });
 };
 
 
@@ -113,7 +107,7 @@ Map.drawNodes = function(nodes){
         self.g.append('svg:circle')
             .attr('cx', coordinates[0])
             .attr('cy', coordinates[1])
-            .attr('r', 1)
+            .attr('r', 2)
             .attr('class', 'node');
     });
     self.updateSVG();

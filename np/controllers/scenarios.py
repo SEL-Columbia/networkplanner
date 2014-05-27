@@ -235,11 +235,11 @@ class ScenariosController(BaseController):
         elif format == 'zip':
             return forward(FileApp(c.scenario.getFolder() + '.zip'))
         elif format == 'geojson':
-            return c.scenario.getDataset().exportGeoJSON(transform_point)
+            return c.scenario.getDataset().exportGeoJSON(transform_point=None)
         elif format == 'json':
             return c.scenario.exportJSON(request.params.get('nodeID'))
         elif format == 'show':
-            c.geojson = c.scenario.getDataset().exportGeoJSON(transform_point)
+            c.geojson = c.scenario.getDataset().exportGeoJSON(transform_point=None)
             return render('/scenarios/show2.mako')
 
     @jsonify
