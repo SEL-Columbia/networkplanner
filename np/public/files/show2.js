@@ -29,11 +29,24 @@ Map.init = function(geojson){
     });
 
     // Draw network
-    self.map.fitBounds(nodes);
+    self.map.fitBounds(nodes, {padding: [5, 5]});
     self.initD3Layer();
     self.drawLines(lines);
     self.drawNodes(nodes);
     
+    // Box node selection
+    // Cheap hack to disable zoom
+    // http://stackoverflow.com/questions/17611596/multiple-marker-selection-within-a-box-in-leaflet
+    self.map._fitBounds = map.fitBounds;
+    self.map.fitBounds = function(){return self.map;};
+    self.map.on('boxzoomend', function(e){
+        nodes.forEach(function(node){
+            if (e.boxZoomBounds.contains(L.latLng(node.lat, node.lon))){
+                console.log(node)
+            }
+        });
+    });
+
     // SVG Click Handlers
     $(document.body).on('click', '.node', function(){
         if (this.classList.contains('selected')){
