@@ -36,7 +36,12 @@ Map.init = function(geojson){
     
     // SVG Click Handlers
     $(document.body).on('click', '.node', function(){
-        console.log(this);
+        if (this.classList.contains('selected')){
+            this.classList.remove('selected');
+        } else {
+            this.classList.add('selected');
+        }
+        Map.updateSelected();
     });
 };
 
@@ -107,12 +112,21 @@ Map.drawNodes = function(nodes){
         self.g.append('svg:circle')
             .attr('cx', coordinates[0])
             .attr('cy', coordinates[1])
-            .attr('r', 2)
+            .attr('r', 10)
             .attr('class', 'node');
     });
     self.updateSVG();
 };
 
+Map.updateSelected = function(){
+    var selected = $('#map .node.selected').length;
+    if (selected){
+        console.log($('#controls_selected'))
+        $('#controls_selected').text(selected + ' Nodes Selected').show();
+    } else {
+        $('#controls_selected').hide();
+    }
+};
 
 })(jQuery);
 

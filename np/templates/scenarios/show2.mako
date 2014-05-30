@@ -18,6 +18,26 @@ ${c.scenario.id} - ${c.scenario.name}
             height: 100%;
         }
 
+        .controls {
+            position: absolute;
+            top: 80px;
+            right: 10px;
+            z-index: 1000;
+        }
+
+        .control {
+            display: inline-block;
+            padding: 5px 15px;
+            font-size: 18px;
+            color: white;
+            background: rgba(0,0,0,0.8);
+            border-radius: 4px;
+        }
+
+        #controls_selected {
+            display: none;
+        }
+
         #map {
             width: 100%;
             height: 100%;
@@ -28,7 +48,8 @@ ${c.scenario.id} - ${c.scenario.name}
             cursor: pointer;
             fill: green;
         }
-        .node:hover {
+        .node:hover,
+        .node.selected {
             fill: red;
         }
 
@@ -58,6 +79,9 @@ ${c.scenario.id} - ${c.scenario.name}
 <%def name="js()">
 </%def>
 
+<div class="controls">
+    <div id="controls_selected" class="control"></div>
+</div>
 
 <div id="map"></div>
 
