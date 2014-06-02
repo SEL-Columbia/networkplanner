@@ -27,6 +27,7 @@ ${c.scenario.id} - ${c.scenario.name}
 
         .control {
             display: inline-block;
+            cursor: pointer;
             padding: 5px 15px;
             font-size: 18px;
             color: white;
@@ -36,6 +37,18 @@ ${c.scenario.id} - ${c.scenario.name}
 
         #controls_selected {
             display: none;
+        }
+
+        #modal {
+            display: none;
+            position: absolute;
+            top: 120px;
+            left: 300px;
+            z-index: 1000;
+            background: white;
+            width: 600px;
+            height: 500px;
+            overflow: auto;
         }
 
         #map {
@@ -82,6 +95,8 @@ ${c.scenario.id} - ${c.scenario.name}
 <div class="controls">
     <div id="controls_selected" class="control"></div>
 </div>
+
+<div id="modal"></div>
 
 <div id="map"></div>
 

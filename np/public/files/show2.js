@@ -19,12 +19,17 @@ Map.init = function(geojson){
     geojson.features.forEach(function(feature){
         var geometry = feature.geometry;
         if (geometry.type === 'LineString'){
-            lines.push(geometry.coordinates);
+            lines.push(feature);
         } else if (geometry.type === 'Point'){
-            nodes.push({
+            var node = {
+                id: feature.id,
                 lat: geometry.coordinates[1],
                 lon: geometry.coordinates[0]
+            };
+            $.each(feature.properties, function(key, val){
+                node[key] = val;
             });
+            nodes.push(node);
         }
     });
 
@@ -40,14 +45,20 @@ Map.init = function(geojson){
     self.map._fitBounds = map.fitBounds;
     self.map.fitBounds = function(){return self.map;};
     self.map.on('boxzoomend', function(e){
-        nodes.forEach(function(node){
+        $('.node').each(function(){
+            var node = d3.select(this).data()[0];
             if (e.boxZoomBounds.contains(L.latLng(node.lat, node.lon))){
-                console.log(node)
+                if (this.classList.contains('selected')){
+                    this.classList.remove('selected');
+                } else {
+                    this.classList.add('selected');
+                }
             }
+            Map.updateSelected();
         });
     });
 
-    // SVG Click Handlers
+    // Event Handlers
     $(document.body).on('click', '.node', function(){
         if (this.classList.contains('selected')){
             this.classList.remove('selected');
@@ -55,7 +66,10 @@ Map.init = function(geojson){
             this.classList.add('selected');
         }
         Map.updateSelected();
+        console.log(d3.select(this).data()[0])
     });
+
+    $('#controls_selected').click(self.selectedModal);
 };
 
 
@@ -102,16 +116,10 @@ Map.initD3Layer = function(){
 
 Map.drawLines = function(lines){
     var self = this;
-    lines.forEach(function(line){
+    lines.forEach(function(feature){
         self.g
             .append('path')
-            .datum({
-                type: 'Feature',
-                geometry: {
-                    type: 'LineString',
-                    coordinates: line
-                }
-            })
+            .datum(feature)
             .attr('d', self.path)
             .attr('class', 'edge');
     });
@@ -123,9 +131,10 @@ Map.drawNodes = function(nodes){
     nodes.forEach(function(node){
         var coordinates = self.projection([node.lon, node.lat]);
         self.g.append('svg:circle')
+            .datum(node)
             .attr('cx', coordinates[0])
             .attr('cy', coordinates[1])
-            .attr('r', 10)
+            .attr('r', 5)
             .attr('class', 'node');
     });
     self.updateSVG();
@@ -134,11 +143,47 @@ Map.drawNodes = function(nodes){
 Map.updateSelected = function(){
     var selected = $('#map .node.selected').length;
     if (selected){
-        console.log($('#controls_selected'))
         $('#controls_selected').text(selected + ' Nodes Selected').show();
     } else {
         $('#controls_selected').hide();
     }
+};
+
+Map.escape = function(text){
+    text = text || '';
+    return text.replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+};
+
+Map.selectedModal = function(){
+    var selected = [];
+    $('#map .node.selected').each(function(){
+        var node = d3.select(this).data()[0];
+        selected.push(node);
+    });
+
+    if (selected.length === 0) return;
+
+    var node = selected[0];
+    var headers = Object.keys(node);
+    var html = '<table><thead><tr>';
+    headers.forEach(function(header){
+        html += '<th>' + this.escape(header) + '</th>';
+    });
+    html += '</tr></thead><tbody>';
+    selected.forEach(function(node){
+        html += '<tr>';
+        headers.forEach(function(header){
+            html += '<td>' + this.escape(node[header]) + '</td>';
+        });
+        html += '</tr>';
+    });
+    html += '</tbody></table>';
+
+    $('#modal').html(html).show();
 };
 
 })(jQuery);
