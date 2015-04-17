@@ -1,0 +1,6 @@
+numpy
+scipy
+sqlalchemy==0.7.8
+geojson
+shapely
+decorator
