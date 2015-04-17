@@ -12,7 +12,7 @@ with open('requirements-metrics.txt') as f:
     required = list(f.read().splitlines())
 
 setup(
-    name='np-metrics',
+    name='networkplanner-metrics',
     version='0.9.7',
     description='Network planning metrics calculations',
     url='http://networkplanner.modilabs.org',
