@@ -1,0 +1,7 @@
+{
+    "algorithm": 
+    {"minimum node count per subnetwork": 2},
+    "network":
+    {"existing networks": "/home/cjn/src/networkplanner/LeonaNetworksLL.zip"}
+}
+
