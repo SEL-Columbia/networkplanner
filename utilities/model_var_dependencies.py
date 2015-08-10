@@ -49,8 +49,8 @@ def buildPyDotGraph(variableGraph, nameType):
     # Now add edges
     for var_to in variableGraph:
         for var_from in var_to[1]:
-            node_from = graph.get_node(getName(var_from, 'id'))[0]
-            node_to = graph.get_node(getName(var_to[0], 'id'))[0]
+            node_from = graph.get_node(getName(var_from, 'id'))# [0]
+            node_to = graph.get_node(getName(var_to[0], 'id'))# [0]
             graph.add_edge(pydot.Edge(node_from, node_to))
 
     return graph
